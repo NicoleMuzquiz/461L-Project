@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "355282296595",
+    "firebase_url": "https://swolemates-dc144.firebaseio.com",
+    "project_id": "swolemates-dc144",
+    "storage_bucket": "swolemates-dc144.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:355282296595:android:a1f6f5341f0379cf",
+        "android_client_info": {
+          "package_name": "com.example.swolemates"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "355282296595-579jlj2cq4vb3r4cp7rk3a8bgp6b5oel.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.swolemates",
+            "certificate_hash": "e8e7020d1fe11095eea85af6da8de2efee4c305d"
+          }
+        },
+        {
+          "client_id": "355282296595-gbqun2b6aocrio1mmr8sq9ulji26suo5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDfDcyGFMesuMZ5EV5qVhcvBdTZX_88bSk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "355282296595-gbqun2b6aocrio1mmr8sq9ulji26suo5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
