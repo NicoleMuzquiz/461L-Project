@@ -1,6 +1,6 @@
 # 461L-Project
 
-SwoleMates
+SwoleMates:
 Arnav Kaul,  Nicole Muzquiz, Eyenunwana Nwoko, Samuel Patterson
 
 TODO: Set up introduction screen./
