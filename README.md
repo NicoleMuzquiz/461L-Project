@@ -3,5 +3,5 @@
 SwoleMates
 Arnav Kaul,  Nicole Muzquiz, Eyenunwana Nwoko, Samuel Patterson
 
-TODO: Set up introduction screen.
+TODO: Set up introduction screen.\n
         - Enable login through Facebook.
