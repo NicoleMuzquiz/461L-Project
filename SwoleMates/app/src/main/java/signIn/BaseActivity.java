@@ -1,8 +1,10 @@
-package com.example.swolemates;
+package signIn;
 
 import android.app.ProgressDialog;
 import android.support.annotation.VisibleForTesting;
 import android.support.v7.app.AppCompatActivity;
+
+import com.example.swolemates.R;
 
 public class BaseActivity extends AppCompatActivity {
 

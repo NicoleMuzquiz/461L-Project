@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.swolemates;
+package signIn;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

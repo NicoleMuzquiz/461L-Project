@@ -18,6 +18,7 @@
         completions."
     </string>
 
+    <string name="fb_login_protocol_scheme">fb1255707804537349</string>
     <string name="label_google_sign_in">Firebase + Google Sign In</string>
 
     <string name="desc_google_sign_in">Use a Google Sign In credential to authenticate with Firebase.</string>
