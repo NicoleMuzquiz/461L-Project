@@ -7,7 +7,7 @@ import com.google.firebase.auth.FirebaseUser;
  */
 
 public class SwoleUser {
-//    private FirebaseUser user;
+    private FirebaseUser user;
     private int weight;
     private int height;
     private int weightlifting_skill;
