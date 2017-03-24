@@ -119,7 +119,7 @@ public class FacebookLoginActivity extends AppCompatActivity implements LoaderCa
                 Log.d(TAG, "facebook:onSuccess:" + loginResult);
                 handleFacebookAccessToken(loginResult.getAccessToken());
                 // Do something in response to button
-                Intent intent = new Intent(getActivity(), MainActivity.class);
+                Intent intent = new Intent(getActivity(), DefaultSettingsActivity.class);
                 startActivity(intent);
             }
 

@@ -2,6 +2,7 @@
     <string name="app_name">SwoleMates</string>
     <string name="edit_message">Enter a message</string>
     <string name="button_send">Send</string>
+    <string name="button_save">Save</string>
     <string name="facebook_app_id">1255707804537349</string>
     <string name="title_activity_login">Sign in</string>
 
