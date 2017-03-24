@@ -17,4 +17,9 @@
         android:icon="@drawable/ic_sync_black_24dp"
         android:title="@string/pref_header_data_sync" />
 
+    <Preference
+        android:key="button"
+        android:widgetLayout="@layout/pref_layout"
+        android:onClick="sendMessage" />
+
 </preference-headers>

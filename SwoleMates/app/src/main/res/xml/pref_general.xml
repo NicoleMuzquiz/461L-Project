@@ -35,10 +35,6 @@
         android:summary="Age"
         android:title="Enter your age" />
 
-    <Preference
-        android:key="button"
-        android:widgetLayout="@layout/pref_layout" />
-
     <!-- NOTE: Hide buttons to simplify the UI. Users can touch outside the dialog to
          dismiss it. -->
 
