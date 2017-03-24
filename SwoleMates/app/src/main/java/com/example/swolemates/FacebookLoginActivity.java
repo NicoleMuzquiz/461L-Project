@@ -17,6 +17,7 @@ package com.example.swolemates;
 
 
 import android.app.LoaderManager.LoaderCallbacks;
+import android.content.Context;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
@@ -54,7 +55,7 @@ import java.util.List;
 /**
  * Demonstrate Firebase Authentication using a Facebook access token.
  */
-public class FacebookLoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
+public class FacebookLoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> , View.OnClickListener{
 
     private static final String TAG = "FacebookLogin";
 
@@ -81,7 +82,7 @@ public class FacebookLoginActivity extends AppCompatActivity implements LoaderCa
         // Views
         mStatusTextView = (TextView) findViewById(R.id.status);
         mDetailTextView = (TextView) findViewById(R.id.detail);
-//        findViewById(R.id.button_facebook_signout).setOnClickListener(this);
+        findViewById(R.id.button_facebook_signout).setOnClickListener(this);
 
         // [START initialize_auth]
         // Initialize Firebase Auth
@@ -117,6 +118,9 @@ public class FacebookLoginActivity extends AppCompatActivity implements LoaderCa
             public void onSuccess(LoginResult loginResult) {
                 Log.d(TAG, "facebook:onSuccess:" + loginResult);
                 handleFacebookAccessToken(loginResult.getAccessToken());
+                // Do something in response to button
+                Intent intent = new Intent(getActivity(), DefaultSettingsActivity.class);
+                startActivity(intent);
             }
 
             @Override
@@ -136,6 +140,10 @@ public class FacebookLoginActivity extends AppCompatActivity implements LoaderCa
             }
         });
         // [END initialize_fblogin]
+    }
+
+    private Context getActivity() {
+        return this;
     }
 
     // [START on_start_add_listener]
@@ -222,12 +230,12 @@ public class FacebookLoginActivity extends AppCompatActivity implements LoaderCa
         }
     }
 
-//    public void onClick(View v) {
-//        int i = v.getId();
-//        if (i == R.id.button_facebook_signout) {
-//            signOut();
-//        }
-//    }
+    public void onClick(View v) {
+        int i = v.getId();
+        if (i == R.id.button_facebook_signout) {
+            signOut();
+        }
+    }
 
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
