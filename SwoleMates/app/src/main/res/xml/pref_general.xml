@@ -1,12 +1,5 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!--<SwitchPreference-->
-            <!--android:defaultValue="true"-->
-            <!--android:disableDependentsState="true"-->
-            <!--android:key="example_switch"-->
-            <!--android:summary="@string/pref_description_social_recommendations"-->
-            <!--android:title="@string/pref_title_social_recommendations" />-->
-
     <!-- NOTE: EditTextPreference accepts EditText attributes. -->
     <!-- NOTE: EditTextPreference's summary should be set to its value by the activity code. -->
 
@@ -34,6 +27,11 @@
         android:key="user_age"
         android:summary="Age"
         android:title="Enter your age" />
+
+    <Preference
+        android:key="button"
+        android:widgetLayout="@layout/pref_layout"
+        android:onClick="openMain" />
 
     <!-- NOTE: Hide buttons to simplify the UI. Users can touch outside the dialog to
          dismiss it. -->

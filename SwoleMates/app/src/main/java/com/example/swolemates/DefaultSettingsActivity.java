@@ -19,6 +19,7 @@ import android.preference.RingtonePreference;
 import android.support.v7.app.ActionBar;
 import android.text.TextUtils;
 import android.view.MenuItem;
+import android.view.View;
 
 import java.util.List;
 
@@ -87,6 +88,15 @@ public class DefaultSettingsActivity extends AppCompatPreferenceActivity {
     };
 
     /**
+     * Called when the user clicks the Save button
+     */
+    public void sendMessage(View view) {
+        // Do something in response to button
+        Intent intent = new Intent(this, SelectSport.class);
+        startActivity(intent);
+    }
+
+    /**
      * Helper method to determine if the device has an extra-large screen. For
      * example, 10" tablets are extra-large.
      */
@@ -119,6 +129,7 @@ public class DefaultSettingsActivity extends AppCompatPreferenceActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+//        setContentView(R.layout.pref_layout);
         setupActionBar();
     }
 

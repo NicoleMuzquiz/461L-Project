@@ -5,14 +5,16 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.EditText;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
 
-public class MainActivity extends AppCompatActivity {
+public class SelectSport extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
@@ -25,13 +27,29 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Spinner spinner = (Spinner) findViewById(R.id.sports_spinner);
+        // Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.sports_array, android.R.layout.simple_spinner_item);
+        // Specify the layout to use when the list of choices appears
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setOnItemSelectedListener(this);
+        // Apply the adapter to the spinner
+        spinner.setAdapter(adapter);
 
         // Example of a call to a native method
-//    TextView tv = (TextView) findViewById(R.id.sample_text);
-//    tv.setText(stringFromJNI());
         // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
+    }
+
+    public void onItemSelected(AdapterView<?> parent, View view,
+                               int pos, long id) {
+        // An item was selected. You can retrieve the selected item using
+        String sport = (String) parent.getItemAtPosition(pos);
+    }
+
+    public void onNothingSelected(AdapterView<?> parent) {
+        // Another interface callback
     }
 
     /**
@@ -40,9 +58,6 @@ public class MainActivity extends AppCompatActivity {
     public void sendMessage(View view) {
         // Do something in response to button
         Intent intent = new Intent(this, FacebookLoginActivity.class);
-        EditText editText = (EditText) findViewById(R.id.edit_message);
-        String message = editText.getText().toString();
-        intent.putExtra(EXTRA_MESSAGE, message);
         startActivity(intent);
     }
 
