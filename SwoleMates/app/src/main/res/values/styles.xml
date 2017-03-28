@@ -7,21 +7,23 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
-    <style parent="AppTheme" name="ThemeOverlay.MyNoTitleActivity">
+
+    <style name="ThemeOverlay.MyNoTitleActivity" parent="AppTheme">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
 
     <!-- Dark Buttons -->
-    <style parent="ThemeOverlay.AppCompat.Dark" name="ThemeOverlay.MyDarkButton">
+    <style name="ThemeOverlay.MyDarkButton" parent="ThemeOverlay.AppCompat.Dark">
         <item name="colorButtonNormal">@color/colorAccent</item>
         <item name="android:layout_marginRight">4dp</item>
         <item name="android:layout_marginLeft">4dp</item>
         <item name="android:textColor">@android:color/white</item>
     </style>
     <!-- Light EditTexts -->
-    <style parent="ThemeOverlay.AppCompat.Dark" name="ThemeOverlay.MyLightEditText"/>
-    <style parent="AppTheme" name="ThemeOverlay.MyTextDetail">
+    <style name="ThemeOverlay.MyLightEditText" parent="ThemeOverlay.AppCompat.Dark" />
+
+    <style name="ThemeOverlay.MyTextDetail" parent="AppTheme">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:fadeScrollbars">true</item>
@@ -31,13 +33,24 @@
         <item name="android:scrollbars">vertical</item>
         <item name="android:textSize">14sp</item>
     </style>
-    <style parent="AppTheme" name="ThemeOverlay.FirebaseIcon">
+
+    <style name="ThemeOverlay.FirebaseIcon" parent="AppTheme">
         <item name="android:layout_marginTop">@dimen/icon_top_margin</item>
         <item name="android:layout_marginBottom">@dimen/icon_bottom_margin</item>
     </style>
-    <style parent="AppTheme" name="ThemeOverlay.MyTitleText">
+
+    <style name="ThemeOverlay.MyTitleText" parent="AppTheme">
         <item name="android:gravity">center</item>
         <item name="android:textSize">36sp</item>
     </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 </resources>

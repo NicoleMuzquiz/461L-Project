@@ -4,17 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal">
+    android:orientation="vertical"
+    android:weightSum="1">
 
     <TextView
         android:id="@+id/text_id"
-        android:layout_width="300dp"
+        android:layout_width="match_parent"
         android:layout_height="200dp"
         android:text="Select Sport"
-        android:textColor="@android:color/holo_blue_dark"
+        android:textColor="@android:color/black"
         android:textColorHighlight="@android:color/primary_text_dark"
         android:layout_centerVertical="true"
-        android:textSize="50dp"/>
+        android:gravity="center"
+        android:textSize="50dp" />
 
     <Spinner
         android:id="@+id/sports_spinner"

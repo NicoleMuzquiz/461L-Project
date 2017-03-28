@@ -190,6 +190,8 @@
         <item>Soccer</item>
         <item>Running</item>
     </string-array>
+    <string name="title_activity_enter_sport_ability">EnterSportAbility</string>
+    <string name="title_activity_select_sport">SelectSport</string>
     <!--</resources>-->
 
 </resources>

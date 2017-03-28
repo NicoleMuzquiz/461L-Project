@@ -17,7 +17,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".SelectSport" />
+        <activity android:name="com.example.locationapi.SelectSport" />
         <!--
  ATTENTION: This was auto-generated to add Google Play services to your project for
      App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -29,7 +29,6 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-        <activity android:name=".DisplayMessageActivity" />
         <activity
             android:name=".FacebookLoginActivity"
             android:label="@string/app_name">
@@ -59,7 +58,15 @@
         <!-- </activity> -->
         <activity
             android:name=".DefaultSettingsActivity"
-            android:label="@string/title_activity_default_settings"></activity>
+            android:label="@string/title_activity_default_settings" />
+        <activity
+            android:name=".EnterSportAbility"
+            android:label="@string/title_activity_enter_sport_ability"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".SelectSport"
+            android:label="@string/title_activity_select_sport"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
