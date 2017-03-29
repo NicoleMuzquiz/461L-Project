@@ -190,8 +190,14 @@
         <item>Soccer</item>
         <item>Running</item>
     </string-array>
-    <string name="title_activity_enter_sport_ability">EnterSportAbility</string>
-    <string name="title_activity_select_sport">SelectSport</string>
+
+    <!--<resources>-->
+    <string-array name="play_style_array">
+        <item>Casual</item>
+        <item>Competitive</item>
+    </string-array>
+    <string name="title_activity_enter_sport_ability">Select Play Style</string>
+    <string name="title_activity_select_sport">Select Sport</string>
     <!--</resources>-->
 
 </resources>

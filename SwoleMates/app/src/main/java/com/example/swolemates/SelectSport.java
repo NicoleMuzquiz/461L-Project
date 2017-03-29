@@ -21,7 +21,7 @@ public class SelectSport extends AppCompatActivity implements AdapterView.OnItem
      * See https://g.co/AppIndexing/AndroidStudio for more information.
      */
     private GoogleApiClient client;
-    public final static String EXTRA_MESSAGE = "com.example.swolemates.MESSAGE";
+    public final static String EXTRA_MESSAGE = "";
     private String sport;
 
     @Override
