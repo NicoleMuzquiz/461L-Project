@@ -66,7 +66,16 @@
         <activity
             android:name=".SelectSport"
             android:label="@string/title_activity_select_sport"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name="com.example.locationapi.EntryActivity"
+            android:launchMode="singleInstance"
+            android:noHistory="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

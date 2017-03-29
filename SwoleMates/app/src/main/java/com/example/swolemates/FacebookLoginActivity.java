@@ -64,7 +64,7 @@ public class FacebookLoginActivity extends AppCompatActivity implements LoaderCa
     private AutoCompleteTextView mEmailView;
 
     // [START declare_auth]
-    private FirebaseAuth mAuth;
+    private static FirebaseAuth mAuth;
     // [END declare_auth]
 
     // [START declare_auth_listener]
@@ -145,6 +145,8 @@ public class FacebookLoginActivity extends AppCompatActivity implements LoaderCa
     private Context getActivity() {
         return this;
     }
+
+    public static FirebaseAuth getmAuth() {return mAuth; }
 
     // [START on_start_add_listener]
     @Override

@@ -17,6 +17,7 @@ public class EnterSportAbility extends AppCompatActivity implements AdapterView.
 
     public final static String EXTRA_MESSAGE = "";
     private String playStyle;
+    private String selfRank;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +30,16 @@ public class EnterSportAbility extends AppCompatActivity implements AdapterView.
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.play_style_array, android.R.layout.simple_spinner_item);
+        // Specify the layout to use when the list of choices appears
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setOnItemSelectedListener(this);
+        // Apply the adapter to the spinner
+        spinner.setAdapter(adapter);
+
+        spinner = (Spinner) findViewById(R.id.self_rank_spinner);
+        // Create an ArrayAdapter using the string array and a default spinner layout
+        adapter = ArrayAdapter.createFromResource(this,
+                R.array.self_rank_array, android.R.layout.simple_spinner_item);
         // Specify the layout to use when the list of choices appears
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setOnItemSelectedListener(this);
@@ -52,7 +63,11 @@ public class EnterSportAbility extends AppCompatActivity implements AdapterView.
     public void onItemSelected(AdapterView<?> parent, View view,
                                int pos, long id) {
         // An item was selected. You can retrieve the selected item using
-        playStyle = (String) parent.getItemAtPosition(pos);
+        if(id == R.id.play_style_spinner)
+            playStyle = (String) parent.getItemAtPosition(pos);
+        if(id == R.id.self_rank_spinner)
+            selfRank = (String) parent.getItemAtPosition(pos);
+
     }
 
     public void onNothingSelected(AdapterView<?> parent) {
