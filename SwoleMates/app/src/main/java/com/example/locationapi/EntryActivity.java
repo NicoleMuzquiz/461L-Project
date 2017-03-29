@@ -25,9 +25,10 @@ public class EntryActivity extends AppCompatActivity {
         if (user != null) {
             Intent intent = new Intent(this, DefaultSettingsActivity.class);
             startActivity(intent);
+        }else {
+            Intent intent = new Intent(this, FacebookLoginActivity.class);
+            startActivity(intent);
         }
-        Intent intent = new Intent(this, FacebookLoginActivity.class);
-        startActivity(intent);
 
         finish();
     }

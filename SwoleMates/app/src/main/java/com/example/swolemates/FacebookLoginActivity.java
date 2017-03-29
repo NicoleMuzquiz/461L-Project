@@ -146,7 +146,7 @@ public class FacebookLoginActivity extends AppCompatActivity implements LoaderCa
         return this;
     }
 
-    public static FirebaseAuth getmAuth() {return mAuth; }
+    public static FirebaseAuth getmAuth() {return FirebaseAuth.getInstance(); }
 
     // [START on_start_add_listener]
     @Override

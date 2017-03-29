@@ -36,11 +36,10 @@
             <!-- android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation" -->
             <!-- android:theme="@android:style/Theme.Translucent.NoTitleBar" -->
             <!-- tools:replace="android:theme"> -->
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN" />-->
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
         </activity>
         <!-- <activity -->
         <!-- android:name="com.facebook.CustomTabActivity" -->
@@ -58,7 +57,7 @@
         <!-- </activity> -->
         <activity
             android:name=".DefaultSettingsActivity"
-            android:label="@string/title_activity_default_settings" />
+            android:label="Personal Settings" />
         <activity
             android:name=".EnterSportAbility"
             android:label="@string/title_activity_enter_sport_ability"
@@ -72,7 +71,6 @@
             android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
