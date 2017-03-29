@@ -36,10 +36,10 @@
             <!-- android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation" -->
             <!-- android:theme="@android:style/Theme.Translucent.NoTitleBar" -->
             <!-- tools:replace="android:theme"> -->
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
         </activity>
         <!-- <activity -->
         <!-- android:name="com.facebook.CustomTabActivity" -->
@@ -66,14 +66,20 @@
             android:name=".SelectSport"
             android:label="@string/title_activity_select_sport"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name="com.example.locationapi.EntryActivity"
+        <activity
+            android:name="com.example.locationapi.EntryActivity"
             android:launchMode="singleInstance"
             android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".HomePage"
+            android:label="@string/title_activity_home_page"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

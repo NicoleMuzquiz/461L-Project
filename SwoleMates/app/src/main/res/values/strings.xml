@@ -213,6 +213,12 @@
 
     <string name="title_activity_enter_sport_ability">Select Play Style</string>
     <string name="title_activity_select_sport">Select Sport</string>
+    <string name="title_activity_home_page">HomePage</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
     <!--</resources>-->
 
 </resources>
