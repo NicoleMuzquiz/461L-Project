@@ -53,7 +53,7 @@ public class EnterSportAbility extends AppCompatActivity implements AdapterView.
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), EnterSportAbility.class);
+                Intent intent = new Intent(getActivity(), HomePage.class);
                 intent.putExtra(EXTRA_MESSAGE, playStyle);
                 startActivity(intent);
             }
