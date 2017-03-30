@@ -8,6 +8,8 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class SwoleUser {
     private FirebaseUser user;
+    private String name;
+    private int age;
     private int weight;
     private int height;
     private int weightlifting_skill;
@@ -29,15 +31,15 @@ public class SwoleUser {
 
 
     // Getting Variables
+    public String getName(){return name;}
+    public int getAge(){return age;}
     public int getWeightlifting_skill(){
         return weightlifting_skill;
     }
     public int getWeightlifting_rank(){
         return weightlifting_rank;
     }
-    public int getWeight(){
-        return weight;
-    }
+    public int getWeight(){return weight;}
     public int getHeight(){
         return height;
     }
@@ -88,6 +90,8 @@ public class SwoleUser {
     }
 
     //Setting variables
+    public void setName(String n){name = n;}
+    public void setAge(int a){age = a;}
     public void setWeightlifting_skill(int skill){
         weightlifting_skill = skill;
     }
