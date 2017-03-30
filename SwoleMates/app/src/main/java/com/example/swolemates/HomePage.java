@@ -1,25 +1,22 @@
 package com.example.swolemates;
 
-import android.graphics.Color;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.view.View;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.GestureDetector;
 import android.view.Menu;
 import android.view.MenuItem;
-
-import com.bartoszlipinski.flippablestackview.FlippableStackView;
-import com.bartoszlipinski.flippablestackview.StackPageTransformer;
-import com.bartoszlipinski.flippablestackview.utilities.ValueInterpolator;
+import android.view.MotionEvent;
+import android.view.View;
+import android.widget.StackView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,11 +26,7 @@ public class HomePage extends AppCompatActivity
 
     private static final int NUMBER_OF_FRAGMENTS = 15;
 
-    private FlippableStackView mFlippableStack;
-
-    private ColorFragmentAdapter mPageAdapter;
-
-    private List<Fragment> mViewPagerFragments;
+    private StackView stackView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,16 +35,34 @@ public class HomePage extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-//        setContentView(R.layout.cardview);
+        this.stackView = (StackView) findViewById(R.id.stackView);
 
-        createViewPagerFragments();
-        mPageAdapter = new ColorFragmentAdapter(getSupportFragmentManager(), mViewPagerFragments);
+        List<StackItem> items = new ArrayList<StackItem>();
 
-//        boolean portrait = getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT;
-        FlippableStackView m = new FlippableStackView(this);
-        mFlippableStack = (FlippableStackView) findViewById(R.id.flippable_stack_view);
-        mFlippableStack.initStack(4, StackPageTransformer.Orientation.VERTICAL);
-        mFlippableStack.setAdapter(mPageAdapter);
+        for(int i = 0; i < NUMBER_OF_FRAGMENTS; i++){
+
+            items.add(new StackItem("image_"+i+".pngllllllllllllllllllllllllllllllllllll", "Android Photo"));
+        }
+
+        StackAdapter adapt = new StackAdapter(this, R.layout.cardview, items);
+        stackView.setAdapter(adapt);
+        stackView.setHorizontalScrollBarEnabled(true);
+        stackView.setBackgroundColor(getResources().getColor(R.color.grey_100));
+        stackView.setOnTouchListener(new OnSwipeTouchListener(HomePage.this) {
+            public void onSwipeTop() {
+                Toast.makeText(HomePage.this, "top", Toast.LENGTH_SHORT).show();
+            }
+            public void onSwipeRight() {
+                Toast.makeText(HomePage.this, "right", Toast.LENGTH_SHORT).show();
+            }
+            public void onSwipeLeft() {
+                Toast.makeText(HomePage.this, "left", Toast.LENGTH_SHORT).show();
+            }
+            public void onSwipeBottom() {
+                Toast.makeText(HomePage.this, "bottom", Toast.LENGTH_SHORT).show();
+            }
+
+        });
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -129,44 +140,70 @@ public class HomePage extends AppCompatActivity
         return true;
     }
 
-    private void createViewPagerFragments() {
-        mViewPagerFragments = new ArrayList<>();
+    private static class OnSwipeTouchListener implements View.OnTouchListener {
 
-        int startColor = R.color.emerald;
-        int startR = Color.red(startColor);
-        int startG = Color.green(startColor);
-        int startB = Color.blue(startColor);
+        private final GestureDetector gestureDetector;
 
-        int endColor = R.color.wisteria;
-        int endR = Color.red(endColor);
-        int endG = Color.green(endColor);
-        int endB = Color.blue(endColor);
-
-        ValueInterpolator interpolatorR = new ValueInterpolator(0, NUMBER_OF_FRAGMENTS - 1, endR, startR);
-        ValueInterpolator interpolatorG = new ValueInterpolator(0, NUMBER_OF_FRAGMENTS - 1, endG, startG);
-        ValueInterpolator interpolatorB = new ValueInterpolator(0, NUMBER_OF_FRAGMENTS - 1, endB, startB);
-
-        for (int i = 0; i < NUMBER_OF_FRAGMENTS; ++i) {
-            mViewPagerFragments.add(ColorFragment.newInstance(Color.argb(255, (int) interpolatorR.map(i), (int) interpolatorG.map(i), (int) interpolatorB.map(i))));
-        }
-    }
-
-    private class ColorFragmentAdapter extends FragmentPagerAdapter {
-        private List<Fragment> fragments;
-
-        public ColorFragmentAdapter(FragmentManager fm, List<Fragment> fragments) {
-            super(fm);
-            this.fragments = fragments;
+        public OnSwipeTouchListener (Context ctx){
+            gestureDetector = new GestureDetector(ctx, new GestureListener());
         }
 
         @Override
-        public Fragment getItem(int position) {
-            return this.fragments.get(position);
+        public boolean onTouch(View v, MotionEvent event) {
+            return gestureDetector.onTouchEvent(event);
         }
 
-        @Override
-        public int getCount() {
-            return this.fragments.size();
+        private final class GestureListener extends GestureDetector.SimpleOnGestureListener {
+
+            private static final int SWIPE_THRESHOLD = 100;
+            private static final int SWIPE_VELOCITY_THRESHOLD = 100;
+
+            @Override
+            public boolean onDown(MotionEvent e) {
+                return true;
+            }
+
+            @Override
+            public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+                boolean result = false;
+                try {
+                    float diffY = e2.getY() - e1.getY();
+                    float diffX = e2.getX() - e1.getX();
+                    if (Math.abs(diffX) > Math.abs(diffY)) {
+                        if (Math.abs(diffX) > SWIPE_THRESHOLD && Math.abs(velocityX) > SWIPE_VELOCITY_THRESHOLD) {
+                            if (diffX > 0) {
+                                onSwipeRight();
+                            } else {
+                                onSwipeLeft();
+                            }
+                            result = true;
+                        }
+                    }
+                    else if (Math.abs(diffY) > SWIPE_THRESHOLD && Math.abs(velocityY) > SWIPE_VELOCITY_THRESHOLD) {
+                        if (diffY > 0) {
+                            onSwipeBottom();
+                        } else {
+                            onSwipeTop();
+                        }
+                        result = true;
+                    }
+                } catch (Exception exception) {
+                    exception.printStackTrace();
+                }
+                return result;
+            }
+        }
+
+        public void onSwipeRight() {
+        }
+
+        public void onSwipeLeft() {
+        }
+
+        public void onSwipeTop() {
+        }
+
+        public void onSwipeBottom() {
         }
     }
 }

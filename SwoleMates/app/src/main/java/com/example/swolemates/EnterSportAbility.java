@@ -11,8 +11,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
-import com.example.locationapi.SelectSport;
-
 public class EnterSportAbility extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     public final static String EXTRA_MESSAGE = "";
