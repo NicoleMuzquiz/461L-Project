@@ -2,12 +2,15 @@ package com.example.system;
 
 import com.google.firebase.auth.FirebaseUser;
 import com.googlecode.objectify.annotation.Entity;
+import com.googlecode.objectify.annotation.Id;
 
 /**
  * Created by akkau on 3/18/2017.
  */
 @Entity
 public class SwoleUser {
+
+    @Id Long id;
     private FirebaseUser user;
     private String name;
     private int age;
@@ -32,6 +35,7 @@ public class SwoleUser {
 
 
     // Getting Variables
+    public Long getId(){return id;}
     public String getName(){return name;}
     public int getAge(){return age;}
     public int getWeightlifting_skill(){
@@ -91,6 +95,7 @@ public class SwoleUser {
     }
 
     //Setting variables
+    public void setId(Long Id){id = Id;}
     public void setName(String n){name = n;}
     public void setAge(int a){age = a;}
     public void setWeightlifting_skill(int skill){
