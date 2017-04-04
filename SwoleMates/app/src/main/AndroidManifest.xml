@@ -17,6 +17,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <!--
  ATTENTION: This was auto-generated to add Google Play services to your project for
      App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -29,12 +30,10 @@
             android:value="@integer/google_play_services_version" />
 
         <activity
-            android:name=".FacebookLoginActivity"
-            android:label="@string/app_name">
-        </activity>
-
+            android:name="com.example.login.FacebookLoginActivity"
+            android:label="@string/app_name"></activity>
         <activity
-            android:name=".DefaultSettingsActivity"
+            android:name="com.example.settings.DefaultSettingsActivity"
             android:label="Personal Settings" />
         <activity
             android:name=".EnterSportAbility"
@@ -45,7 +44,7 @@
             android:label="@string/title_activity_select_sport"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.example.locationapi.EntryActivity"
+            android:name="com.example.startup.EntryActivity"
             android:launchMode="singleInstance"
             android:noHistory="true">
             <intent-filter>
@@ -57,10 +56,6 @@
         <activity
             android:name=".HomePage"
             android:label="@string/title_activity_home_page"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".MainActivity"
-            android:label="@string/title_activity_main"
             android:theme="@style/AppTheme.NoActionBar" />
     </application>
 

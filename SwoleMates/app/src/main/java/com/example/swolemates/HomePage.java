@@ -18,8 +18,10 @@ import android.view.View;
 import android.widget.StackView;
 import android.widget.Toast;
 
+import com.example.system.StackAdapter;
+import com.example.system.StackItem;
+
 import java.util.ArrayList;
-import java.util.List;
 
 public class HomePage extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -27,6 +29,7 @@ public class HomePage extends AppCompatActivity
     private static final int NUMBER_OF_FRAGMENTS = 15;
 
     private StackView stackView;
+    private int currItem = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,32 +40,45 @@ public class HomePage extends AppCompatActivity
 
         this.stackView = (StackView) findViewById(R.id.stackView);
 
-        List<StackItem> items = new ArrayList<StackItem>();
+        final ArrayList<StackItem> items = new ArrayList<StackItem>();
+        final ArrayList<StackItem> removedItems = new ArrayList<StackItem>();
 
         for(int i = 0; i < NUMBER_OF_FRAGMENTS; i++){
 
             items.add(new StackItem("image_"+i+".pngllllllllllllllllllllllllllllllllllll", "Android Photo"));
         }
 
-        StackAdapter adapt = new StackAdapter(this, R.layout.cardview, items);
+        final StackAdapter adapt = new StackAdapter(this, items);
         stackView.setAdapter(adapt);
         stackView.setHorizontalScrollBarEnabled(true);
         stackView.setBackgroundColor(getResources().getColor(R.color.grey_100));
+
         stackView.setOnTouchListener(new OnSwipeTouchListener(HomePage.this) {
             public void onSwipeTop() {
+                stackView.setBackgroundColor(getResources().getColor(R.color.com_facebook_blue));
                 Toast.makeText(HomePage.this, "top", Toast.LENGTH_SHORT).show();
             }
             public void onSwipeRight() {
+                stackView.setBackgroundColor(getResources().getColor(R.color.com_facebook_blue));
                 Toast.makeText(HomePage.this, "right", Toast.LENGTH_SHORT).show();
+                items.add(0, removedItems.remove(removedItems.size() - 1));
+                adapt.setItems(items);
+                stackView.setAdapter(adapt);
             }
             public void onSwipeLeft() {
+                stackView.setBackgroundColor(getResources().getColor(R.color.com_facebook_blue));
                 Toast.makeText(HomePage.this, "left", Toast.LENGTH_SHORT).show();
+                removedItems.add(items.remove(0));
+                adapt.setItems(items);
+                stackView.setAdapter(adapt);
             }
             public void onSwipeBottom() {
+                stackView.setBackgroundColor(getResources().getColor(R.color.com_facebook_blue));
                 Toast.makeText(HomePage.this, "bottom", Toast.LENGTH_SHORT).show();
             }
 
         });
+        adapt.notifyDataSetChanged();
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
