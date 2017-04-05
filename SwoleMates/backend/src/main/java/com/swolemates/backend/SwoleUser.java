@@ -8,6 +8,7 @@ import com.googlecode.objectify.annotation.Id;
 /**
  * Created by akkau on 3/18/2017.
  */
+
 @Entity
 public class SwoleUser {
 
