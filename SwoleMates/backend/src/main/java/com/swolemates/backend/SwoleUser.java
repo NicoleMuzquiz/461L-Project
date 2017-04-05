@@ -1,8 +1,9 @@
-package com.example.system;
+package com.swolemates.backend;
 
-import com.google.firebase.auth.FirebaseUser;
+//import com.google.firebase.auth.FirebaseUser;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
+
 
 /**
  * Created by akkau on 3/18/2017.
@@ -11,7 +12,7 @@ import com.googlecode.objectify.annotation.Id;
 public class SwoleUser {
 
     @Id Long id;
-    private FirebaseUser user;
+//    private FirebaseUser user;
     private String name;
     private int age;
     private int weight;
@@ -48,9 +49,9 @@ public class SwoleUser {
     public int getHeight(){
         return height;
     }
-    public FirebaseUser getFirebaseUser(){
-        return user;
-    }
+//    public FirebaseUser getFirebaseUser(){
+//        return user;
+//    }
     public int getBasketball_skill(){
         return basketball_skill;
     }
@@ -63,9 +64,7 @@ public class SwoleUser {
     public int getFootball_rank(){
         return football_rank;
     }
-    public int getVolleyball_skill(){
-        return volleyball_skill;
-    }
+    public int getVolleyball_skill(){return volleyball_skill;}
     public int getVolleyball_rank(){
         return volleyball_rank;
     }
@@ -110,9 +109,9 @@ public class SwoleUser {
     public void setHeight(int height){
         this.height = height;
     }
-    public void setFirebaseUser(FirebaseUser user){
-        this.user = user;
-    }
+//    public void setFirebaseUser(FirebaseUser user){
+//        this.user = user;
+//    }
     public void setBasketball_skill(int skill){
         basketball_skill = skill;
     }
