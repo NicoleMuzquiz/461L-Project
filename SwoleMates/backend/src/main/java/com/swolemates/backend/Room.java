@@ -38,6 +38,7 @@ public class Room
 		
 		for (SwoleUser u : this.userList)
 		{
+			if (!u.equals(user))
 		/* TODO: Implement algorithm to find nearby users 
 		
 			if (isWithinProperDistance(user, u) && isWithinProperSkillLevel(user, u)
