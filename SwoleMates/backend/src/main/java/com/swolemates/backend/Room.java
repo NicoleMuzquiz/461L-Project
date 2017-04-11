@@ -58,8 +58,8 @@ public abstract class Room
 		int current_long = current.getLong();
 		int current_lat = current.getLat();
 		
-		int check_long = current.getLong();
-		int check_lat = current.getLat();
+		int check_long = check.getLong();
+		int check_lat = check.getLat();
 		
 		
 		return (Math.abs(check_long - current_long) <= 50 && Math.abs(check_lat - current_lat) <= 50);
