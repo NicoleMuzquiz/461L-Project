@@ -1,4 +1,4 @@
-package com.swolemates.backend;
+//package com.swolemates.backend;
 
 //import com.google.firebase.auth.FirebaseUser;
 import com.googlecode.objectify.annotation.Entity;
@@ -34,7 +34,7 @@ public class SwoleUser {
     private int soccer_rank;
     private int running_skill;
     private int running_rank;
-
+    
 
     // Getting Variables
     public Long getId(){return id;}
