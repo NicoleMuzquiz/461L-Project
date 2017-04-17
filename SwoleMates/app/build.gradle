@@ -30,6 +30,9 @@ android {
             path "CMakeLists.txt"
         }
     }
+    compileOptions {
+        targetCompatibility JavaVersion.VERSION_1_7
+    }
 }
 
 dependencies {
