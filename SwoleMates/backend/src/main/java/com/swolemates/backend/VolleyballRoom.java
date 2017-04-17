@@ -13,7 +13,7 @@ public class VolleyballRoom extends Room {
     @Override
     void sort(ArrayList<SwoleUser> list) {
         // TODO Auto-generated method stub
-
+        list.sort(null);
     }
 
 }

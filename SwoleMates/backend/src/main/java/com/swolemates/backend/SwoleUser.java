@@ -11,7 +11,7 @@ import com.googlecode.objectify.annotation.Id;
  */
 
 @Entity
-public class SwoleUser {
+public class SwoleUser implements Comparable<SwoleUser> {
 
     @Id Long id;
 //    private FirebaseUser user;
@@ -155,5 +155,11 @@ public class SwoleUser {
     }
     public void setRunning_rank(int rank){
         running_rank = rank;
+    }
+
+    @Override
+    public int compareTo(SwoleUser otherUser) {
+
+        return 0;
     }
 }
