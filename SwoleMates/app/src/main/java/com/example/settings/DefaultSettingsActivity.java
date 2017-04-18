@@ -23,7 +23,7 @@ import android.view.View;
 
 import com.example.swolemates.R;
 import com.example.swolemates.SelectSport;
-import com.example.system.AppCompatPreferenceActivity;
+import com.example.ui.AppCompatPreferenceActivity;
 
 import java.util.List;
 

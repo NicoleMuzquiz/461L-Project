@@ -1,4 +1,4 @@
-package com.example.system;
+package com.example.ui;
 
 /**
  * Created by einwo on 3/30/2017.

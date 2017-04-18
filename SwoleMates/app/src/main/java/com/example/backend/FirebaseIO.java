@@ -1,4 +1,4 @@
-package com.example.swolemates;
+package com.example.backend;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -9,7 +9,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 
-import com.example.system.AppCompatPreferenceActivity;
+import com.example.swolemates.R;
+import com.example.ui.AppCompatPreferenceActivity;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;

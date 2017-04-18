@@ -18,8 +18,8 @@ import android.view.View;
 import android.widget.StackView;
 import android.widget.Toast;
 
-import com.example.system.StackAdapter;
-import com.example.system.StackItem;
+import com.example.ui.StackAdapter;
+import com.example.ui.StackItem;
 
 import java.util.ArrayList;
 
