@@ -1,7 +1,6 @@
-package com.swolemates.backend;
+//package com.swolemates.backend;
 
 //import com.google.firebase.auth.FirebaseUser;
-
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 
@@ -11,7 +10,7 @@ import com.googlecode.objectify.annotation.Id;
  */
 
 @Entity
-public class SwoleUser implements Comparable<SwoleUser> {
+public class SwoleUser {
 
     @Id Long id;
 //    private FirebaseUser user;
@@ -35,6 +34,31 @@ public class SwoleUser implements Comparable<SwoleUser> {
     private int soccer_rank;
     private int running_skill;
     private int running_rank;
+    
+    /* location variables */
+    private double latitude;
+    private double longitude;
+    
+    /* get & set location variables */
+    public double getLat()
+    {
+    	return this.latitude;
+    }
+    
+    public double getLong()
+    {
+    	return this.longitude;
+    }
+    
+    public void setLat(double latitude)
+    {
+    	this.latitude = latitude;
+    }
+    
+    public void setLong(double longitude)
+    {
+    	this.longitude = longitude;
+    }
     
 
     // Getting Variables
@@ -155,11 +179,5 @@ public class SwoleUser implements Comparable<SwoleUser> {
     }
     public void setRunning_rank(int rank){
         running_rank = rank;
-    }
-
-    @Override
-    public int compareTo(SwoleUser otherUser) {
-
-        return 0;
     }
 }
