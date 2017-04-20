@@ -55,13 +55,7 @@
             <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
             <!-- </intent-filter> -->
         </activity>
-        <activity android:name="com.example.backend.FirebaseIO">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <activity android:name="com.example.backend.FirebaseIO"></activity>
         <activity
             android:name=".HomePage"
             android:label="@string/title_activity_home_page"
@@ -70,6 +64,18 @@
             android:name="com.example.backend.MessageActivity"
             android:label="@string/title_activity_message"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name="com.example.common.PlayActivity"
+            android:label="Play Activity"
+            android:theme="@style/AppTheme.NoActionBar">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

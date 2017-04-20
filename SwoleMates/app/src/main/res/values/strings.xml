@@ -6,6 +6,10 @@
     <string name="facebook_app_id">1255707804537349</string>
     <string name="title_activity_login">Sign in</string>
 
+    <string name="channel_label">Select a channel from menu</string>
+    <string name="message_hint">Enter a message</string>
+    <string name="channels">books,game,music,sports,travel</string>
+
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password (optional)</string>
