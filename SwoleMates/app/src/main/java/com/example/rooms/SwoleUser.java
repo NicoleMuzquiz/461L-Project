@@ -34,7 +34,32 @@ public class SwoleUser implements Comparable<SwoleUser> {
     private int soccer_rank;
     private int running_skill;
     private int running_rank;
-    
+
+    /* location variables */
+    private double latitude;
+    private double longitude;
+
+    /* get & set location variables */
+    public double getLat()
+    {
+        return this.latitude;
+    }
+
+    public double getLong()
+    {
+        return this.longitude;
+    }
+
+    public void setLat(double latitude)
+    {
+        this.latitude = latitude;
+    }
+
+    public void setLong(double longitude)
+    {
+        this.longitude = longitude;
+    }
+
 
     // Getting Variables
     public Long getId(){return id;}

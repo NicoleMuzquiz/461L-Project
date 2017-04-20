@@ -31,10 +31,10 @@ public abstract class Room {
         ArrayList<SwoleUser> near = new ArrayList<SwoleUser>();
 
 		/*int current_long = user.getLong();
-		int current_lat = user.getLat();*/
+        int current_lat = user.getLat();*/
 
         for (SwoleUser u : this.userList) {
-			/* TODO: Implement algorithm to find nearby users
+			/* TODO: Implement algorithm to find nearby users with similar skill level
 
 			if (isWithinProperDistance(user, u) && isWithinProperSkillLevel(user, u)
 				near.add(u);
@@ -48,20 +48,17 @@ public abstract class Room {
         return near;
     }
 
+    /* 10 miles ~ 0.143 in long/lat; currently looking within 10 mile square for user matches */
     private boolean isWithinProperDistance(SwoleUser current, SwoleUser check) {
-		/*
-		int current_long = current.getLong();
-		int current_lat = current.getLat();
 
-		int check_long = check.getLong();
-		int check_lat = check.getLat();
+        double current_long = current.getLong();
+        double current_lat = current.getLat();
 
+        double check_long = current.getLong();
+        double check_lat = current.getLat();
 
-		return (Math.abs(check_long - current_long) <= 50 && Math.abs(check_lat - current_lat) <= 50);
-		*/
+        return (Math.abs(check_long - current_long) <= 0.143 && Math.abs(check_lat - current_lat) <= 0.143);
 
-		/*TODO: remove comments & final 'return false' statement */
-        return false;
     }
 
 	/* each of the following are implemented differently depending on room type */

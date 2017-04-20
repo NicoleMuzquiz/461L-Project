@@ -1,6 +1,5 @@
-//package com.swolemates.backend;
+package com.swolemates.backend;
 
-//import com.google.firebase.auth.FirebaseUser;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 
