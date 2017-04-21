@@ -1,13 +1,13 @@
 package com.example.login;
 /**
  * Copyright 2016 Google Inc. All Rights Reserved.
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * <p>
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -57,7 +57,7 @@ import java.util.List;
 /**
  * Demonstrate Firebase Authentication using a Facebook access token.
  */
-public class FacebookLoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> , View.OnClickListener{
+public class FacebookLoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor>, View.OnClickListener {
 
     private static final String TAG = "FacebookLogin";
 
@@ -72,6 +72,10 @@ public class FacebookLoginActivity extends AppCompatActivity implements LoaderCa
     // [START declare_auth_listener]
     private FirebaseAuth.AuthStateListener mAuthListener;
     // [END declare_auth_listener]
+
+    // [START declare_user]
+    public static FirebaseUser firebaseUser;
+    // [END declare_user]
 
     private CallbackManager mCallbackManager;
 
@@ -96,6 +100,7 @@ public class FacebookLoginActivity extends AppCompatActivity implements LoaderCa
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
+                firebaseUser = user;
                 if (user != null) {
                     // User is signed in
                     Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
@@ -148,7 +153,11 @@ public class FacebookLoginActivity extends AppCompatActivity implements LoaderCa
         return this;
     }
 
-    public static FirebaseAuth getmAuth() {return FirebaseAuth.getInstance(); }
+    public static FirebaseAuth getmAuth() {
+        return FirebaseAuth.getInstance();
+    }
+
+    public static FirebaseUser getFirebaseUser() { return firebaseUser; }
 
     // [START on_start_add_listener]
     @Override
@@ -192,7 +201,6 @@ public class FacebookLoginActivity extends AppCompatActivity implements LoaderCa
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         Log.d(TAG, "signInWithCredential:onComplete:" + task.isSuccessful());
-
                         // If sign in fails, display a message to the user. If sign in succeeds
                         // the auth state listener will be notified and logic to handle the
                         // signed in user can be handled in the listener.

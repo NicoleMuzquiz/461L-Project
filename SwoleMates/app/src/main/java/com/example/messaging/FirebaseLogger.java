@@ -13,7 +13,7 @@
  # limitations under the License.
  **/
 
-package com.example.common;
+package com.example.messaging;
 
 // [START FirebaseLogger]
 import com.google.firebase.database.DatabaseReference;

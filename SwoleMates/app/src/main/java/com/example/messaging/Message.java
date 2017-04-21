@@ -13,36 +13,38 @@
  # limitations under the License.
  **/
 
-package com.example.common;
+package com.example.messaging;
 
+//import com.fasterxml.jackson.annotation.JsonIgnore;
+//import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.google.firebase.database.ServerValue;
 
 import java.util.Map;
 
 /*
- * An instance of LogEntry represents a user event log, such as signin/out and switching a channel.
+ * An instance of Message represents an actual message pushed to a channel.
  */
 //@JsonIgnoreProperties(ignoreUnknown = true)
-public class LogEntry {
-    private String tag;
-    private String log;
+public class Message {
+    private String text;
+    private String displayName;
     private Long time;
 
-    public LogEntry() {}
+    public Message() {}
 
-    public LogEntry(String tag, String log) {
-        this.tag = tag;
-        this.log = log;
+    public Message(String text, String displayName) {
+        this.text = text;
+        this.displayName = displayName;
     }
 
-    public String getTag() { return tag; }
-    public void setTag(String tag) { this.tag = tag; }
-    public String getLog() { return log; }
-    public void setLog(String log) { this.log = log; }
+    public String getText() { return text; }
+    public void setText(String text) { this.text = text; }
+    public String getDisplayName() { return displayName; }
+    public void setDisplayName(String displayName) { this.displayName = displayName; }
 
     public Map<String, String> getTime() { return ServerValue.TIMESTAMP; }
     public void setTime(Long time) { this.time = time; }
 
 //    @JsonIgnore
-    public Long getTimeLong() { return time; }
+    public Long getTimeLong() { return time;}
 }

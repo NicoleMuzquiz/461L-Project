@@ -1,6 +1,7 @@
 package com.example.swolemates;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -18,6 +19,7 @@ import android.view.View;
 import android.widget.StackView;
 import android.widget.Toast;
 
+import com.example.messaging.PlayActivity;
 import com.example.ui.StackAdapter;
 import com.example.ui.StackItem;
 
@@ -143,7 +145,9 @@ public class HomePage extends AppCompatActivity
 
         } else if (id == R.id.nav_slideshow) {
 
-        } else if (id == R.id.nav_view) {
+        } else if (id == R.id.nav_messages) {
+            Intent intent = new Intent(this, PlayActivity.class);
+            startActivity(intent);
 
         } else if (id == R.id.nav_rooms) {
 

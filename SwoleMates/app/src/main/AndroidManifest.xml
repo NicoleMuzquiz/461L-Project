@@ -48,12 +48,11 @@
             android:launchMode="singleInstance"
             android:noHistory="true">
 
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity android:name="com.example.backend.FirebaseIO"></activity>
         <activity
@@ -65,17 +64,9 @@
             android:label="@string/title_activity_message"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
-            android:name="com.example.common.PlayActivity"
+            android:name="com.example.messaging.PlayActivity"
             android:label="Play Activity"
-            android:theme="@style/AppTheme.NoActionBar">
-
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
