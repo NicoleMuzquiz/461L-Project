@@ -64,7 +64,7 @@
             android:label="@string/title_activity_message"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
-            android:name="com.example.messaging.PlayActivity"
+            android:name="com.example.messaging.MessageActivity"
             android:label="Play Activity"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>

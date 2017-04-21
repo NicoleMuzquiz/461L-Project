@@ -19,7 +19,7 @@ import android.view.View;
 import android.widget.StackView;
 import android.widget.Toast;
 
-import com.example.messaging.PlayActivity;
+import com.example.messaging.MessageActivity;
 import com.example.ui.StackAdapter;
 import com.example.ui.StackItem;
 
@@ -146,7 +146,7 @@ public class HomePage extends AppCompatActivity
         } else if (id == R.id.nav_slideshow) {
 
         } else if (id == R.id.nav_messages) {
-            Intent intent = new Intent(this, PlayActivity.class);
+            Intent intent = new Intent(this, MessageActivity.class);
             startActivity(intent);
 
         } else if (id == R.id.nav_rooms) {

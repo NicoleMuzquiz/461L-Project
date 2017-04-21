@@ -55,7 +55,7 @@ import java.util.Map;
  * The app expects users to authenticate with Google ID. It also sends user
  * activity logs to a Servlet instance through Firebase.
  */
-public class PlayActivity extends AppCompatActivity
+public class MessageActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         View.OnKeyListener,
         View.OnClickListener {
@@ -67,7 +67,7 @@ public class PlayActivity extends AppCompatActivity
 
     private static final int RC_SIGN_IN = 9001;
 
-    private static String TAG = "PlayActivity";
+    private static String TAG = "MessageActivity";
     private static FirebaseLogger fbLog;
 
     private FirebaseUser firebaseUser;
