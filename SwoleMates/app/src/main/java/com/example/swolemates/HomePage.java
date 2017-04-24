@@ -2,6 +2,9 @@ package com.example.swolemates;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -16,22 +19,42 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.StackView;
 import android.widget.Toast;
 
 import com.example.messaging.MessageActivity;
+import com.example.rooms.SwoleUser;
 import com.example.ui.StackAdapter;
 import com.example.ui.StackItem;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
+import java.io.BufferedInputStream;
+import java.io.InputStream;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 
 public class HomePage extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private static final int NUMBER_OF_FRAGMENTS = 15;
+    private static final int NUMBER_OF_FRAGMENTS = 1;
 
     private StackView stackView;
+    private Bitmap img;
+    private ImageView userImg;
     private int currItem = 0;
+
+    private FirebaseUser firebaseUser;
+    private DatabaseReference firebase;
+    private StackAdapter adapt;
+    private ArrayList<StackItem> items, removedItems;
+    private SwoleUser swoleUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,40 +65,65 @@ public class HomePage extends AppCompatActivity
 
         this.stackView = (StackView) findViewById(R.id.stackView);
 
-        final ArrayList<StackItem> items = new ArrayList<StackItem>();
-        final ArrayList<StackItem> removedItems = new ArrayList<StackItem>();
+        items = new ArrayList<StackItem>();
+        removedItems = new ArrayList<StackItem>();
 
         for(int i = 0; i < NUMBER_OF_FRAGMENTS; i++){
-
-            items.add(new StackItem("image_"+i+".pngllllllllllllllllllllllllllllllllllll", "Android Photo"));
+            items.add(new StackItem("Buffering", "Android Photo"));
         }
+        firebase = FirebaseDatabase.getInstance().getReference();
+        firebase.child("users").addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String prevKey) {
+                swoleUser = (SwoleUser) dataSnapshot.getValue(SwoleUser.class);
+                if(swoleUser != null)
+                    new GetUserImg().execute(swoleUser.getPhotoUrl());
+            }
 
-        final StackAdapter adapt = new StackAdapter(this, items);
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String prevKey) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String prevKey) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        /* UI set-up */
+        adapt = new StackAdapter(this, items);
         stackView.setAdapter(adapt);
         stackView.setHorizontalScrollBarEnabled(true);
         stackView.setBackgroundColor(getResources().getColor(R.color.grey_100));
 
         stackView.setOnTouchListener(new OnSwipeTouchListener(HomePage.this) {
             public void onSwipeTop() {
-                stackView.setBackgroundColor(getResources().getColor(R.color.com_facebook_blue));
                 Toast.makeText(HomePage.this, "top", Toast.LENGTH_SHORT).show();
             }
             public void onSwipeRight() {
-                stackView.setBackgroundColor(getResources().getColor(R.color.com_facebook_blue));
                 Toast.makeText(HomePage.this, "right", Toast.LENGTH_SHORT).show();
                 items.add(0, removedItems.remove(removedItems.size() - 1));
                 adapt.setItems(items);
                 stackView.setAdapter(adapt);
             }
             public void onSwipeLeft() {
-                stackView.setBackgroundColor(getResources().getColor(R.color.com_facebook_blue));
                 Toast.makeText(HomePage.this, "left", Toast.LENGTH_SHORT).show();
+//                stackView.showNext();
                 removedItems.add(items.remove(0));
-                adapt.setItems(items);
-                stackView.setAdapter(adapt);
+                adapt.notifyDataSetChanged();
             }
             public void onSwipeBottom() {
-                stackView.setBackgroundColor(getResources().getColor(R.color.com_facebook_blue));
                 Toast.makeText(HomePage.this, "bottom", Toast.LENGTH_SHORT).show();
             }
 
@@ -158,6 +206,37 @@ public class HomePage extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private class GetUserImg extends AsyncTask<String, Void, String> {
+        //get book thumbnail
+
+        @Override
+        protected String doInBackground(String... imgURLs) {
+            //attempt to download image
+            try {
+                //try to download
+                URL imgURL = new URL(imgURLs[0]);
+                URLConnection imgConn = imgURL.openConnection();
+                imgConn.connect();
+                InputStream imgIn = imgConn.getInputStream();
+                BufferedInputStream imgBuff = new BufferedInputStream(imgIn);
+                img = BitmapFactory.decodeStream(imgBuff);
+                imgBuff.close();
+                imgIn.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return "";
+        }
+
+        protected void onPostExecute(String result) {
+            items.remove(new StackItem("Buffering", "Android Photo"));
+            items.add(new StackItem(swoleUser.getName() + " image", "Android Photo", img));
+            adapt.notifyDataSetChanged();
+        }
+
+
     }
 
     private static class OnSwipeTouchListener implements View.OnTouchListener {

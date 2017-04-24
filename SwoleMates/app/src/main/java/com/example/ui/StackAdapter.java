@@ -52,10 +52,9 @@ public class StackAdapter extends BaseAdapter {
         StackItem stackItem = items.get(position);
         if (stackItem != null) {
             // TextView defined in the stack_item.xml
-            TextView textView = (TextView) itemView.findViewById(R.id.textView);
+            TextView textView = (TextView) itemView.findViewById(R.id.text_view);
 
-//            ImageView imageView = (ImageView) itemView.findViewById(R.id.imageView10);
-
+            ImageView imageView = (ImageView) itemView.findViewById(R.id.image_view);
 
             if (textView != null) {
                 textView.setText(stackItem.getItemText());
@@ -66,6 +65,9 @@ public class StackAdapter extends BaseAdapter {
 
 //                imageView.setImageResource(resId);
 //                imageView.setBackgroundColor(Color.rgb(211,204,188));
+            }
+            if (imageView != null && stackItem.getImage() != null) {
+                imageView.setImageBitmap(stackItem.getImage());
             }
 
         }

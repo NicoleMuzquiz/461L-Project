@@ -52,9 +52,9 @@ public class GroupTextAdapter extends BaseAdapter {
         GroupTextItem groupTextItem = items.get(position);
         if (groupTextItem != null) {
 
-            TextView groupMemberNames = (TextView) itemView.findViewById(R.id.groupMembers);
-            TextView lastMessage = (TextView) itemView.findViewById(R.id.lastMessage);
-            TextView lastMessageDate = (TextView) itemView.findViewById(R.id.lastMessageDate);
+            TextView groupMemberNames = (TextView) itemView.findViewById(R.id.members);
+            TextView lastMessage = (TextView) itemView.findViewById(R.id.message);
+//            TextView lastMessageDate = (TextView) itemView.findViewById(R.id.lastMessageDate);
 
             if (groupMemberNames != null) {
                 groupMemberNames.setText(groupTextItem.getGroupMemberNames());
@@ -62,9 +62,9 @@ public class GroupTextAdapter extends BaseAdapter {
             if (lastMessage != null) {
                 lastMessage.setText(groupTextItem.getLastMessageSent());
             }
-            if (lastMessageDate != null) {
-                lastMessageDate.setText(groupTextItem.getTimeOfLastMessage());
-            }
+//            if (lastMessageDate != null) {
+//                lastMessageDate.setText(groupTextItem.getTimeOfLastMessage());
+//            }
 
         }
         return itemView;

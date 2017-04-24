@@ -218,6 +218,7 @@ public class MessageActivity extends AppCompatActivity
 
         if (id == R.id.nav_home) {
             Intent intent = new Intent(this, HomePage.class);
+            finish();
             startActivity(intent);
         } else if (id == R.id.nav_gallery) {
 
