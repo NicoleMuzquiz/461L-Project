@@ -15,8 +15,8 @@
 
 package com.example.messaging;
 
-//import com.fasterxml.jackson.annotation.JsonIgnore;
-//import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.google.firebase.database.ServerValue;
 
 import java.util.Map;
@@ -24,7 +24,7 @@ import java.util.Map;
 /*
  * An instance of Message represents an actual message pushed to a channel.
  */
-//@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Message {
     private String text;
     private String displayName;
@@ -45,6 +45,6 @@ public class Message {
     public Map<String, String> getTime() { return ServerValue.TIMESTAMP; }
     public void setTime(Long time) { this.time = time; }
 
-//    @JsonIgnore
+    @JsonIgnore
     public Long getTimeLong() { return time;}
 }

@@ -15,6 +15,8 @@
 
 package com.example.messaging;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.google.firebase.database.ServerValue;
 
 import java.util.Map;
@@ -22,7 +24,7 @@ import java.util.Map;
 /*
  * An instance of LogEntry represents a user event log, such as signin/out and switching a channel.
  */
-//@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class LogEntry {
     private String tag;
     private String log;
@@ -43,6 +45,6 @@ public class LogEntry {
     public Map<String, String> getTime() { return ServerValue.TIMESTAMP; }
     public void setTime(Long time) { this.time = time; }
 
-//    @JsonIgnore
+    @JsonIgnore
     public Long getTimeLong() { return time; }
 }
