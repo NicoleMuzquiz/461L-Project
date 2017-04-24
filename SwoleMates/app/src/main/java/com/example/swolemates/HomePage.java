@@ -23,6 +23,7 @@ import android.widget.ImageView;
 import android.widget.StackView;
 import android.widget.Toast;
 
+import com.example.login.FacebookLoginActivity;
 import com.example.messaging.MessageActivity;
 import com.example.rooms.SwoleUser;
 import com.example.ui.StackAdapter;
@@ -49,6 +50,7 @@ public class HomePage extends AppCompatActivity
     private Bitmap img;
     private ImageView userImg;
     private int currItem = 0;
+    private String sport, playStyle, rank;
 
     private FirebaseUser firebaseUser;
     private DatabaseReference firebase;
@@ -62,13 +64,17 @@ public class HomePage extends AppCompatActivity
         setContentView(R.layout.activity_home_page);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        Intent i = getIntent();
+        sport = i.getStringExtra("sport");
+        playStyle = i.getStringExtra("playStyle");
+        rank = i.getStringExtra("rank");
 
         this.stackView = (StackView) findViewById(R.id.stackView);
 
         items = new ArrayList<StackItem>();
         removedItems = new ArrayList<StackItem>();
 
-        for(int i = 0; i < NUMBER_OF_FRAGMENTS; i++){
+        for(int p = 0; p < NUMBER_OF_FRAGMENTS; p++){
             items.add(new StackItem("Buffering", "Android Photo"));
         }
         firebase = FirebaseDatabase.getInstance().getReference();
@@ -76,7 +82,8 @@ public class HomePage extends AppCompatActivity
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String prevKey) {
                 swoleUser = (SwoleUser) dataSnapshot.getValue(SwoleUser.class);
-                if(swoleUser != null)
+                if(swoleUser != null &&
+                        !FacebookLoginActivity.getFirebaseUser().getEmail().equals(swoleUser.getEmail()))
                     new GetUserImg().execute(swoleUser.getPhotoUrl());
             }
 
@@ -216,6 +223,7 @@ public class HomePage extends AppCompatActivity
             //attempt to download image
             try {
                 //try to download
+                img = null;
                 URL imgURL = new URL(imgURLs[0]);
                 URLConnection imgConn = imgURL.openConnection();
                 imgConn.connect();
@@ -232,7 +240,7 @@ public class HomePage extends AppCompatActivity
 
         protected void onPostExecute(String result) {
             items.remove(new StackItem("Buffering", "Android Photo"));
-            items.add(new StackItem(swoleUser.getName() + " image", "Android Photo", img));
+            items.add(new StackItem(swoleUser.getName(), swoleUser.toString(), img));
             adapt.notifyDataSetChanged();
         }
 

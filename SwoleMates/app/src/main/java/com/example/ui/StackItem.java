@@ -9,37 +9,43 @@ import android.support.annotation.NonNull;
 
 public class StackItem implements Comparable<StackItem> {
 
-    private String imageName;
     private Bitmap image;
+    private String userName;
+    private String userDesc;
 
-    // "image1","image2",..
-    private String itemText;
-
-    public StackItem(String text, String imageName) {
-        this.imageName = imageName;
-        this.itemText = text;
+    public StackItem(String userName, String userDesc) {
+        this.userName = userName;
+        this.userDesc = userDesc;
     }
 
-    public StackItem(String text, String imageName, Bitmap img) {
-        this.imageName = imageName;
-        this.itemText = text;
+    public StackItem(String userName, String userDesc, Bitmap img) {
+        this.userName = userName;
+        this.userDesc = userDesc;
         this.image = img;
     }
 
-    public String getImageName() {
-        return imageName;
+    public String getUserName() {
+        return userName;
     }
 
-    public Bitmap getImage() { return image; }
+    public String getUserDesc() { return userDesc; }
 
-    public String getItemText() {
-        return itemText;
-    }
+    public Bitmap getUserImg() { return image; }
 
     @Override
     public int compareTo(@NonNull StackItem o) {
-        if(o.imageName.equals(this.imageName) && o.itemText.equals(this.itemText))
+        if(o.getUserName().equals(this.userName) && o.getUserDesc().equals(this.userDesc))
             return 0;
         return -1;
+    }
+
+    @Override
+    public boolean equals(@NonNull Object o) {
+        if(o instanceof StackItem) {
+            StackItem p = (StackItem) o;
+            if (p.getUserName().equals(this.userName) && p.getUserDesc().equals(this.userDesc))
+                return true;
+        }
+        return false;
     }
 }

@@ -52,22 +52,20 @@ public class StackAdapter extends BaseAdapter {
         StackItem stackItem = items.get(position);
         if (stackItem != null) {
             // TextView defined in the stack_item.xml
-            TextView textView = (TextView) itemView.findViewById(R.id.text_view);
+            TextView user_name = (TextView) itemView.findViewById(R.id.user_name);
 
-            ImageView imageView = (ImageView) itemView.findViewById(R.id.image_view);
+            TextView user_desc = (TextView) itemView.findViewById(R.id.user_desc);
 
-            if (textView != null) {
-                textView.setText(stackItem.getItemText());
+            ImageView user_image = (ImageView) itemView.findViewById(R.id.user_image);
 
-//                String imageName= stackItem.getImageName();
-
-//                int resId= this.getDrawableResIdByName(imageName);
-
-//                imageView.setImageResource(resId);
-//                imageView.setBackgroundColor(Color.rgb(211,204,188));
+            if (user_name != null) {
+                user_name.setText(stackItem.getUserName());
             }
-            if (imageView != null && stackItem.getImage() != null) {
-                imageView.setImageBitmap(stackItem.getImage());
+            if (user_image != null && stackItem.getUserImg() != null) {
+                user_image.setImageBitmap(stackItem.getUserImg());
+            }
+            if (user_desc != null && stackItem.getUserDesc() != null) {
+                user_desc.setText(stackItem.getUserDesc());
             }
 
         }

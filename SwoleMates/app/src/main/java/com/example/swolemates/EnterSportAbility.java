@@ -13,7 +13,6 @@ import android.widget.Spinner;
 
 public class EnterSportAbility extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
-    public final static String EXTRA_MESSAGE = "";
     private String playStyle;
     private String selfRank;
 
@@ -45,14 +44,16 @@ public class EnterSportAbility extends AppCompatActivity implements AdapterView.
         spinner.setAdapter(adapter);
 
         Intent intent = getIntent();
-        String message = intent.getStringExtra(SelectSport.EXTRA_MESSAGE);
+        final String sport = intent.getStringExtra("sport");
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), HomePage.class);
-                intent.putExtra(EXTRA_MESSAGE, playStyle);
+                intent.putExtra("playStyle", playStyle);
+                intent.putExtra("rank", selfRank);
+                intent.putExtra("sport", sport);
                 startActivity(intent);
             }
         });

@@ -13,6 +13,7 @@ public class SwoleUser implements Comparable<SwoleUser> {
     private String photoUrl;
     private String email;
     private String name;
+    private String playStyle;
     private Integer age;
     private Integer weight;
     private Integer height;
@@ -143,22 +144,18 @@ public class SwoleUser implements Comparable<SwoleUser> {
         return running_rank;
     }
 
+    public String getPlayStyle() {
+        return playStyle;
+    }
+
     //Setting variables
-    public void setPhotoUrl(String photoUrl) {
-        this.photoUrl = photoUrl;
-    }
+    public void setPhotoUrl(String photoUrl) { this.photoUrl = photoUrl; }
 
-    public void setEmail(String eMail) {
-        email = eMail;
-    }
+    public void setEmail(String eMail) { email = eMail; }
 
-    public void setName(String n) {
-        name = n;
-    }
+    public void setName(String n) { name = n; }
 
-    public void setAge(Integer a) {
-        age = a;
-    }
+    public void setAge(Integer a) { age = a; }
 
     public void setWeightlifting_skill(Integer skill) {
         weightlifting_skill = skill;
@@ -212,9 +209,7 @@ public class SwoleUser implements Comparable<SwoleUser> {
         baseball_skill = skill;
     }
 
-    public void setBaseball_rank(Integer rank) {
-        baseball_rank = rank;
-    }
+    public void setBaseball_rank(Integer rank) { baseball_rank = rank; }
 
     public void setSoccer_skill(Integer skill) {
         soccer_skill = skill;
@@ -232,9 +227,45 @@ public class SwoleUser implements Comparable<SwoleUser> {
         running_rank = rank;
     }
 
+    public void setPlayStyle(String playStyle) {
+        this.playStyle = playStyle;
+    }
+
     @Override
     public int compareTo(SwoleUser otherUser) {
 
         return 0;
+    }
+
+    @Override
+    public boolean equals (Object o) {
+        if (o instanceof SwoleUser) {
+            SwoleUser p = (SwoleUser) o;
+            if (p.getEmail().equals(email)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    @Override
+    public String toString() {
+        String desc = "";
+        // check if value == null before adding to description
+        // name
+        // height
+        // weight
+        // age
+        // play style
+        // weightlifting_skill & weightlifting_rank;
+        // basketball_skill & basketball_rank;
+        // football_skill & football_rank;
+        // volleyball_skill & volleyball_rank;
+        // swimming_skill & swimming_rank;
+        // baseball_skill & baseball_rank;
+        // soccer_skill & soccer_rank;
+        // running_skill & running_rank;
+        return desc;
     }
 }
