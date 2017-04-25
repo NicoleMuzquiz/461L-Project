@@ -12,12 +12,12 @@ import com.example.swolemates.R;
 
 import java.util.ArrayList;
 
-public class StackAdapter extends BaseAdapter {
+public class GroupTextAdapter extends BaseAdapter {
 
-    ArrayList<StackItem> items;
+    ArrayList<GroupTextItem> items;
     Context context;
 
-    public StackAdapter(Context context, ArrayList arrayList) {
+    public GroupTextAdapter(Context context, ArrayList arrayList) {
         this.items = arrayList;
         this.context = context;
     }
@@ -28,11 +28,11 @@ public class StackAdapter extends BaseAdapter {
     }
 
     @Override
-    public StackItem getItem(int pos) {
+    public GroupTextItem getItem(int pos) {
         return items.get(pos);
     }
 
-    public void setItems(ArrayList<StackItem> it) {
+    public void setItems(ArrayList<GroupTextItem> it) {
         this.items = it;
     }
 
@@ -47,26 +47,24 @@ public class StackAdapter extends BaseAdapter {
         if (itemView == null) {
             LayoutInflater layoutInflater = (LayoutInflater) context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            itemView = layoutInflater.inflate(R.layout.stack_item, null);
+            itemView = layoutInflater.inflate(R.layout.grouptext_item, null);
         }
-        StackItem stackItem = items.get(position);
-        if (stackItem != null) {
-            // TextView defined in the stack_item.xml
-            TextView user_name = (TextView) itemView.findViewById(R.id.user_name);
+        GroupTextItem groupTextItem = items.get(position);
+        if (groupTextItem != null) {
 
-            TextView user_desc = (TextView) itemView.findViewById(R.id.user_desc);
+            TextView groupMemberNames = (TextView) itemView.findViewById(R.id.members);
+            TextView lastMessage = (TextView) itemView.findViewById(R.id.message);
+//            TextView lastMessageDate = (TextView) itemView.findViewById(R.id.lastMessageDate);
 
-            ImageView user_image = (ImageView) itemView.findViewById(R.id.user_image);
-
-            if (user_name != null) {
-                user_name.setText(stackItem.getUserName());
+            if (groupMemberNames != null) {
+                groupMemberNames.setText(groupTextItem.getGroupMemberNames());
             }
-            if (user_image != null && stackItem.getUserImg() != null) {
-                user_image.setImageBitmap(stackItem.getUserImg());
+            if (lastMessage != null) {
+                lastMessage.setText(groupTextItem.getLastMessageSent());
             }
-            if (user_desc != null && stackItem.getUserDesc() != null) {
-                user_desc.setText(stackItem.getUserDesc());
-            }
+//            if (lastMessageDate != null) {
+//                lastMessageDate.setText(groupTextItem.getTimeOfLastMessage());
+//            }
 
         }
         return itemView;

@@ -29,13 +29,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import com.example.login.FacebookLoginActivity;
-import com.example.rooms.SwoleUser;
-import com.example.swolemates.HomePage;
 import com.example.swolemates.R;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -45,8 +44,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.net.URI;
-import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -59,10 +56,14 @@ import java.util.Map;
  * The app expects users to authenticate with Google ID. It also sends user
  * activity logs to a Servlet instance through Firebase.
  */
-public class MessageActivity extends AppCompatActivity
+public class GroupTextActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         View.OnKeyListener,
         View.OnClickListener {
+
+    private int NUMBER_OF_GROUPS;
+
+    private LinearLayout groupTextView;
 
     // Firebase keys commonly used with backend Servlet instances
     private static final String IBX = "inbox";
@@ -71,7 +72,7 @@ public class MessageActivity extends AppCompatActivity
 
     private static final int RC_SIGN_IN = 9001;
 
-    private static String TAG = "MessageActivity";
+    private static String TAG = "GroupTextActivity";
     private static FirebaseLogger fbLog;
 
     private FirebaseUser firebaseUser;
@@ -141,7 +142,9 @@ public class MessageActivity extends AppCompatActivity
     }
 
     @Override
-    public void onStop() { super.onStop(); }
+    public void onStop() {
+        super.onStop();
+    }
 
     @Override
     public void onClick(View v) {
@@ -154,21 +157,6 @@ public class MessageActivity extends AppCompatActivity
             firebase.child(CHS + "/" + currentChannel)
                     .push()
                     .setValue(new Message(messageText.getText().toString(), firebaseUser.getDisplayName()));
-            Map<String, Object> map = new HashMap<String, Object>();
-            SwoleUser swoleUser = new SwoleUser();
-            swoleUser.setBasketball_rank(10);
-            swoleUser.setBasketball_skill(8);
-            swoleUser.setEmail(firebaseUser.getEmail());
-            swoleUser.setName(firebaseUser.getDisplayName());
-            swoleUser.setPhotoUrl(firebaseUser.getPhotoUrl().toString());
-            URI uri = null;
-            try {
-                URL url = new URL(firebaseUser.getPhotoUrl().toString());
-                uri = url.toURI();
-            } catch (Exception e) { e.printStackTrace(); }
-            map.put(firebaseUser.getUid(), swoleUser);
-            firebase.child("users")
-                    .updateChildren(map);
             return true;
         }
         return false;
@@ -217,9 +205,7 @@ public class MessageActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_home) {
-            Intent intent = new Intent(this, HomePage.class);
-            finish();
-            startActivity(intent);
+            // Handle the camera action
         } else if (id == R.id.nav_gallery) {
 
         } else if (id == R.id.nav_slideshow) {
@@ -261,7 +247,7 @@ public class MessageActivity extends AppCompatActivity
     }
 
     private void initFirebase() {
-//        channels = new ArrayList<String>();
+        channels = new ArrayList<String>();
         firebase = FirebaseDatabase.getInstance().getReference();
         requestLogger();
     }
