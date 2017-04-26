@@ -23,4 +23,19 @@ public class ExampleInstrumentedTest {
 
         assertEquals("com.example.swolemates", appContext.getPackageName());
     }
+
+    @Test
+    public void logInTest() {
+
+    }
+
+    @Test
+    public void messageTest(){
+
+    }
+
+    @Test
+    public void settingsTest(){
+
+    }
 }
