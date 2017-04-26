@@ -13,7 +13,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class FindFriends {
-    DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("User_Location");
-    GeoFire geoFire = new GeoFire(ref);
-    
+
+
 }

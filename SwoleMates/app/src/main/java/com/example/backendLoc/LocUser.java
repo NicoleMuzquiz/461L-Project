@@ -23,6 +23,7 @@ public class LocUser {
     DatabaseReference usersRef = ref.child("LocUsers");
     Map<String, LocUser> users = new HashMap<String, LocUser>();
 
+
     public LocUser(String id, String name, double latitude, double longitude){
         this.id = id;
         this.name=name;
