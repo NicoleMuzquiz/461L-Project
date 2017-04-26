@@ -39,6 +39,8 @@ import java.util.List;
  * API Guide</a> for more information on developing a Settings UI.
  */
 public class DefaultSettingsActivity extends AppCompatPreferenceActivity {
+
+    private String email;
     /**
      * A preference value change listener that updates the preference's summary
      * to reflect its new value.
@@ -97,6 +99,7 @@ public class DefaultSettingsActivity extends AppCompatPreferenceActivity {
     public void sendMessage(View view) {
         // Do something in response to button
         Intent intent = new Intent(this, SelectSport.class);
+        intent.putExtra("email", email);
         startActivity(intent);
     }
 
@@ -133,6 +136,8 @@ public class DefaultSettingsActivity extends AppCompatPreferenceActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Intent i = getIntent();
+        email = i.getStringExtra("email");
 //        setContentView(R.layout.pref_layout);
         setupActionBar();
     }

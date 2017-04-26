@@ -23,7 +23,6 @@ import android.widget.ImageView;
 import android.widget.StackView;
 import android.widget.Toast;
 
-import com.example.login.FacebookLoginActivity;
 import com.example.messaging.MessageActivity;
 import com.example.rooms.SwoleUser;
 import com.example.ui.StackAdapter;
@@ -50,7 +49,7 @@ public class HomePage extends AppCompatActivity
     private Bitmap img;
     private ImageView userImg;
     private int currItem = 0;
-    private String sport, playStyle, rank;
+    private String sport, playStyle, rank, email;
 
     private FirebaseUser firebaseUser;
     private DatabaseReference firebase;
@@ -68,13 +67,14 @@ public class HomePage extends AppCompatActivity
         sport = i.getStringExtra("sport");
         playStyle = i.getStringExtra("playStyle");
         rank = i.getStringExtra("rank");
+        email = i.getStringExtra("email");
 
         this.stackView = (StackView) findViewById(R.id.stackView);
 
         items = new ArrayList<StackItem>();
         removedItems = new ArrayList<StackItem>();
 
-        for(int p = 0; p < NUMBER_OF_FRAGMENTS; p++){
+        for (int p = 0; p < NUMBER_OF_FRAGMENTS; p++) {
             items.add(new StackItem("Buffering", "Android Photo"));
         }
         firebase = FirebaseDatabase.getInstance().getReference();
@@ -82,8 +82,7 @@ public class HomePage extends AppCompatActivity
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String prevKey) {
                 swoleUser = (SwoleUser) dataSnapshot.getValue(SwoleUser.class);
-                if(swoleUser != null &&
-                        !FacebookLoginActivity.getFirebaseUser().getEmail().equals(swoleUser.getEmail()))
+                if (swoleUser != null && !email.equals(swoleUser.getEmail()))
                     new GetUserImg().execute(swoleUser.getPhotoUrl());
             }
 
@@ -118,18 +117,21 @@ public class HomePage extends AppCompatActivity
             public void onSwipeTop() {
                 Toast.makeText(HomePage.this, "top", Toast.LENGTH_SHORT).show();
             }
+
             public void onSwipeRight() {
                 Toast.makeText(HomePage.this, "right", Toast.LENGTH_SHORT).show();
                 items.add(0, removedItems.remove(removedItems.size() - 1));
                 adapt.setItems(items);
                 stackView.setAdapter(adapt);
             }
+
             public void onSwipeLeft() {
                 Toast.makeText(HomePage.this, "left", Toast.LENGTH_SHORT).show();
 //                stackView.showNext();
                 removedItems.add(items.remove(0));
                 adapt.notifyDataSetChanged();
             }
+
             public void onSwipeBottom() {
                 Toast.makeText(HomePage.this, "bottom", Toast.LENGTH_SHORT).show();
             }
@@ -251,7 +253,7 @@ public class HomePage extends AppCompatActivity
 
         private final GestureDetector gestureDetector;
 
-        public OnSwipeTouchListener (Context ctx){
+        public OnSwipeTouchListener(Context ctx) {
             gestureDetector = new GestureDetector(ctx, new GestureListener());
         }
 
@@ -285,8 +287,7 @@ public class HomePage extends AppCompatActivity
                             }
                             result = true;
                         }
-                    }
-                    else if (Math.abs(diffY) > SWIPE_THRESHOLD && Math.abs(velocityY) > SWIPE_VELOCITY_THRESHOLD) {
+                    } else if (Math.abs(diffY) > SWIPE_THRESHOLD && Math.abs(velocityY) > SWIPE_VELOCITY_THRESHOLD) {
                         if (diffY > 0) {
                             onSwipeBottom();
                         } else {
