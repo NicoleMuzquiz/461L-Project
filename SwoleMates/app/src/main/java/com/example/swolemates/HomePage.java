@@ -78,8 +78,16 @@ public class HomePage extends AppCompatActivity
         for (int p = 0; p < NUMBER_OF_FRAGMENTS; p++) {
             items.add(new StackItem("Buffering", "Android Photo"));
         }
-        firebase = FirebaseDatabase.getInstance().getReference();
-        firebase.child("users").addChildEventListener(new ChildEventListener() {
+        firebase = FirebaseDatabase.getInstance().getReference().child("users");
+
+        SwoleUser user = new SwoleUser();
+        user.setPlayStyle(playStyle);
+        user.setBasketball_rank(Integer.parseInt(rank));
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put(firebaseUser.getUid(), user);
+        firebase.updateChildren(map);
+
+        firebase.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String prevKey) {
                 swoleUser = (SwoleUser) dataSnapshot.getValue(SwoleUser.class);
@@ -218,9 +226,11 @@ public class HomePage extends AppCompatActivity
             Map<String, Object> map = new HashMap<String, Object>();
             SwoleUser user = new SwoleUser();
             // set swoleUser data
+            user.setBaseball_rank(8);
+            user.setName("Unwana Nwoko");
 
             map.put(i.getId(), user);
-            firebase.child("users/" + firebaseUser.getUid() + "/matches")
+            firebase.child(firebaseUser.getUid() + "/matches")
                     .updateChildren(map);
 
         } else if (id == R.id.ignore) {
