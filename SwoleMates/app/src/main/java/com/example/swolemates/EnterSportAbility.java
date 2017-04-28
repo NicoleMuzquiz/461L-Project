@@ -13,8 +13,8 @@ import android.widget.Spinner;
 
 public class EnterSportAbility extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
-    private String playStyle;
-    private String selfRank;
+    private String playStyle = "Casual";
+    private String selfRank = "1";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +62,7 @@ public class EnterSportAbility extends AppCompatActivity implements AdapterView.
     public void onItemSelected(AdapterView<?> parent, View view,
                                int pos, long id) {
         // An item was selected. You can retrieve the selected item using
+        id = view.getId();
         if(id == R.id.play_style_spinner)
             playStyle = (String) parent.getItemAtPosition(pos);
         if(id == R.id.self_rank_spinner)

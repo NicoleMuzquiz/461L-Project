@@ -118,8 +118,8 @@ public class GroupTextActivity extends AppCompatActivity
         signOutButton.setOnClickListener(this);
 
         messages = new ArrayList<Map<String, String>>();
-        messageAdapter = new SimpleAdapter(this, messages, android.R.layout.simple_list_item_2,
-                new String[]{"message", "meta"}, new int[]{android.R.id.text1, android.R.id.text2});
+        messageAdapter = new SimpleAdapter(this, messages, R.layout.grouptext_item,
+                new String[]{"names", "message"}, new int[]{R.id.members, android.R.id.message});
         messageHistory = (ListView) findViewById(R.id.messageHistory);
         messageHistory.setAdapter(messageAdapter);
         messageText = (EditText) findViewById(R.id.messageText);
@@ -164,8 +164,8 @@ public class GroupTextActivity extends AppCompatActivity
 
     private void addMessage(String msgString, String meta) {
         Map<String, String> message = new HashMap<String, String>();
-        message.put("message", msgString);
-        message.put("meta", meta);
+        message.put("names", msgString);
+        message.put("message", meta);
         messages.add(message);
 
         messageAdapter.notifyDataSetChanged();
@@ -275,7 +275,7 @@ public class GroupTextActivity extends AppCompatActivity
 
         firebase.child(REQLOG).push().setValue(inbox);
     }
-// [END requestLogger]
+    // [END requestLogger]
 
     /*
      * Initialize pre-defined channels as Activity menu.

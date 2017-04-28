@@ -17,6 +17,7 @@
     android:layout_height="wrap_content"
     android:minHeight="?attr/listPreferredItemHeight"
     android:mode="twoLine"
+    android:id="@+id/group_message"
     android:background="@color/cardview_light_background"
     android:paddingEnd="?android:attr/listPreferredItemPaddingEnd"
     android:paddingStart="?android:attr/listPreferredItemPaddingStart">
