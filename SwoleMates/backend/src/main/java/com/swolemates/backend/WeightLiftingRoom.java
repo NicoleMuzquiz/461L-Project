@@ -11,10 +11,10 @@ public class WeightLiftingRoom extends Room {
         return false;
     }
 
-    @Override
+   /* @Override
     void sort(ArrayList<SwoleUser> list) {
-		/* 
+		*//*
 		 * TODO: algo to sort users by best pairings, returned in order of best to worst
-		 */
-    }
+		 *//*
+    }*/
 }

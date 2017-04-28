@@ -10,10 +10,10 @@ public class FootballRoom extends Room {
         return false;
     }
 
-    @Override
+   /* @Override
     void sort(ArrayList<SwoleUser> list) {
         // TODO Auto-generated method stub
 
-    }
+    }*/
 
 }

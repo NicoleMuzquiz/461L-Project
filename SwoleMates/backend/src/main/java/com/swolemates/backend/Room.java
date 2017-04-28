@@ -23,26 +23,36 @@ public abstract class Room {
             userList.remove(user);
     }
 
-    public int getUserCount() {
+    public int getUserCount()
+    {
         return userList.size();
     }
 
-    public ArrayList getUserMatches(SwoleUser user) {
+    public boolean containsUser(SwoleUser user)
+    {
+        return userList.contains(user);
+    }
+
+    public ArrayList getUserMatches(SwoleUser user)
+    {
         ArrayList<SwoleUser> near = new ArrayList<SwoleUser>();
 
-		/*int current_long = user.getLong();
-        int current_lat = user.getLat();*/
+		double current_long = user.getLong();
+        double current_lat = user.getLat();*/
 
         for (SwoleUser u : this.userList) {
-			/* TODO: Implement algorithm to find nearby users with similar skill level 
-		
-			if (isWithinProperDistance(user, u) && isWithinProperSkillLevel(user, u)
-				near.add(u);
-		 	*/
+			/* TODO: Implement algorithm to find nearby users with similar skill level */
+
+			if (!u.equals(user))
+            {
+                if (isWithinProperDistance(user, u))
+                    near.add(u);
+            }
         }
 		
 		/*
-		sort(near);
+         * This can be done using a comparator, don't need to implement the algorithm
+         * sort(near);
 		*/
 
         return near;
@@ -54,8 +64,8 @@ public abstract class Room {
         double current_long = current.getLong();
         double current_lat = current.getLat();
 
-        double check_long = current.getLong();
-        double check_lat = current.getLat();
+        double check_long = check.getLong();
+        double check_lat = check.getLat();
 
         return (Math.abs(check_long - current_long) <= 0.143 && Math.abs(check_lat - current_lat) <= 0.143);
 
@@ -64,7 +74,4 @@ public abstract class Room {
 	/* each of the following are implemented differently depending on room type */
 
     abstract boolean isWithinProperSkillLevel(SwoleUser current, SwoleUser check);
-
-    abstract void sort(ArrayList<SwoleUser> list);
-
 }
