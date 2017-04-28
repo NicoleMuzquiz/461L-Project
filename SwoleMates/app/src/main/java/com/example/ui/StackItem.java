@@ -12,6 +12,8 @@ public class StackItem implements Comparable<StackItem> {
     private Bitmap image;
     private String userName;
     private String userDesc;
+    private String id;
+    private String email;
 
     public StackItem(String userName, String userDesc) {
         this.userName = userName;
@@ -47,5 +49,21 @@ public class StackItem implements Comparable<StackItem> {
                 return true;
         }
         return false;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

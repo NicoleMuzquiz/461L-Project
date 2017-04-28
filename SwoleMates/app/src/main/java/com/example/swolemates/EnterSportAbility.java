@@ -15,7 +15,6 @@ public class EnterSportAbility extends AppCompatActivity implements AdapterView.
 
     private String playStyle;
     private String selfRank;
-    private String email;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +45,6 @@ public class EnterSportAbility extends AppCompatActivity implements AdapterView.
 
         Intent intent = getIntent();
         final String sport = intent.getStringExtra("sport");
-        email = intent.getStringExtra("email");
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -56,7 +54,6 @@ public class EnterSportAbility extends AppCompatActivity implements AdapterView.
                 intent.putExtra("playStyle", playStyle);
                 intent.putExtra("rank", selfRank);
                 intent.putExtra("sport", sport);
-                intent.putExtra("email", email);
                 startActivity(intent);
             }
         });

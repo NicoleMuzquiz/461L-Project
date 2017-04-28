@@ -6,9 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -24,9 +22,9 @@ import android.widget.StackView;
 import android.widget.Toast;
 
 import com.example.messaging.MessageActivity;
-import com.example.rooms.SwoleUser;
 import com.example.ui.StackAdapter;
 import com.example.ui.StackItem;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -39,6 +37,8 @@ import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class HomePage extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -54,7 +54,7 @@ public class HomePage extends AppCompatActivity
     private FirebaseUser firebaseUser;
     private DatabaseReference firebase;
     private StackAdapter adapt;
-    private ArrayList<StackItem> items, removedItems;
+    private ArrayList<StackItem> items, matchUsers, ignoreUsers;
     private SwoleUser swoleUser;
 
     @Override
@@ -67,12 +67,13 @@ public class HomePage extends AppCompatActivity
         sport = i.getStringExtra("sport");
         playStyle = i.getStringExtra("playStyle");
         rank = i.getStringExtra("rank");
-        email = i.getStringExtra("email");
-
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        email = firebaseUser.getEmail();
         this.stackView = (StackView) findViewById(R.id.stackView);
 
         items = new ArrayList<StackItem>();
-        removedItems = new ArrayList<StackItem>();
+        matchUsers = new ArrayList<StackItem>();
+        ignoreUsers = new ArrayList<StackItem>();
 
         for (int p = 0; p < NUMBER_OF_FRAGMENTS; p++) {
             items.add(new StackItem("Buffering", "Android Photo"));
@@ -82,7 +83,7 @@ public class HomePage extends AppCompatActivity
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String prevKey) {
                 swoleUser = (SwoleUser) dataSnapshot.getValue(SwoleUser.class);
-                if (swoleUser != null && !email.equals(swoleUser.getEmail()))
+                if (swoleUser != null && email.equals(swoleUser.getEmail()))
                     new GetUserImg().execute(swoleUser.getPhotoUrl());
             }
 
@@ -120,16 +121,10 @@ public class HomePage extends AppCompatActivity
 
             public void onSwipeRight() {
                 Toast.makeText(HomePage.this, "right", Toast.LENGTH_SHORT).show();
-                items.add(0, removedItems.remove(removedItems.size() - 1));
-                adapt.setItems(items);
-                stackView.setAdapter(adapt);
             }
 
             public void onSwipeLeft() {
                 Toast.makeText(HomePage.this, "left", Toast.LENGTH_SHORT).show();
-//                stackView.showNext();
-                removedItems.add(items.remove(0));
-                adapt.notifyDataSetChanged();
             }
 
             public void onSwipeBottom() {
@@ -138,15 +133,6 @@ public class HomePage extends AppCompatActivity
 
         });
         adapt.notifyDataSetChanged();
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -217,6 +203,44 @@ public class HomePage extends AppCompatActivity
         return true;
     }
 
+
+    public void homePageButton(View v) {
+        int id = v.getId();
+
+        if (id == R.id.match) {
+            stackView.showNext();
+
+            StackItem i = items.remove(0);
+            matchUsers.add(i);
+            adapt.notifyDataSetChanged();
+
+            // split up data from StackItem and create SwoleUser from it
+            Map<String, Object> map = new HashMap<String, Object>();
+            SwoleUser user = new SwoleUser();
+            // set swoleUser data
+
+            map.put(i.getId(), user);
+            firebase.child("users/" + firebaseUser.getUid() + "/matches")
+                    .updateChildren(map);
+
+        } else if (id == R.id.ignore) {
+            stackView.showNext();
+
+            StackItem i = items.remove(0);
+            ignoreUsers.add(i);
+            adapt.notifyDataSetChanged();
+
+            // split up data from StackItem and create SwoleUser from it
+            Map<String, Object> map = new HashMap<String, Object>();
+            SwoleUser user = new SwoleUser();
+            map.put(firebaseUser.getEmail(), user);
+            firebase.child("users/" + firebaseUser.getUid() + "/rejections")
+                    .updateChildren(map);
+
+        }
+
+    }
+
     private class GetUserImg extends AsyncTask<String, Void, String> {
         //get book thumbnail
 
@@ -241,8 +265,11 @@ public class HomePage extends AppCompatActivity
         }
 
         protected void onPostExecute(String result) {
-            items.remove(new StackItem("Buffering", "Android Photo"));
-            items.add(new StackItem(swoleUser.getName(), swoleUser.toString(), img));
+//            items.remove(new StackItem("Buffering", "Android Photo"));
+            StackItem stack = new StackItem(swoleUser.getName(), swoleUser.toString(), img);
+            stack.setId(swoleUser.getId());
+            stack.setEmail(swoleUser.getEmail());
+            items.add(0, stack);
             adapt.notifyDataSetChanged();
         }
 

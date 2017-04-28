@@ -34,7 +34,7 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import com.example.login.FacebookLoginActivity;
-import com.example.rooms.SwoleUser;
+import com.example.swolemates.SwoleUser;
 import com.example.swolemates.HomePage;
 import com.example.swolemates.R;
 import com.google.firebase.auth.FirebaseUser;
@@ -98,7 +98,7 @@ public class MessageActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.message_drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open,
                 R.string.navigation_drawer_close);
@@ -133,6 +133,9 @@ public class MessageActivity extends AppCompatActivity
         firebase.child(CHS + "/" + currentChannel).addChildEventListener(channelListener);
 
         channelLabel.setText(currentChannel);
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_message_view);
+        navigationView.setNavigationItemSelectedListener(this);
     }
 
     @Override
@@ -161,6 +164,7 @@ public class MessageActivity extends AppCompatActivity
             swoleUser.setEmail(firebaseUser.getEmail());
             swoleUser.setName(firebaseUser.getDisplayName());
             swoleUser.setPhotoUrl(firebaseUser.getPhotoUrl().toString());
+            swoleUser.setId(firebaseUser.getUid());
             URI uri = null;
             try {
                 URL url = new URL(firebaseUser.getPhotoUrl().toString());
@@ -234,7 +238,7 @@ public class MessageActivity extends AppCompatActivity
 
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.message_drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
 

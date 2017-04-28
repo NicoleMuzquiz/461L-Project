@@ -22,7 +22,7 @@ public class SelectSport extends AppCompatActivity implements AdapterView.OnItem
      */
     private GoogleApiClient client;
     public final static String EXTRA_MESSAGE = "sport";
-    private String sport, email;
+    private String sport;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,15 +45,12 @@ public class SelectSport extends AppCompatActivity implements AdapterView.OnItem
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
 
-        Intent i = getIntent();
-        email = i.getStringExtra("email");
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), EnterSportAbility.class);
                 intent.putExtra(EXTRA_MESSAGE, sport);
-                intent.putExtra("email", email);
                 startActivity(intent);
             }
         });

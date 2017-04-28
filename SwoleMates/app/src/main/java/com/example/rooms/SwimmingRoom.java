@@ -1,5 +1,7 @@
 package com.example.rooms;
 
+import com.example.swolemates.SwoleUser;
+
 import java.util.ArrayList;
 
 public class SwimmingRoom extends Room {

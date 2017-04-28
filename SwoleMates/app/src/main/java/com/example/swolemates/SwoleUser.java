@@ -1,4 +1,4 @@
-package com.example.rooms;
+package com.example.swolemates;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -14,6 +14,7 @@ public class SwoleUser implements Comparable<SwoleUser> {
     private String email;
     private String name;
     private String playStyle;
+    private String id;
     private Integer age;
     private Integer weight;
     private Integer height;
@@ -267,5 +268,13 @@ public class SwoleUser implements Comparable<SwoleUser> {
         // soccer_skill & soccer_rank;
         // running_skill & running_rank;
         return desc;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

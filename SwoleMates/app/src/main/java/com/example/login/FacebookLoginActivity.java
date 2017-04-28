@@ -103,7 +103,6 @@ public class FacebookLoginActivity extends AppCompatActivity implements LoaderCa
                 firebaseUser = user;
                 if (user != null) {
                     Intent intent = new Intent(getActivity(), DefaultSettingsActivity.class);
-                    intent.putExtra("email", firebaseUser.getEmail());
                     startActivity(intent);
                     // User is signed in
                     Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
