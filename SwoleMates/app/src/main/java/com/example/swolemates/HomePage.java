@@ -21,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.StackView;
 import android.widget.Toast;
 
+import com.example.messaging.GroupTextActivity;
 import com.example.messaging.MessageActivity;
 import com.example.ui.StackAdapter;
 import com.example.ui.StackItem;
@@ -81,11 +82,11 @@ public class HomePage extends AppCompatActivity
         firebase = FirebaseDatabase.getInstance().getReference().child("users");
 
         SwoleUser user = new SwoleUser();
-        user.setPlayStyle(playStyle);
-        user.setBasketball_rank(Integer.parseInt(rank));
+//        user.setPlayStyle(playStyle);
+//        user.setBasketball_rank(Integer.parseInt(rank));
         Map<String, Object> map = new HashMap<String, Object>();
-        map.put(firebaseUser.getUid(), user);
-        firebase.updateChildren(map);
+//        map.put(firebaseUser.getUid(), user);
+//        firebase.updateChildren(map);
 
         firebase.addChildEventListener(new ChildEventListener() {
             @Override
@@ -201,6 +202,8 @@ public class HomePage extends AppCompatActivity
             startActivity(intent);
 
         } else if (id == R.id.nav_rooms) {
+            Intent intent = new Intent(this, GroupTextActivity.class);
+            startActivity(intent);
 
         } else if (id == R.id.nav_logout) {
 

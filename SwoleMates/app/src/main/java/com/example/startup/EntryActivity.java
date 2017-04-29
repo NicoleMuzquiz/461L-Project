@@ -22,7 +22,7 @@ public class EntryActivity extends AppCompatActivity {
 //        mAuth = FacebookLoginActivity.getmAuth();
 //
 //        user = mAuth.getCurrentUser();
-        user = FacebookLoginActivity.getFirebaseUser();
+        user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
             Intent intent = new Intent(this, HomePage.class);
             startActivity(intent);

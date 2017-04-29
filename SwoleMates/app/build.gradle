@@ -6,7 +6,7 @@ android {
     defaultConfig {
         applicationId "com.example.swolemates"
         minSdkVersion 17
-        targetSdkVersion 22
+        targetSdkVersion 25
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -75,4 +75,8 @@ dependencies {
 
 
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> bae539f555b2b44796020d91d0e18ac78f7eecca
 apply plugin: 'com.google.gms.google-services'

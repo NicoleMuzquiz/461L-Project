@@ -76,7 +76,7 @@ public class MessageActivity extends AppCompatActivity
 
     private FirebaseUser firebaseUser;
     private DatabaseReference firebase;
-    private String token;
+    private String key;
     private String inbox;
     private String currentChannel;
     private List<String> channels;
@@ -313,7 +313,7 @@ public class MessageActivity extends AppCompatActivity
             public void onChildAdded(DataSnapshot snapshot, String prevKey) {
                 Message message = (Message) snapshot.getValue(Message.class);
                 // Extract attributes from Message object to display on the screen.
-                addMessage(message.getText(), fmt.format(new Date(message.getTimeLong())) + " "
+                addMessage(message.getText(), fmt.format(new Date(message.getTimeLong())) + "\n"
                         + message.getDisplayName());
             }
 

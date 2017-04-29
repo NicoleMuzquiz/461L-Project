@@ -62,6 +62,7 @@
             android:label="@string/title_activity_home_page"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
+<<<<<<< HEAD
             android:name="com.example.backend.MessageActivity"
             android:label="@string/title_activity_message"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -70,6 +71,19 @@
             android:label="Play Activity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".UserHomePage"></activity>
+=======
+            android:name="com.example.messaging.MessageActivity"
+            android:label="Play Activity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="com.example.messaging.GroupTextActivity"
+            android:label="Group Messages"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="com.example.messaging.SelectGM_Activity"
+            android:label="@string/title_activity_select_gm_"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+>>>>>>> bae539f555b2b44796020d91d0e18ac78f7eecca
     </application>
 
 </manifest>
