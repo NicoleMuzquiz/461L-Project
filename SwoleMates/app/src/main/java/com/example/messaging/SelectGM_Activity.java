@@ -193,13 +193,13 @@ public class SelectGM_Activity extends AppCompatActivity {
             Log.v("ConvertView", String.valueOf(position));
 
             if (convertView == null) {
-                LayoutInflater vi = (LayoutInflater) getSystemService(
-                        Context.LAYOUT_INFLATER_SERVICE);
-                convertView = vi.inflate(R.layout.country_info, null);
+                //LayoutInflater vi = (LayoutInflater) getSystemService(
+                      //  Context.LAYOUT_INFLATER_SERVICE);
+               // convertView = vi.inflate(R.layout.country_info, null);
 
                 holder = new SelectGM_Activity.MyCustomAdapter.ViewHolder();
-                holder.code = (TextView) convertView.findViewById(R.id.code);
-                holder.name = (CheckBox) convertView.findViewById(R.id.checkBox1);
+              //  holder.code = (TextView) convertView.findViewById(R.id.code);
+              //  holder.name = (CheckBox) convertView.findViewById(R.id.checkBox1);
                 convertView.setTag(holder);
 
                 holder.name.setOnClickListener(new View.OnClickListener() {
@@ -218,8 +218,8 @@ public class SelectGM_Activity extends AppCompatActivity {
             }
 
             CheckBox country = countryList.get(position);
-            holder.code.setText(" (" + country.getCode() + ")");
-            holder.name.setText(country.getName());
+         //   holder.code.setText(" (" + country.getCode() + ")");
+           // holder.name.setText(country.getName());
             holder.name.setChecked(country.isSelected());
             holder.name.setTag(country);
 
@@ -229,11 +229,11 @@ public class SelectGM_Activity extends AppCompatActivity {
 
     }
 
-    private void checkButtonClick() {
+   /* private void checkButtonClick() {
 
 
-        Button myButton = (Button) findViewById(R.id.findSelected);
-        myButton.setOnClickListener(new View.OnClickListener() {
+      //  Button myButton = (Button) findViewById(R.id.findSelected);
+       // myButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -255,6 +255,6 @@ public class SelectGM_Activity extends AppCompatActivity {
             }
         });
 
-    }
+    }*/
 
 }

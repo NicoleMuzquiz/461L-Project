@@ -36,6 +36,7 @@ import android.widget.Toast;
 
 import com.example.settings.DefaultSettingsActivity;
 import com.example.swolemates.R;
+import com.example.swolemates.UserHomePage;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -102,7 +103,7 @@ public class FacebookLoginActivity extends AppCompatActivity implements LoaderCa
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 firebaseUser = user;
                 if (user != null) {
-                    Intent intent = new Intent(getActivity(), DefaultSettingsActivity.class);
+                    Intent intent = new Intent(getActivity(), UserHomePage.class);
                     startActivity(intent);
                     // User is signed in
                     Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
@@ -128,7 +129,7 @@ public class FacebookLoginActivity extends AppCompatActivity implements LoaderCa
                 Log.d(TAG, "facebook:onSuccess:" + loginResult);
                 handleFacebookAccessToken(loginResult.getAccessToken());
                 // Do something in response to button
-                Intent intent = new Intent(getActivity(), DefaultSettingsActivity.class);
+                Intent intent = new Intent(getActivity(), UserHomePage.class);
                 startActivity(intent);
             }
 
