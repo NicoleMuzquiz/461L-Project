@@ -13,13 +13,12 @@ public class UserBox {
     boolean selected = false;
 
     public UserBox(Bitmap image, String name, boolean selected) {
-        super();
         this.image = image;
         this.name = name;
         this.selected = selected;
     }
 
-    public Bitmap getCode() {
+    public Bitmap getImage() {
         return image;
     }
     public void setImage(Bitmap image) {

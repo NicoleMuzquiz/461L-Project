@@ -33,10 +33,10 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
-import com.example.login.FacebookLoginActivity;
-import com.example.swolemates.SwoleUser;
 import com.example.swolemates.HomePage;
 import com.example.swolemates.R;
+import com.example.swolemates.SwoleUser;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -45,8 +45,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.net.URI;
-import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -107,7 +105,7 @@ public class MessageActivity extends AppCompatActivity
 
         initChannels(getResources().getString(R.string.channels));
 
-        firebaseUser = FacebookLoginActivity.getmAuth().getCurrentUser();
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         if (firebaseUser != null) {
             updateUI(true);
         }
@@ -165,13 +163,11 @@ public class MessageActivity extends AppCompatActivity
             swoleUser.setName(firebaseUser.getDisplayName());
             swoleUser.setPhotoUrl(firebaseUser.getPhotoUrl().toString());
             swoleUser.setId(firebaseUser.getUid());
-            URI uri = null;
-            try {
-                URL url = new URL(firebaseUser.getPhotoUrl().toString());
-                uri = url.toURI();
-            } catch (Exception e) { e.printStackTrace(); }
+
             map.put(firebaseUser.getUid(), swoleUser);
-            firebase.child("users")
+            firebase.child("users/" + firebaseUser.getUid() + "/data")
+                    .updateChildren(map);
+            firebase.child("users/" + firebaseUser.getUid() + "/matches")
                     .updateChildren(map);
             return true;
         }

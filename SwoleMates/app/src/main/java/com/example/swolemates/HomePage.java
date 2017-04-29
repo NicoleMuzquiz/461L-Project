@@ -79,7 +79,7 @@ public class HomePage extends AppCompatActivity
         for (int p = 0; p < NUMBER_OF_FRAGMENTS; p++) {
             items.add(new StackItem("Buffering", "Android Photo"));
         }
-        firebase = FirebaseDatabase.getInstance().getReference().child("users");
+        firebase = FirebaseDatabase.getInstance().getReference();
 
         SwoleUser user = new SwoleUser();
 //        user.setPlayStyle(playStyle);
@@ -88,7 +88,7 @@ public class HomePage extends AppCompatActivity
 //        map.put(firebaseUser.getUid(), user);
 //        firebase.updateChildren(map);
 
-        firebase.addChildEventListener(new ChildEventListener() {
+        firebase.child("users/" + firebaseUser.getUid() + "/data").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String prevKey) {
                 swoleUser = (SwoleUser) dataSnapshot.getValue(SwoleUser.class);
@@ -227,12 +227,15 @@ public class HomePage extends AppCompatActivity
 
             // split up data from StackItem and create SwoleUser from it
             Map<String, Object> map = new HashMap<String, Object>();
-            SwoleUser user = new SwoleUser();
-            // set swoleUser data
-            user.setBaseball_rank(8);
-            user.setName("Unwana Nwoko");
+            SwoleUser swoleUser = new SwoleUser();
+            swoleUser.setBasketball_rank(10);
+            swoleUser.setBasketball_skill(8);
+            swoleUser.setEmail(firebaseUser.getEmail());
+            swoleUser.setName(firebaseUser.getDisplayName());
+            swoleUser.setPhotoUrl(firebaseUser.getPhotoUrl().toString());
+            swoleUser.setId(firebaseUser.getUid());
 
-            map.put(i.getId(), user);
+            map.put(i.getId(), swoleUser);
             firebase.child(firebaseUser.getUid() + "/matches")
                     .updateChildren(map);
 

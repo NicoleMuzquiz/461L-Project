@@ -17,6 +17,7 @@ package com.example.messaging;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -107,14 +108,14 @@ public class GroupTextActivity extends AppCompatActivity
 
         firebaseUser = FacebookLoginActivity.getmAuth().getCurrentUser();
 
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.gm_fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(getBaseContext(), MessageActivity.class);
-//                startActivity(intent);
-//            }
-//        });
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.gm_fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), SelectGM_Activity.class);
+                startActivity(intent);
+            }
+        });
 
         groupMessages = new ArrayList<Map<String, String>>();
         gmAdapter = new SimpleAdapter(this, groupMessages, R.layout.grouptext_item,
