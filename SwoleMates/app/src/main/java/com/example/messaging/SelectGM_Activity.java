@@ -192,36 +192,36 @@ public class SelectGM_Activity extends AppCompatActivity {
             SelectGM_Activity.MyCustomAdapter.ViewHolder holder = null;
             Log.v("ConvertView", String.valueOf(position));
 
-//            if (convertView == null) {
-//                LayoutInflater vi = (LayoutInflater) getSystemService(
-//                        Context.LAYOUT_INFLATER_SERVICE);
-//                convertView = vi.inflate(R.layout.country_info, null);
-//
-//                holder = new SelectGM_Activity.MyCustomAdapter.ViewHolder();
-//                holder.code = (TextView) convertView.findViewById(R.id.code);
-//                holder.name = (CheckBox) convertView.findViewById(R.id.checkBox1);
-//                convertView.setTag(holder);
-//
-//                holder.name.setOnClickListener(new View.OnClickListener() {
-//                    public void onClick(View v) {
-//                        CheckBox cb = (CheckBox) v;
-//                        CheckBox country = (CheckBox) cb.getTag();
-//                        Toast.makeText(getApplicationContext(),
-//                                "Clicked on Checkbox: " + cb.getText() +
-//                                        " is " + cb.isChecked(),
-//                                Toast.LENGTH_LONG).show();
-//                        country.setSelected(cb.isChecked());
-//                    }
-//                });
-//            } else {
-//                holder = (SelectGM_Activity.MyCustomAdapter.ViewHolder) convertView.getTag();
-//            }
-//
-//            CheckBox country = countryList.get(position);
-//            holder.code.setText(" (" + country.getCode() + ")");
-//            holder.name.setText(country.getName());
-//            holder.name.setChecked(country.isSelected());
-//            holder.name.setTag(country);
+            if (convertView == null) {
+                LayoutInflater vi = (LayoutInflater) getSystemService(
+                        Context.LAYOUT_INFLATER_SERVICE);
+                convertView = vi.inflate(R.layout.country_info, null);
+
+                holder = new SelectGM_Activity.MyCustomAdapter.ViewHolder();
+                holder.code = (TextView) convertView.findViewById(R.id.code);
+                holder.name = (CheckBox) convertView.findViewById(R.id.checkBox1);
+                convertView.setTag(holder);
+
+                holder.name.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v) {
+                        CheckBox cb = (CheckBox) v;
+                        CheckBox country = (CheckBox) cb.getTag();
+                        Toast.makeText(getApplicationContext(),
+                                "Clicked on Checkbox: " + cb.getText() +
+                                        " is " + cb.isChecked(),
+                                Toast.LENGTH_LONG).show();
+                        country.setSelected(cb.isChecked());
+                    }
+                });
+            } else {
+                holder = (SelectGM_Activity.MyCustomAdapter.ViewHolder) convertView.getTag();
+            }
+
+            CheckBox country = countryList.get(position);
+            holder.code.setText(" (" + country.getCode() + ")");
+            holder.name.setText(country.getName());
+            holder.name.setChecked(country.isSelected());
+            holder.name.setTag(country);
 
             return convertView;
 
@@ -232,28 +232,28 @@ public class SelectGM_Activity extends AppCompatActivity {
     private void checkButtonClick() {
 
 
-//        Button myButton = (Button) findViewById(R.id.findSelected);
-//        myButton.setOnClickListener(new View.OnClickListener() {
-//
-//            @Override
-//            public void onClick(View v) {
-//
-//                StringBuffer responseText = new StringBuffer();
-//                responseText.append("The following were selected...\n");
-//
-//                ArrayList<CheckBox> countryList = dataAdapter.countryList;
-//                for (int i = 0; i < countryList.size(); i++) {
-//                    CheckBox country = countryList.get(i);
-//                    if (country.isSelected()) {
-//                        responseText.append("\n" + country.getName());
-//                    }
-//                }
-//
-//                Toast.makeText(getApplicationContext(),
-//                        responseText, Toast.LENGTH_LONG).show();
-//
-//            }
-//        });
+        Button myButton = (Button) findViewById(R.id.findSelected);
+        myButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                StringBuffer responseText = new StringBuffer();
+                responseText.append("The following were selected...\n");
+
+                ArrayList<CheckBox> countryList = dataAdapter.countryList;
+                for (int i = 0; i < countryList.size(); i++) {
+                    CheckBox country = countryList.get(i);
+                    if (country.isSelected()) {
+                        responseText.append("\n" + country.getName());
+                    }
+                }
+
+                Toast.makeText(getApplicationContext(),
+                        responseText, Toast.LENGTH_LONG).show();
+
+            }
+        });
 
     }
 

@@ -129,7 +129,6 @@ public class FacebookLoginActivity extends AppCompatActivity implements LoaderCa
                 handleFacebookAccessToken(loginResult.getAccessToken());
                 // Do something in response to button
                 Intent intent = new Intent(getActivity(), DefaultSettingsActivity.class);
-                intent.putExtra("email", firebaseUser.getEmail());
                 startActivity(intent);
             }
 
