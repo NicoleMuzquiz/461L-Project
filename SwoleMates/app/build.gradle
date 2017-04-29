@@ -6,7 +6,7 @@ android {
     defaultConfig {
         applicationId "com.example.swolemates"
         minSdkVersion 17
-        targetSdkVersion 22
+        targetSdkVersion 25
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -41,18 +41,19 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     // Android JUnit Runner
-    androidTestCompile ('com.android.support.test:runner:0.5', {
+    androidTestCompile('com.android.support.test:runner:0.5', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 // JUnit4 Rules
-    androidTestCompile ('com.android.support.test:rules:0.5', {
+    androidTestCompile('com.android.support.test:rules:0.5', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 
-    androidTestCompile ('com.android.support.test.espresso:espresso-intents:2.2.2', {
+    androidTestCompile('com.android.support.test.espresso:espresso-intents:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     //compile project(path: ':backend', configuration: 'android-endpoints')
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.0.1'
     compile 'com.android.support:appcompat-v7:25.2.0'
     compile 'com.google.android.gms:play-services:10.2.0'
     compile 'com.facebook.android:facebook-android-sdk:4.+'
@@ -64,10 +65,11 @@ dependencies {
     compile 'com.googlecode.objectify:objectify:5.1.13'
     compile 'com.google.firebase:firebase-auth:10.0.1'
     compile 'com.google.firebase:firebase-database:10.0.1'
-    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.0.1'
-    testCompile 'junit:junit:4.12'
     compile 'com.firebase:geofire-android:2.1.1'
+    testCompile 'junit:junit:4.12'
 }
+
+
 
 
 

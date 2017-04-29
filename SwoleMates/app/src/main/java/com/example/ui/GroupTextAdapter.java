@@ -8,6 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.messaging.GroupTextItem;
 import com.example.swolemates.R;
 
 import java.util.ArrayList;

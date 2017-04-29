@@ -226,6 +226,8 @@
     <string name="title_activity_main">MainActivity</string>
     <string name="title_activity_intro_screen">IntroScreen</string>
     <string name="title_activity_message">MessageActivity</string>
+    <string name="title_activity_main2">Main2Activity</string>
+    <string name="title_activity_select_gm_">SelectGM_Activity</string>
     <!--</resources>-->
 
 </resources>
