@@ -1,27 +1,29 @@
 package com.example.messaging;
 
+import android.graphics.Bitmap;
+
 /**
  * Created by einwo on 4/29/2017.
  */
 
-public class CheckBox {
+public class UserBox {
 
-    String code = null;
+    Bitmap image = null;
     String name = null;
     boolean selected = false;
 
-    public CheckBox(String code, String name, boolean selected) {
+    public UserBox(Bitmap image, String name, boolean selected) {
         super();
-        this.code = code;
+        this.image = image;
         this.name = name;
         this.selected = selected;
     }
 
-    public String getCode() {
-        return code;
+    public Bitmap getCode() {
+        return image;
     }
-    public void setCode(String code) {
-        this.code = code;
+    public void setImage(Bitmap image) {
+        this.image = image;
     }
     public String getName() {
         return name;
