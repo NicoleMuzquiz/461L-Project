@@ -65,6 +65,7 @@
             android:name="com.example.messaging.MessageActivity"
             android:label="Play Activity"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".UserHomePage"></activity>
         <activity
             android:name="com.example.messaging.GroupTextActivity"
             android:label="Group Messages"
