@@ -239,6 +239,8 @@ public class SwoleUser implements Comparable<SwoleUser> {
 
     public void removeRoom(String sport){rooms = "";}
 
+    public String getRoom(){return rooms;}
+
     public List<Integer> getSportRankings(String sport){
         List<Integer> list = new ArrayList<>();
         if(sport.equals("Basketball")){
