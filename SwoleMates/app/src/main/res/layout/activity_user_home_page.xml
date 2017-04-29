@@ -80,11 +80,11 @@
         android:id="@+id/logoutbutton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/imageView4"
-        android:layout_alignEnd="@+id/imageView4"
-        android:layout_alignStart="@+id/imageView3"
+        android:background="#00ffffff"
         android:layout_below="@+id/imageView3"
-        android:background="#00ffffff" />
+        android:layout_alignStart="@+id/imageView4"
+        android:layout_alignEnd="@+id/imageView4"
+        android:layout_alignBottom="@+id/imageView4" />
 
 
 </RelativeLayout>
