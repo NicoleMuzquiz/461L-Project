@@ -20,16 +20,12 @@
 
     <ImageView
         android:id="@+id/checkbox_user_img"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:gravity="bottom"
-        android:padding="6dp" />
+        android:layout_width="50dp"
+        android:layout_height="50dp" />
 
     <TextView
         android:id="@+id/checkbox_desc"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical|center_horizontal"
-        android:padding="6dp" />
+        android:layout_height="wrap_content"/>
 
 </LinearLayout>
