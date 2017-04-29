@@ -199,6 +199,7 @@ public class HomePage extends AppCompatActivity
 
         } else if (id == R.id.nav_messages) {
             Intent intent = new Intent(this, MessageActivity.class);
+            intent.putExtra("key", "sports");
             startActivity(intent);
 
         } else if (id == R.id.nav_rooms) {

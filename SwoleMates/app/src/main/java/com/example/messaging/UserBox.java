@@ -8,14 +8,16 @@ import android.graphics.Bitmap;
 
 public class UserBox {
 
-    Bitmap image = null;
-    String name = null;
-    boolean selected = false;
+    private Bitmap image = null;
+    private String name = null;
+    private String id = null;
+    private boolean selected = false;
 
-    public UserBox(Bitmap image, String name, boolean selected) {
+    public UserBox(Bitmap image, String name, boolean selected, String id) {
         this.image = image;
         this.name = name;
         this.selected = selected;
+        this.id = id;
     }
 
     public Bitmap getImage() {
@@ -38,4 +40,11 @@ public class UserBox {
         this.selected = selected;
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 }

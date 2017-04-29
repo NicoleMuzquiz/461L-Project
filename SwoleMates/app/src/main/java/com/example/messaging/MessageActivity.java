@@ -127,7 +127,7 @@ public class MessageActivity extends AppCompatActivity
 
         // Switching a listener to the selected channel.
         initFirebase();
-        currentChannel = "sports";
+        currentChannel = getIntent().getStringExtra("key");
         firebase.child(CHS + "/" + currentChannel).addChildEventListener(channelListener);
 
         channelLabel.setText(currentChannel);

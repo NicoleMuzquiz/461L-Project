@@ -1,6 +1,7 @@
 package com.example.messaging;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -91,18 +92,29 @@ public class SelectGM_Activity extends AppCompatActivity {
             public void onClick(View view) {
 
                 StringBuffer responseText = new StringBuffer();
+                String message_id = "";
                 responseText.append("The following were selected...\n");
 
                 ArrayList<UserBox> matchList = dataAdapter.matchList;
-                for (int i = 0; i < matchList.size(); i++) {
-                    UserBox country = matchList.get(i);
-                    if (country.isSelected()) {
-                        responseText.append("\n" + country.getName());
+                if(matchList.size() >= 0) {
+                    UserBox user = matchList.get(0);
+                    message_id += user.getId();
+                    for (int i = 1; i < matchList.size(); i++) {
+                        message_id += "_" + user.getId();
+                        user = matchList.get(i);
+                        if (user.isSelected()) {
+                            responseText.append("\n" + user.getName());
+                        }
                     }
+                    Toast.makeText(getApplicationContext(),
+                            responseText, Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(view.getContext(), MessageActivity.class);
+                    intent.putExtra("key", message_id);
+                    startActivity(intent);
+                }else{
+                    Toast.makeText(getApplicationContext(),
+                            "None were selected", Toast.LENGTH_LONG).show();
                 }
-
-                Toast.makeText(getApplicationContext(),
-                        responseText, Toast.LENGTH_LONG).show();
             }
         });
 
@@ -247,13 +259,13 @@ public class SelectGM_Activity extends AppCompatActivity {
                 holder.check = (CheckBox) itemView.findViewById(R.id.check_box);
                 holder.image = (ImageView) itemView.findViewById(R.id.checkbox_user_img);
 
-                if(holder.name != null){
+                if (holder.name != null) {
                     holder.name.setText(user.getName());
                 }
-                if(holder.image != null){
+                if (holder.image != null) {
                     holder.image.setImageBitmap(user.getImage());
                 }
-                if(holder.check != null){
+                if (holder.check != null) {
                     holder.check.setChecked(user.isSelected());
                     holder.check.setTag(user);
                 }
@@ -302,7 +314,7 @@ public class SelectGM_Activity extends AppCompatActivity {
         }
 
         protected void onPostExecute(String result) {
-            UserBox userBox = new UserBox(img, swoleUser.getName(), false);
+            UserBox userBox = new UserBox(img, swoleUser.getName(), false, swoleUser.getId());
             userList.add(0, userBox);
             dataAdapter.notifyDataSetChanged();
         }
