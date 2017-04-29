@@ -9,7 +9,6 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
-
     <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
@@ -51,14 +50,13 @@
             android:name="com.example.startup.EntryActivity"
             android:launchMode="singleInstance"
             android:noHistory="true">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.example.backend.FirebaseIO"></activity>
+        <activity android:name="com.example.backend.FirebaseIO" />
         <activity
             android:name=".HomePage"
             android:label="@string/title_activity_home_page"
@@ -66,11 +64,12 @@
         <activity
             android:name="com.example.backend.MessageActivity"
             android:label="@string/title_activity_message"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name="com.example.messaging.MessageActivity"
             android:label="Play Activity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".UserHomePage"></activity>
     </application>
 
 </manifest>
