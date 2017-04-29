@@ -2,6 +2,9 @@ package com.example.swolemates;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 /**
  * Created by akkau on 3/18/2017.
@@ -9,7 +12,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class SwoleUser implements Comparable<SwoleUser> {
-
+    private String rooms;
     private String photoUrl;
     private String email;
     private String name;
@@ -230,6 +233,40 @@ public class SwoleUser implements Comparable<SwoleUser> {
 
     public void setPlayStyle(String playStyle) {
         this.playStyle = playStyle;
+    }
+
+    public void addRoom(String sport){rooms = sport;}
+
+    public void removeRoom(String sport){rooms = "";}
+
+    public List<Integer> getSportRankings(String sport){
+        List<Integer> list = new ArrayList<>();
+        if(sport.equals("Basketball")){
+            list.add(getBaseball_rank());
+            list.add(getBasketball_skill());
+        }else if(sport.equals("Football")){
+            list.add(getFootball_rank());
+            list.add(getFootball_skill());
+        }else if(sport.equals("Baseball")){
+            list.add(getBaseball_rank());
+            list.add(getBaseball_skill());
+        }else if(sport.equals("Volleyball")){
+            list.add(getVolleyball_rank());
+            list.add(getVolleyball_skill());
+        }else if(sport.equals("Swimming")){
+            list.add(getSwimming_rank());
+            list.add(getSwimming_skill());
+        }else if(sport.equals("Soccer")){
+            list.add(getSoccer_rank());
+            list.add(getSoccer_skill());
+        }else if(sport.equals("Running")){
+            list.add(getRunning_rank());
+            list.add(getRunning_skill());
+        }else if(sport.equals("Weightlifting")){
+            list.add(getWeightlifting_rank());
+            list.add(getWeightlifting_skill());
+        }
+        return list;
     }
 
     @Override
