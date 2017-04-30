@@ -66,13 +66,7 @@ public class SelectSport extends AppCompatActivity implements AdapterView.OnItem
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor prefsEditor = prefs.edit();
         prefsEditor.putString("user_sport", sport);
-
-//        String APP_PREFERENCES = "sport";
-//        SharedPreferences settings = getSharedPreferences(APP_PREFERENCES, MODE_PRIVATE);
-//        SharedPreferences.Editor prefEditor = settings.edit();
-//        prefEditor.putString("UserName", "John Doe");
-//        prefEditor.putInt("UserAge", 22);
-//        prefEditor.commit();
+        prefsEditor.commit();
 
     }
 

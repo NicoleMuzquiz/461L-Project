@@ -2,8 +2,9 @@ package com.example.swolemates;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -11,8 +12,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
-
-import com.example.login.FacebookLoginActivity;
 
 public class EnterSportAbility extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
@@ -46,18 +45,12 @@ public class EnterSportAbility extends AppCompatActivity implements AdapterView.
         // Apply the adapter to the spinner
         spinner.setAdapter(adapter);
 
-        Intent intent = getIntent();
-        final String sport = intent.getStringExtra("sport");
-
         Button nextButton = (Button) findViewById(R.id.next2);
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view)
             {
                 Intent intent = new Intent(getApplicationContext(), HomePage.class);
-                intent.putExtra("playStyle", playStyle);
-                intent.putExtra("rank", selfRank);
-                intent.putExtra("sport", sport);
                 startActivity(intent);
             }
         });
@@ -71,6 +64,12 @@ public class EnterSportAbility extends AppCompatActivity implements AdapterView.
             playStyle = (String) parent.getItemAtPosition(pos);
         if(id == R.id.self_rank_spinner)
             selfRank = (String) parent.getItemAtPosition(pos);
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor prefsEditor = prefs.edit();
+        prefsEditor.putString("user_play_style", playStyle);
+        prefsEditor.putString("user_rank", selfRank);
+        prefsEditor.commit();
 
     }
 

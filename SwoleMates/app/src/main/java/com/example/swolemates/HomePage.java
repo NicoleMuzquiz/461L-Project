@@ -2,10 +2,12 @@ package com.example.swolemates;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -50,7 +52,8 @@ public class HomePage extends AppCompatActivity
     private Bitmap img;
     private ImageView userImg;
     private int currItem = 0;
-    private String sport, playStyle, rank, email;
+    private String sport, playStyle, email;
+    private Integer rank;
 
     private FirebaseUser firebaseUser;
     private DatabaseReference firebase;
@@ -64,13 +67,14 @@ public class HomePage extends AppCompatActivity
         setContentView(R.layout.activity_home_page);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        Intent i = getIntent();
-        sport = i.getStringExtra("sport");
-        playStyle = i.getStringExtra("playStyle");
-        rank = i.getStringExtra("rank");
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         email = firebaseUser.getEmail();
         this.stackView = (StackView) findViewById(R.id.stackView);
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        sport = prefs.getString("user_sport", null);
+        playStyle = prefs.getString("user_play_style", null);
+        rank = prefs.getInt("user_rank", 5);
 
         items = new ArrayList<StackItem>();
         matchUsers = new ArrayList<StackItem>();
@@ -82,17 +86,25 @@ public class HomePage extends AppCompatActivity
         firebase = FirebaseDatabase.getInstance().getReference();
 
         SwoleUser user = new SwoleUser();
-//        user.setPlayStyle(playStyle);
-//        user.setBasketball_rank(Integer.parseInt(rank));
         Map<String, Object> map = new HashMap<String, Object>();
-//        map.put(firebaseUser.getUid(), user);
-//        firebase.updateChildren(map);
+        user.setBasketball_skill(rank);
+        user.setEmail(firebaseUser.getEmail());
+        user.setName(firebaseUser.getDisplayName());
+        user.setPhotoUrl(firebaseUser.getPhotoUrl().toString());
+        user.setId(firebaseUser.getUid());
+        user.setPlayStyle(playStyle);
 
-        firebase.child("users/" + firebaseUser.getUid() + "/data").addChildEventListener(new ChildEventListener() {
+        map.put(firebaseUser.getUid(), swoleUser);
+        firebase.child("rooms/" + sport)
+                .updateChildren(map);
+        firebase.child("users/" + firebaseUser.getUid() + "/data")
+                .updateChildren(map);
+
+        firebase.child("rooms/" + sport).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String prevKey) {
                 swoleUser = (SwoleUser) dataSnapshot.getValue(SwoleUser.class);
-                if (swoleUser != null && email.equals(swoleUser.getEmail()))
+                if (swoleUser != null && !email.equals(swoleUser.getEmail()))
                     new GetUserImg().execute(swoleUser.getPhotoUrl());
             }
 
@@ -226,18 +238,23 @@ public class HomePage extends AppCompatActivity
             matchUsers.add(i);
             adapt.notifyDataSetChanged();
 
+            String otherEmail = i.getEmail();
+            String otherId = i.getId();
+
             // split up data from StackItem and create SwoleUser from it
             Map<String, Object> map = new HashMap<String, Object>();
             SwoleUser swoleUser = new SwoleUser();
             swoleUser.setBasketball_rank(10);
             swoleUser.setBasketball_skill(8);
-            swoleUser.setEmail(firebaseUser.getEmail());
-            swoleUser.setName(firebaseUser.getDisplayName());
+            swoleUser.setEmail(otherEmail);
+            swoleUser.setName(otherEmail.substring(0, otherEmail.indexOf("@")));
             swoleUser.setPhotoUrl(firebaseUser.getPhotoUrl().toString());
-            swoleUser.setId(firebaseUser.getUid());
+            swoleUser.setId(i.getId());
 
             map.put(i.getId(), swoleUser);
-            firebase.child(firebaseUser.getUid() + "/matches")
+            firebase.child("users/" + i.getId() + "/potential")
+                    .updateChildren(map);
+            firebase.child("rooms/" + sport + "/" + i.getId() + "/potential")
                     .updateChildren(map);
 
         } else if (id == R.id.ignore) {
@@ -247,11 +264,23 @@ public class HomePage extends AppCompatActivity
             ignoreUsers.add(i);
             adapt.notifyDataSetChanged();
 
+            String otherEmail = i.getEmail();
+            String otherId = i.getId();
+
             // split up data from StackItem and create SwoleUser from it
             Map<String, Object> map = new HashMap<String, Object>();
-            SwoleUser user = new SwoleUser();
-            map.put(firebaseUser.getEmail(), user);
-            firebase.child("users/" + firebaseUser.getUid() + "/rejections")
+            SwoleUser swoleUser = new SwoleUser();
+            swoleUser.setBasketball_rank(10);
+            swoleUser.setBasketball_skill(8);
+            swoleUser.setEmail(otherEmail);
+            swoleUser.setName(otherEmail.substring(0, otherEmail.indexOf("@")));
+            swoleUser.setPhotoUrl(firebaseUser.getPhotoUrl().toString());
+            swoleUser.setId(i.getId());
+
+            map.put(i.getId(), swoleUser);
+            firebase.child("users/" + i.getId() + "/rejections")
+                    .updateChildren(map);
+            firebase.child("rooms/" + sport + "/" + i.getId() + "/rejections")
                     .updateChildren(map);
 
         }
