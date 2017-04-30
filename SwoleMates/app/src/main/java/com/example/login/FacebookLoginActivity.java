@@ -95,7 +95,7 @@ public class FacebookLoginActivity extends AppCompatActivity implements LoaderCa
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
         // [END initialize_auth]
-
+        signOut();
         // [START auth_state_listener]
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
