@@ -13,12 +13,14 @@ import android.graphics.Color;
 
 import com.example.login.FacebookLoginActivity;
 import com.example.messaging.MessageActivity;
+import com.example.messaging.SelectGM_Activity;
 import com.example.settings.DefaultSettingsActivity;
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
 import com.facebook.login.LoginManager;
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.FacebookSdk;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class UserHomePage extends AppCompatActivity {
 
@@ -48,7 +50,7 @@ public class UserHomePage extends AppCompatActivity {
             @Override
             public void onClick(View view)
             {
-                Intent intent = new Intent(getApplicationContext(), MessageActivity.class);
+                Intent intent = new Intent(getApplicationContext(), SelectGM_Activity.class);
                 startActivity(intent);
             }
         });
@@ -70,9 +72,7 @@ public class UserHomePage extends AppCompatActivity {
             @Override
             public void onClick(View view)
             {
-                FacebookSdk.getApplicationContext();
-                LoginManager.getInstance().logOut();
-
+                FirebaseAuth.getInstance().signOut();
                 Intent intent = new Intent(getApplicationContext(), FacebookLoginActivity.class);
                 startActivity(intent);
             }
