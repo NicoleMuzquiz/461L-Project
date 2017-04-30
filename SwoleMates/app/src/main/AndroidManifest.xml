@@ -71,7 +71,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name="com.example.messaging.SelectGM_Activity"
-            android:label="@string/title_activity_select_gm_"
+            android:label="Create Conversations"
             android:theme="@style/AppTheme.NoActionBar"></activity>
 
         <activity
