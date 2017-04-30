@@ -59,7 +59,8 @@ public class HomePage extends AppCompatActivity
     private DatabaseReference firebase;
     private StackAdapter adapt;
     private ArrayList<StackItem> items, matchUsers, ignoreUsers;
-    private SwoleUser swoleUser;
+    private ArrayList<SwoleUser> potentials, matches;
+    private SwoleUser swoleUser, mySwoleUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,49 +86,22 @@ public class HomePage extends AppCompatActivity
         }
         firebase = FirebaseDatabase.getInstance().getReference();
 
-        SwoleUser user = new SwoleUser();
+        mySwoleUser = new SwoleUser();
         Map<String, Object> map = new HashMap<String, Object>();
-        user.setBasketball_skill(rank);
-        user.setEmail(firebaseUser.getEmail());
-        user.setName(firebaseUser.getDisplayName());
-        user.setPhotoUrl(firebaseUser.getPhotoUrl().toString());
-        user.setId(firebaseUser.getUid());
-        user.setPlayStyle(playStyle);
+        mySwoleUser.setBasketball_skill(rank);
+        mySwoleUser.setEmail(firebaseUser.getEmail());
+        mySwoleUser.setName(firebaseUser.getDisplayName());
+        mySwoleUser.setPhotoUrl(firebaseUser.getPhotoUrl().toString());
+        mySwoleUser.setId(firebaseUser.getUid());
+        mySwoleUser.setPlayStyle(playStyle);
 
-        map.put(firebaseUser.getUid(), swoleUser);
+        map.put(firebaseUser.getUid(), mySwoleUser);
         firebase.child("rooms/" + sport)
                 .updateChildren(map);
         firebase.child("users/" + firebaseUser.getUid() + "/data")
                 .updateChildren(map);
 
-        firebase.child("rooms/" + sport).addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String prevKey) {
-                swoleUser = (SwoleUser) dataSnapshot.getValue(SwoleUser.class);
-                if (swoleUser != null && !email.equals(swoleUser.getEmail()))
-                    new GetUserImg().execute(swoleUser.getPhotoUrl());
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String prevKey) {
-
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String prevKey) {
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
+        addListeners();
 
         /* UI set-up */
         adapt = new StackAdapter(this, items);
@@ -234,28 +208,54 @@ public class HomePage extends AppCompatActivity
         if (id == R.id.match) {
             stackView.showNext();
 
-            StackItem i = items.remove(0);
-            matchUsers.add(i);
+            StackItem otherUserStackItem = items.remove(0);
+            matchUsers.add(otherUserStackItem);
             adapt.notifyDataSetChanged();
 
-            String otherEmail = i.getEmail();
-            String otherId = i.getId();
+            String otherEmail = otherUserStackItem.getEmail();
+            String otherId = otherUserStackItem.getId();
 
             // split up data from StackItem and create SwoleUser from it
             Map<String, Object> map = new HashMap<String, Object>();
-            SwoleUser swoleUser = new SwoleUser();
-            swoleUser.setBasketball_rank(10);
-            swoleUser.setBasketball_skill(8);
-            swoleUser.setEmail(otherEmail);
-            swoleUser.setName(otherEmail.substring(0, otherEmail.indexOf("@")));
-            swoleUser.setPhotoUrl(firebaseUser.getPhotoUrl().toString());
-            swoleUser.setId(i.getId());
+            SwoleUser otherUser = new SwoleUser();
+            otherUser.setBasketball_rank(10);
+            otherUser.setBasketball_skill(8);
+            otherUser.setEmail(otherEmail);
+            otherUser.setName(otherEmail.substring(0, otherEmail.indexOf("@")));
+            otherUser.setPhotoUrl(firebaseUser.getPhotoUrl().toString());
+            otherUser.setId(otherUserStackItem.getId());
 
-            map.put(i.getId(), swoleUser);
-            firebase.child("users/" + i.getId() + "/potential")
-                    .updateChildren(map);
-            firebase.child("rooms/" + sport + "/" + i.getId() + "/potential")
-                    .updateChildren(map);
+            if (!potentials.contains(otherUser)) {
+                map.put(otherUserStackItem.getId(), otherUser);
+                firebase.child("users/" + otherUserStackItem.getId() + "/potential")
+                        .updateChildren(map);
+                firebase.child("rooms/" + sport + "/" + otherUserStackItem.getId() + "/potential")
+                        .updateChildren(map);
+            } else {
+                // delete myself from other user's potential matches
+                map.put(otherUserStackItem.getId(), null);
+                firebase.child("users/" + otherUserStackItem.getId() + "/potential")
+                        .updateChildren(map);
+                firebase.child("rooms/" + sport + "/" + otherUserStackItem.getId() + "/potential")
+                        .updateChildren(map);
+                map.clear();
+
+                // add other user to my matches
+                map.put(otherUserStackItem.getId(), otherUser);
+                firebase.child("users/" + firebaseUser.getUid() + "/matches")
+                        .updateChildren(map);
+                firebase.child("rooms/" + sport + "/" + firebaseUser.getUid() + "/matches")
+                        .updateChildren(map);
+                map.clear();
+
+                // add myself to other user's matches
+                map.put(firebaseUser.getUid(), mySwoleUser);
+                firebase.child("users/" + otherUserStackItem.getId() + "/matches")
+                        .updateChildren(map);
+                firebase.child("rooms/" + sport + "/" + otherUserStackItem.getId() + "/matches")
+                        .updateChildren(map);
+
+            }
 
         } else if (id == R.id.ignore) {
             stackView.showNext();
@@ -320,6 +320,67 @@ public class HomePage extends AppCompatActivity
         }
 
 
+    }
+
+    private void addListeners() {
+        /* Room Listener */
+        firebase.child("rooms/" + sport).addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String prevKey) {
+                swoleUser = (SwoleUser) dataSnapshot.getValue(SwoleUser.class);
+                if (swoleUser != null && !email.equals(swoleUser.getEmail()))
+                    new GetUserImg().execute(swoleUser.getPhotoUrl());
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String prevKey) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String prevKey) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        /* Potential Matches Listener */
+        firebase.child("users/" + firebaseUser.getUid() + "/potentials").addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String prevKey) {
+                swoleUser = (SwoleUser) dataSnapshot.getValue(SwoleUser.class);
+                potentials.add(swoleUser);
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String prevKey) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String prevKey) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     private static class OnSwipeTouchListener implements View.OnTouchListener {

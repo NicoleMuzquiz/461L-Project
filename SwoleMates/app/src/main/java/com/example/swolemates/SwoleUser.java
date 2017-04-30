@@ -281,7 +281,7 @@ public class SwoleUser implements Comparable<SwoleUser> {
     public boolean equals (Object o) {
         if (o instanceof SwoleUser) {
             SwoleUser p = (SwoleUser) o;
-            if (p.getEmail().equals(email)) {
+            if (p.getId().equals(id)) {
                 return true;
             }
         }
