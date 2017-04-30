@@ -39,6 +39,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -64,7 +65,7 @@ public class SelectGM_Activity extends AppCompatActivity {
 
     private FirebaseUser firebaseUser;
     private DatabaseReference firebase;
-    private SwoleUser swoleUser;
+    private SwoleUser swoleUser, mySwoleUser;
     private String email;
     private String currentChannel;
     private List<String> channels;
@@ -96,15 +97,24 @@ public class SelectGM_Activity extends AppCompatActivity {
                 responseText.append("The following were selected...\n");
 
                 ArrayList<UserBox> matchList = dataAdapter.matchList;
+                ArrayList<String> matchIdList = new ArrayList<String>();
                 if(matchList.size() >= 0) {
-                    UserBox user = matchList.get(0);
-                    message_id += user.getId();
-                    for (int i = 1; i < matchList.size(); i++) {
-                        message_id += "_" + user.getId();
-                        user = matchList.get(i);
-                        if (user.isSelected()) {
-                            responseText.append("\n" + user.getName());
-                        }
+                    matchIdList.add(firebaseUser.getUid());
+                    for (int i = 0; i < matchList.size(); i++) {
+                        String userID = matchList.get(i).getId();
+                        matchIdList.add(userID);
+//                        UserBox user = matchList.get(i);
+//                        message_id += "_" + user.getId();
+//                        user = matchList.get(i);
+//                        if (user.isSelected()) {
+//                            responseText.append("\n" + user.getName());
+//                        }
+                    }
+                    Collections.sort(matchIdList);
+                    message_id += matchIdList.get(0);
+                    for (int i = 1; i < matchIdList.size(); i++) {
+                        String user = matchIdList.get(i);
+                        message_id += "_" + user;
                     }
                     Toast.makeText(getApplicationContext(),
                             responseText, Toast.LENGTH_LONG).show();
