@@ -5,6 +5,8 @@
     <string name="button_save">Save</string>
     <string name="facebook_app_id">1255707804537349</string>
     <string name="title_activity_login">Sign in</string>
+    <string name="sport">Basketball</string>
+    <string name="play_style">Casual</string>
 
     <string name="channel_label">Select a channel from menu</string>
     <string name="message_hint">Enter a message</string>

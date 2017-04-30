@@ -2,8 +2,9 @@ package com.example.swolemates;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -61,6 +62,18 @@ public class SelectSport extends AppCompatActivity implements AdapterView.OnItem
                                int pos, long id) {
         // An item was selected. You can retrieve the selected item using
         sport = (String) parent.getItemAtPosition(pos);
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor prefsEditor = prefs.edit();
+        prefsEditor.putString("user_sport", sport);
+
+//        String APP_PREFERENCES = "sport";
+//        SharedPreferences settings = getSharedPreferences(APP_PREFERENCES, MODE_PRIVATE);
+//        SharedPreferences.Editor prefEditor = settings.edit();
+//        prefEditor.putString("UserName", "John Doe");
+//        prefEditor.putInt("UserAge", 22);
+//        prefEditor.commit();
+
     }
 
     public void onNothingSelected(AdapterView<?> parent) {

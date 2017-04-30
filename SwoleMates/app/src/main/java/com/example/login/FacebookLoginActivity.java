@@ -34,7 +34,6 @@ import android.widget.AutoCompleteTextView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.settings.DefaultSettingsActivity;
 import com.example.swolemates.R;
 import com.example.swolemates.UserHomePage;
 import com.facebook.AccessToken;
@@ -95,7 +94,7 @@ public class FacebookLoginActivity extends AppCompatActivity implements LoaderCa
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
         // [END initialize_auth]
-
+        signOut();
         // [START auth_state_listener]
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override

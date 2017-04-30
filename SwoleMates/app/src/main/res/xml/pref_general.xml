@@ -30,7 +30,7 @@
 
 
     <EditTextPreference
-        android:defaultValue="Basketball"
+        android:defaultValue="@string/sport"
         android:dialogTitle="Sport"
         android:inputType="text"
         android:key="user_sport"
@@ -39,7 +39,7 @@
 
 
     <EditTextPreference
-        android:defaultValue="Casual"
+        android:defaultValue="@string/play_style"
         android:dialogTitle="Play Style"
         android:inputType="text"
         android:key="user_play_style"
