@@ -81,6 +81,9 @@ public class HomePage extends AppCompatActivity
         matchUsers = new ArrayList<StackItem>();
         ignoreUsers = new ArrayList<StackItem>();
 
+        potentials = new ArrayList<SwoleUser>();
+        matches = new ArrayList<SwoleUser>();
+
         for (int p = 0; p < NUMBER_OF_FRAGMENTS; p++) {
             items.add(new StackItem("Buffering", "Android Photo"));
         }
