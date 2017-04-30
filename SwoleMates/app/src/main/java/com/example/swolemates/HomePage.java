@@ -74,7 +74,7 @@ public class HomePage extends AppCompatActivity
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         sport = prefs.getString("user_sport", null);
         playStyle = prefs.getString("user_play_style", null);
-        rank = prefs.getInt("user_rank", 5);
+        rank = Integer.parseInt(prefs.getString("user_rank", null));
 
         items = new ArrayList<StackItem>();
         matchUsers = new ArrayList<StackItem>();
