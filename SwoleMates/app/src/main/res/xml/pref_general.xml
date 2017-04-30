@@ -28,6 +28,33 @@
         android:summary="Age"
         android:title="Enter your age" />
 
+
+    <EditTextPreference
+        android:defaultValue="Basketball"
+        android:dialogTitle="Sport"
+        android:inputType="text"
+        android:key="user_sport"
+        android:summary="Sport"
+        android:title="Enter your sport" />
+
+
+    <EditTextPreference
+        android:defaultValue="Casual"
+        android:dialogTitle="Play Style"
+        android:inputType="text"
+        android:key="user_play_style"
+        android:summary="Play Style"
+        android:title="Enter your play style" />
+
+
+    <EditTextPreference
+        android:defaultValue="5"
+        android:dialogTitle="Ranking"
+        android:inputType="number"
+        android:key="user_ranking"
+        android:summary="Ranking"
+        android:title="Enter your ranking" />
+
     <Preference
         android:key="button"
         android:widgetLayout="@layout/pref_layout"
