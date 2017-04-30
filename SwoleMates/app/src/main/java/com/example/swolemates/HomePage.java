@@ -229,7 +229,7 @@ public class HomePage extends AppCompatActivity
             otherUser.setId(otherUserStackItem.getId());
 
             if (!potentials.contains(otherUser)) {
-                map.put(otherUserStackItem.getId(), otherUser);
+                map.put(firebaseUser.getUid(), mySwoleUser);
                 firebase.child("users/" + otherUserStackItem.getId() + "/potential")
                         .updateChildren(map);
                 firebase.child("rooms/" + sport + "/" + otherUserStackItem.getId() + "/potential")
@@ -357,7 +357,7 @@ public class HomePage extends AppCompatActivity
         });
 
         /* Potential Matches Listener */
-        firebase.child("users/" + firebaseUser.getUid() + "/potentials").addChildEventListener(new ChildEventListener() {
+        firebase.child("users/" + firebaseUser.getUid() + "/potential").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String prevKey) {
                 swoleUser = (SwoleUser) dataSnapshot.getValue(SwoleUser.class);
