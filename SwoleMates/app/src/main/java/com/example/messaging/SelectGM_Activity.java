@@ -128,7 +128,7 @@ public class SelectGM_Activity extends AppCompatActivity {
                     @Override
                     public void onChildAdded(DataSnapshot dataSnapshot, String prevKey) {
                         swoleUser = (SwoleUser) dataSnapshot.getValue(SwoleUser.class);
-                        if (swoleUser != null && email.equals(swoleUser.getEmail()))
+                        if (swoleUser != null && !email.equals(swoleUser.getEmail()))
                             new GetUserImg().execute(swoleUser.getPhotoUrl());
                     }
 
