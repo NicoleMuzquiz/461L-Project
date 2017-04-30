@@ -9,7 +9,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
+
+import com.example.login.FacebookLoginActivity;
 
 public class EnterSportAbility extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
@@ -46,11 +49,12 @@ public class EnterSportAbility extends AppCompatActivity implements AdapterView.
         Intent intent = getIntent();
         final String sport = intent.getStringExtra("sport");
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        Button nextButton = (Button) findViewById(R.id.next2);
+        nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), HomePage.class);
+            public void onClick(View view)
+            {
+                Intent intent = new Intent(getApplicationContext(), HomePage.class);
                 intent.putExtra("playStyle", playStyle);
                 intent.putExtra("rank", selfRank);
                 intent.putExtra("sport", sport);

@@ -6,6 +6,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.content.Intent;
+import android.app.ActionBar;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.Color;
 
 import com.example.login.FacebookLoginActivity;
 import com.example.messaging.MessageActivity;
@@ -17,6 +20,9 @@ public class UserHomePage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_home_page);
+        /*ActionBar bar = getActionBar();
+        bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#000")));*/
+
 
         /* Button for moving to select sport page */
         Button selectSportButton = (Button) findViewById(R.id.sportbutton);

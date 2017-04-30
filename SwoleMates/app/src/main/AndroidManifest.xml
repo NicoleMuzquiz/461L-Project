@@ -65,7 +65,6 @@
             android:name="com.example.messaging.MessageActivity"
             android:label="Play Activity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".UserHomePage"></activity>
         <activity
             android:name="com.example.messaging.GroupTextActivity"
             android:label="Group Messages"
@@ -74,6 +73,12 @@
             android:name="com.example.messaging.SelectGM_Activity"
             android:label="@string/title_activity_select_gm_"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+
+        <activity
+            android:name=".UserHomePage"
+            android:label="SwoleMates"
+            android:theme="@style/AppTheme.NoActionBar" />
+
     </application>
 
 </manifest>
