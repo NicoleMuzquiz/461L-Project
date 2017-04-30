@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 
 import com.google.android.gms.appindexing.AppIndex;
@@ -45,12 +46,12 @@ public class SelectSport extends AppCompatActivity implements AdapterView.OnItem
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        Button nextButton = (Button) findViewById(R.id.nextbutton);
+        nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), EnterSportAbility.class);
-                intent.putExtra(EXTRA_MESSAGE, sport);
+            public void onClick(View view)
+            {
+                Intent intent = new Intent(getApplicationContext(), EnterSportAbility.class);
                 startActivity(intent);
             }
         });
