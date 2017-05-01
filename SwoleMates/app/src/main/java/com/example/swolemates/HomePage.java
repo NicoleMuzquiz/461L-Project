@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
@@ -330,56 +329,86 @@ public class HomePage extends AppCompatActivity
         }
     }
 
-    private class GetUserImg extends AsyncTask<String, Void, String> {
-        //get book thumbnail
-
-        @Override
-        protected String doInBackground(String... imgURLs) {
-            //attempt to download image
-            try {
-                //try to download
-                img = null;
-                URL imgURL = new URL(imgURLs[0]);
-                URLConnection imgConn = imgURL.openConnection();
-                imgConn.connect();
-                InputStream imgIn = imgConn.getInputStream();
-                BufferedInputStream imgBuff = new BufferedInputStream(imgIn);
-                img = BitmapFactory.decodeStream(imgBuff);
-                imgBuff.close();
-                imgIn.close();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return "";
+    private void getUserImg(String imgURLs) {
+        //attempt to download image
+        try {
+            //try to download
+            img = null;
+            URL imgURL = new URL(imgURLs);
+            URLConnection imgConn = imgURL.openConnection();
+            imgConn.connect();
+            InputStream imgIn = imgConn.getInputStream();
+            BufferedInputStream imgBuff = new BufferedInputStream(imgIn);
+            img = BitmapFactory.decodeStream(imgBuff);
+            imgBuff.close();
+            imgIn.close();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
-        protected void onPostExecute(String result) {
-//            usersInRoom.remove(new StackItem("Buffering", "Android Photo"));
-            StackItem stack = new StackItem(img, swoleUser);
+        StackItem stack = new StackItem(img, swoleUser);
 
-            if (connections.contains(swoleUser) || rejections.contains(swoleUser)) return;
+        if (connections.contains(swoleUser) || rejections.contains(swoleUser)) return;
 
-            stack.setId(swoleUser.getId());
-            stack.setEmail(swoleUser.getEmail());
-            swoleUserLock.notifyAll();
-            swoleUserLock.unlock();
+        stack.setId(swoleUser.getId());
+        stack.setEmail(swoleUser.getEmail());
 
-            usersInRoom.add(0, stack);
-            adapt.notifyDataSetChanged();
-        }
-
-
+        usersInRoom.add(0, stack);
+        adapt.notifyDataSetChanged();
     }
+
+//    private class getUserImg extends AsyncTask<String, Void, String> {
+//        //get book thumbnail
+//
+//        @Override
+//        protected String doInBackground(String... imgURLs) {
+//            //attempt to download image
+//            try {
+//                //try to download
+//                img = null;
+//                URL imgURL = new URL(imgURLs[0]);
+//                URLConnection imgConn = imgURL.openConnection();
+//                imgConn.connect();
+//                InputStream imgIn = imgConn.getInputStream();
+//                BufferedInputStream imgBuff = new BufferedInputStream(imgIn);
+//                img = BitmapFactory.decodeStream(imgBuff);
+//                imgBuff.close();
+//                imgIn.close();
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//            return "";
+//        }
+//
+//        protected void onPostExecute(String result) {
+////            usersInRoom.remove(new StackItem("Buffering", "Android Photo"));
+//            StackItem stack = new StackItem(img, swoleUser);
+//
+//            if (connections.contains(swoleUser) || rejections.contains(swoleUser)) return;
+//
+//            stack.setId(swoleUser.getId());
+//            stack.setEmail(swoleUser.getEmail());
+//            swoleUserLock.notifyAll();
+//            swoleUserLock.unlock();
+//
+//            usersInRoom.add(0, stack);
+//            adapt.notifyDataSetChanged();
+//        }
+//
+//
+//    }
 
     private void addListeners() {
         /* Room Listener */
         firebase.child("rooms/" + sport).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String prevKey) {
-                swoleUserLock.lock();
-                swoleUser = (SwoleUser) dataSnapshot.getValue(SwoleUser.class);
-                if (swoleUser != null && !email.equals(swoleUser.getEmail()))
-                    new GetUserImg().execute(swoleUser.getPhotoUrl());
+                synchronized (swoleUserLock) {
+                    swoleUser = (SwoleUser) dataSnapshot.getValue(SwoleUser.class);
+                    if (swoleUser != null && !email.equals(swoleUser.getEmail()))
+                        getUserImg(swoleUser.getPhotoUrl());
+                    swoleUserLock.notifyAll();
+                }
             }
 
             @Override
@@ -407,11 +436,11 @@ public class HomePage extends AppCompatActivity
         firebase.child("users/" + firebaseUser.getUid() + "/potential").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String prevKey) {
-                swoleUserLock.lock();
-                swoleUser = (SwoleUser) dataSnapshot.getValue(SwoleUser.class);
-                potentials.add(swoleUser);
-                swoleUserLock.notifyAll();
-                swoleUserLock.unlock();
+                synchronized (swoleUserLock) {
+                    swoleUser = (SwoleUser) dataSnapshot.getValue(SwoleUser.class);
+                    potentials.add(swoleUser);
+                    swoleUserLock.notifyAll();
+                }
             }
 
             @Override
@@ -439,17 +468,17 @@ public class HomePage extends AppCompatActivity
         firebase.child("users/" + firebaseUser.getUid() + "/connections").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String prevKey) {
-                swoleUserLock.lock();
-                swoleUser = (SwoleUser) dataSnapshot.getValue(SwoleUser.class);
+                synchronized (swoleUserLock) {
+                    swoleUser = (SwoleUser) dataSnapshot.getValue(SwoleUser.class);
 
-                // remove user from stack view if you've already connected with them
-                StackItem temp = new StackItem();
-                temp.setId(swoleUser.getId());
-                usersInRoom.remove(temp);
+                    // remove user from stack view if you've already connected with them
+                    StackItem temp = new StackItem();
+                    temp.setId(swoleUser.getId());
+                    usersInRoom.remove(temp);
 
-                connections.add(swoleUser);
-                swoleUserLock.notifyAll();
-                swoleUserLock.unlock();
+                    connections.add(swoleUser);
+                    swoleUserLock.notifyAll();
+                }
             }
 
             @Override
@@ -477,17 +506,17 @@ public class HomePage extends AppCompatActivity
         firebase.child("users/" + firebaseUser.getUid() + "/rejections").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String prevKey) {
-                swoleUserLock.lock();
-                swoleUser = (SwoleUser) dataSnapshot.getValue(SwoleUser.class);
+                synchronized (swoleUserLock) {
+                    swoleUser = (SwoleUser) dataSnapshot.getValue(SwoleUser.class);
 
-                // remove user from stack view if you've already rejected them
-                StackItem temp = new StackItem();
-                temp.setId(swoleUser.getId());
-                usersInRoom.remove(temp);
+                    // remove user from stack view if you've already rejected them
+                    StackItem temp = new StackItem();
+                    temp.setId(swoleUser.getId());
+                    usersInRoom.remove(temp);
 
-                rejections.add(swoleUser);
-                swoleUserLock.notifyAll();
-                swoleUserLock.unlock();
+                    rejections.add(swoleUser);
+                    swoleUserLock.notifyAll();
+                }
             }
 
             @Override
