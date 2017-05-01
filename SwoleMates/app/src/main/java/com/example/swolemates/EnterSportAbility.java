@@ -59,11 +59,15 @@ public class EnterSportAbility extends AppCompatActivity implements AdapterView.
     public void onItemSelected(AdapterView<?> parent, View view,
                                int pos, long id) {
         // An item was selected. You can retrieve the selected item using
-        id = view.getId();
-        if(id == R.id.play_style_spinner)
-            playStyle = (String) parent.getItemAtPosition(pos);
-        if(id == R.id.self_rank_spinner)
-            skill = (String) parent.getItemAtPosition(pos);
+        if (view != null)
+        {
+            id = view.getId();
+            if(id == R.id.play_style_spinner)
+                playStyle = (String) parent.getItemAtPosition(pos);
+            if(id == R.id.self_rank_spinner)
+                skill = (String) parent.getItemAtPosition(pos);
+        }
+
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor prefsEditor = prefs.edit();
