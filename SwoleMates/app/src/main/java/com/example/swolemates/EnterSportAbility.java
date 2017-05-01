@@ -16,7 +16,7 @@ import android.widget.Spinner;
 public class EnterSportAbility extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     private String playStyle = "Casual";
-    private String selfRank = "1";
+    private String skill = "1";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,12 +63,12 @@ public class EnterSportAbility extends AppCompatActivity implements AdapterView.
         if(id == R.id.play_style_spinner)
             playStyle = (String) parent.getItemAtPosition(pos);
         if(id == R.id.self_rank_spinner)
-            selfRank = (String) parent.getItemAtPosition(pos);
+            skill = (String) parent.getItemAtPosition(pos);
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor prefsEditor = prefs.edit();
         prefsEditor.putString("user_play_style", playStyle);
-        prefsEditor.putString("user_rank", selfRank);
+        prefsEditor.putString("user_skill", skill);
         prefsEditor.commit();
 
     }

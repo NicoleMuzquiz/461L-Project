@@ -55,13 +55,13 @@ public class HomePage extends AppCompatActivity
     private ImageView userImg;
     private int currItem = 0;
     private String sport, playStyle, email;
-    private Integer rank;
+    private Integer skill, age, weight, height;
 
     private FirebaseUser firebaseUser;
     private DatabaseReference firebase;
     private StackAdapter adapt;
     private ArrayList<StackItem> items, matchUsers, ignoreUsers;
-    private ArrayList<SwoleUser> potentials, matches;
+    private ArrayList<SwoleUser> potentials, matches, rejections;
     private SwoleUser swoleUser, mySwoleUser;
 
     @Override
@@ -75,9 +75,13 @@ public class HomePage extends AppCompatActivity
         this.stackView = (StackView) findViewById(R.id.stackView);
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        age = Integer.parseInt(prefs.getString("user_age", null));
+        weight = Integer.parseInt(prefs.getString("user_weight", null));
+        height = Integer.parseInt(prefs.getString("user_height", null));
+
         sport = prefs.getString("user_sport", null);
         playStyle = prefs.getString("user_play_style", null);
-        rank = Integer.parseInt(prefs.getString("user_rank", null));
+        skill = Integer.parseInt(prefs.getString("user_skill", null));
 
         items = new ArrayList<StackItem>();
         matchUsers = new ArrayList<StackItem>();
@@ -85,6 +89,7 @@ public class HomePage extends AppCompatActivity
 
         potentials = new ArrayList<SwoleUser>();
         matches = new ArrayList<SwoleUser>();
+        rejections = new ArrayList<SwoleUser>();
 
         for (int p = 0; p < NUMBER_OF_FRAGMENTS; p++) {
             items.add(new StackItem("Buffering", "Android Photo"));
@@ -93,12 +98,16 @@ public class HomePage extends AppCompatActivity
 
         mySwoleUser = new SwoleUser();
         Map<String, Object> map = new HashMap<String, Object>();
-        mySwoleUser.setBasketball_skill(rank);
+
+        mySwoleUser.setAge(age);
+        mySwoleUser.setWeight(weight);
+        mySwoleUser.setHeight(height);
         mySwoleUser.setEmail(firebaseUser.getEmail());
         mySwoleUser.setName(firebaseUser.getDisplayName());
         mySwoleUser.setPhotoUrl(firebaseUser.getPhotoUrl().toString());
         mySwoleUser.setId(firebaseUser.getUid());
         mySwoleUser.setPlayStyle(playStyle);
+        setSport();
 
         map.put(firebaseUser.getUid(), mySwoleUser);
         firebase.child("rooms/" + sport)
@@ -301,6 +310,35 @@ public class HomePage extends AppCompatActivity
 
     }
 
+    private void setSport() {
+
+//        Basketball
+//        Weightlifting
+//        Football
+//        Volleyball
+//        Swimming
+//        Baseball
+//        Soccer
+//        Running
+        if (sport.equals("Basketball")) {
+            mySwoleUser.setBasketball_skill(skill);
+        } else if (sport.equals("Weightlifting")) {
+            mySwoleUser.setWeightlifting_skill(skill);
+        } else if (sport.equals("Football")) {
+            mySwoleUser.setFootball_skill(skill);
+        } else if (sport.equals("Volleyball")) {
+            mySwoleUser.setVolleyball_skill(skill);
+        } else if (sport.equals("Swimming")) {
+            mySwoleUser.setSwimming_skill(skill);
+        } else if (sport.equals("Baseball")) {
+            mySwoleUser.setBaseball_skill(skill);
+        } else if (sport.equals("Soccer")) {
+            mySwoleUser.setSoccer_skill(skill);
+        } else if (sport.equals("Running")) {
+            mySwoleUser.setRunning_skill(skill);
+        }
+    }
+
     private class GetUserImg extends AsyncTask<String, Void, String> {
         //get book thumbnail
 
@@ -373,6 +411,64 @@ public class HomePage extends AppCompatActivity
             public void onChildAdded(DataSnapshot dataSnapshot, String prevKey) {
                 swoleUser = (SwoleUser) dataSnapshot.getValue(SwoleUser.class);
                 potentials.add(swoleUser);
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String prevKey) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String prevKey) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        /* Matched Teammates Listener */
+        firebase.child("users/" + firebaseUser.getUid() + "/matches").addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String prevKey) {
+                swoleUser = (SwoleUser) dataSnapshot.getValue(SwoleUser.class);
+                matches.add(swoleUser);
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String prevKey) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String prevKey) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        /* Rejected Users Listener */
+        firebase.child("users/" + firebaseUser.getUid() + "/rejections").addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String prevKey) {
+                swoleUser = (SwoleUser) dataSnapshot.getValue(SwoleUser.class);
+                rejections.add(swoleUser);
             }
 
             @Override

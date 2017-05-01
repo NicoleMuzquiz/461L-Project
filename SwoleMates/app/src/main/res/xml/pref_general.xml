@@ -49,11 +49,11 @@
 
     <EditTextPreference
         android:defaultValue="5"
-        android:dialogTitle="Ranking"
+        android:dialogTitle="Skill Level"
         android:inputType="number"
-        android:key="user_ranking"
-        android:summary="Ranking"
-        android:title="Enter your ranking" />
+        android:key="user_skill"
+        android:summary="Skill Level"
+        android:title="Enter your skill level" />
 
     <Preference
         android:key="button"
