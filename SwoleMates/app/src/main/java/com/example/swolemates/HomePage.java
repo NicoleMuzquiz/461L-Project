@@ -462,9 +462,9 @@ public class HomePage extends AppCompatActivity
                 swoleUser = (SwoleUser) dataSnapshot.getValue(SwoleUser.class);
 
                 // remove user from stack view if you've already rejected them
-               // StackItem temp = new StackItem();
-               // temp.setId(swoleUser.getId());
-                usersInRoom.remove(swoleUser);
+                StackItem temp = new StackItem();
+                temp.setId(swoleUser.getId());
+                usersInRoom.remove(temp);
 
                 rejections.add(swoleUser);
             }
