@@ -44,6 +44,9 @@ import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class HomePage extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -63,6 +66,9 @@ public class HomePage extends AppCompatActivity
     private ArrayList<StackItem> usersInRoom, matchUsers, ignoreUsers;
     private ArrayList<SwoleUser> potentials, connections, rejections;
     private SwoleUser swoleUser, mySwoleUser;
+
+    private Lock swoleUserLock;
+    private Condition swoleUserAvailable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,6 +96,8 @@ public class HomePage extends AppCompatActivity
         potentials = new ArrayList<SwoleUser>();
         connections = new ArrayList<SwoleUser>();
         rejections = new ArrayList<SwoleUser>();
+
+        swoleUserLock = new ReentrantLock();
 
         for (int p = 0; p < NUMBER_OF_FRAGMENTS; p++) {
             usersInRoom.add(new StackItem());
@@ -353,6 +361,9 @@ public class HomePage extends AppCompatActivity
 
             stack.setId(swoleUser.getId());
             stack.setEmail(swoleUser.getEmail());
+            swoleUserLock.notifyAll();
+            swoleUserLock.unlock();
+
             usersInRoom.add(0, stack);
             adapt.notifyDataSetChanged();
         }
@@ -365,6 +376,7 @@ public class HomePage extends AppCompatActivity
         firebase.child("rooms/" + sport).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String prevKey) {
+                swoleUserLock.lock();
                 swoleUser = (SwoleUser) dataSnapshot.getValue(SwoleUser.class);
                 if (swoleUser != null && !email.equals(swoleUser.getEmail()))
                     new GetUserImg().execute(swoleUser.getPhotoUrl());
@@ -395,8 +407,11 @@ public class HomePage extends AppCompatActivity
         firebase.child("users/" + firebaseUser.getUid() + "/potential").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String prevKey) {
+                swoleUserLock.lock();
                 swoleUser = (SwoleUser) dataSnapshot.getValue(SwoleUser.class);
                 potentials.add(swoleUser);
+                swoleUserLock.notifyAll();
+                swoleUserLock.unlock();
             }
 
             @Override
@@ -424,6 +439,7 @@ public class HomePage extends AppCompatActivity
         firebase.child("users/" + firebaseUser.getUid() + "/connections").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String prevKey) {
+                swoleUserLock.lock();
                 swoleUser = (SwoleUser) dataSnapshot.getValue(SwoleUser.class);
 
                 // remove user from stack view if you've already connected with them
@@ -432,6 +448,8 @@ public class HomePage extends AppCompatActivity
                 usersInRoom.remove(temp);
 
                 connections.add(swoleUser);
+                swoleUserLock.notifyAll();
+                swoleUserLock.unlock();
             }
 
             @Override
@@ -459,6 +477,7 @@ public class HomePage extends AppCompatActivity
         firebase.child("users/" + firebaseUser.getUid() + "/rejections").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String prevKey) {
+                swoleUserLock.lock();
                 swoleUser = (SwoleUser) dataSnapshot.getValue(SwoleUser.class);
 
                 // remove user from stack view if you've already rejected them
@@ -467,6 +486,8 @@ public class HomePage extends AppCompatActivity
                 usersInRoom.remove(temp);
 
                 rejections.add(swoleUser);
+                swoleUserLock.notifyAll();
+                swoleUserLock.unlock();
             }
 
             @Override
