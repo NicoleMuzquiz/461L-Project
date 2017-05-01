@@ -281,12 +281,12 @@ public class HomePage extends AppCompatActivity
 
             // split up data from StackItem and create SwoleUser from it
             Map<String, Object> map = new HashMap<String, Object>();
-            SwoleUser swoleUser = otherUserStackItem.getUser();
+            SwoleUser user = otherUserStackItem.getUser();
 
-            map.put(otherUserStackItem.getId(), swoleUser);
-            firebase.child("users/" + swoleUser.getId() + "/rejections")
+            map.put(otherUserStackItem.getId(), user);
+            firebase.child("users/" + user.getId() + "/rejections")
                     .updateChildren(map);
-            firebase.child("rooms/" + sport + "/" + swoleUser.getId() + "/rejections")
+            firebase.child("rooms/" + sport + "/" + user.getId() + "/rejections")
                     .updateChildren(map);
 
         }
