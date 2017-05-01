@@ -19,6 +19,7 @@ public class StackItem implements Comparable<StackItem> {
     private SwoleUser user;
 
     public StackItem() {
+        this.id = "Android Photo";
         this.userDesc = "Buffering";
     }
 
