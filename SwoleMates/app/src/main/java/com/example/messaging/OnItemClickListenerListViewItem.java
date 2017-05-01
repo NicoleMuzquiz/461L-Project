@@ -40,6 +40,7 @@ public class OnItemClickListenerListViewItem implements OnItemClickListener {
 
         Intent intent = new Intent(context, MessageActivity.class);
         intent.putExtra("key", key);
+        intent.putExtra("names", memberNames);
         context.startActivity(intent);
     }
 }
