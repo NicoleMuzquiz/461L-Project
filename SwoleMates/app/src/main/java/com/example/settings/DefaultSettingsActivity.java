@@ -38,7 +38,7 @@ import java.util.List;
  * href="http://developer.android.com/guide/topics/ui/settings.html">Settings
  * API Guide</a> for more information on developing a Settings UI.
  */
-public class DefaultSettingsActivity extends AppCompatPreferenceActivity {
+public class DefaultSettingsActivity extends AppCompatPreferenceActivity implements View.OnClickListener{
 
     /**
      * A preference value change listener that updates the preference's summary
@@ -175,6 +175,17 @@ public class DefaultSettingsActivity extends AppCompatPreferenceActivity {
                 || GeneralPreferenceFragment.class.getName().equals(fragmentName)
                 || DataSyncPreferenceFragment.class.getName().equals(fragmentName)
                 || NotificationPreferenceFragment.class.getName().equals(fragmentName);
+    }
+
+    /**
+     * Called when a view has been clicked.
+     *
+     * @param v The view that was clicked.
+     */
+    @Override
+    public void onClick(View v) {
+
+        finish();
     }
 
     /**
