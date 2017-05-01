@@ -102,7 +102,15 @@ public class SelectGM_Activity extends AppCompatActivity {
                 ArrayList<String> matchIdList = new ArrayList<String>();
                 ArrayList<String> displayNameList = new ArrayList<String>();
 
-                if (matchList.size() >= 0) {
+                int count = 0;
+                for (int i = 0; i < matchList.size(); i++) {
+                    UserBox user = matchList.get(i);
+                    if (user.isSelected()) {
+                        count++;
+                    }
+                }
+
+                if (count > 0) {
                     matchIdList.add(firebaseUser.getUid());
                     displayNameList.add(firebaseUser.getDisplayName());
                     for (int i = 0; i < matchList.size(); i++) {
@@ -110,12 +118,6 @@ public class SelectGM_Activity extends AppCompatActivity {
                         String userName = matchList.get(i).getName();
                         matchIdList.add(userID);
                         displayNameList.add(userName);
-//                        UserBox user = matchList.get(i);
-//                        message_id += "_" + user.getId();
-//                        user = matchList.get(i);
-//                        if (user.isSelected()) {
-//                            responseText.append("\n" + user.getName());
-//                        }
                     }
                     Collections.sort(matchIdList);
                     Collections.sort(displayNameList);
@@ -149,9 +151,12 @@ public class SelectGM_Activity extends AppCompatActivity {
                 .addChildEventListener(new ChildEventListener() {
                     @Override
                     public void onChildAdded(DataSnapshot dataSnapshot, String prevKey) {
-                        swoleUser = (SwoleUser) dataSnapshot.getValue(SwoleUser.class);
-                        if (swoleUser != null && !email.equals(swoleUser.getEmail()))
-                            new GetUserImg().execute(swoleUser.getPhotoUrl());
+                        synchronized (swoleUser) {
+                            swoleUser = (SwoleUser) dataSnapshot.getValue(SwoleUser.class);
+                            if (swoleUser != null && !email.equals(swoleUser.getEmail()))
+                                new GetUserImg().execute(swoleUser.getPhotoUrl());
+                            swoleUser.notifyAll();
+                        }
                     }
 
                     @Override
