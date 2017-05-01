@@ -11,27 +11,28 @@
         android:id="@+id/sportbutton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/matchbutton"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="11dp"
         android:background="#000"
         android:text="Select Sport"
         android:textColor="#fff"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+
+        android:layout_above="@+id/matchbutton"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="11dp"
+        android:layout_alignParentEnd="true" />
 
     <Button
         android:id="@+id/matchbutton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/settingsbutton"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="14dp"
+        android:layout_marginBottom="8dp"
         android:background="#000"
         android:text="View Matches"
         android:textColor="#fff"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:layout_above="@+id/messagebutton"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true" />
 
     <Button
         android:id="@+id/settingsbutton"
@@ -40,7 +41,7 @@
         android:layout_above="@+id/logoutbutton"
         android:layout_alignParentEnd="true"
         android:layout_alignParentStart="true"
-        android:layout_marginBottom="12dp"
+        android:layout_marginBottom="8dp"
         android:background="#000"
         android:text="Settings"
         android:textColor="#fff"
@@ -59,6 +60,19 @@
         android:text="Log Out"
         android:textColor="#fff"
         android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/messagebutton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#000"
+        android:text="Messages"
+        android:textColor="#fff"
+        android:textStyle="bold"
+        android:layout_marginBottom="11dp"
+        android:layout_above="@+id/settingsbutton"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true" />
 
 
 </RelativeLayout>

@@ -77,5 +77,17 @@ public class UserHomePage extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        /* button for moving to message */
+        Button messageButton = (Button) findViewById(R.id.messagebutton);
+        messageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view)
+            {
+                FirebaseAuth.getInstance().signOut();
+                Intent intent = new Intent(getApplicationContext(), MessageActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 }
