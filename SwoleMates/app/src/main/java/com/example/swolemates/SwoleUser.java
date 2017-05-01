@@ -292,20 +292,23 @@ public class SwoleUser implements Comparable<SwoleUser> {
     @Override
     public String toString() {
         String desc = "";
-        // check if value == null before adding to description
-        // name
-        // height
-        // weight
-        // age
-        // play style
-        // weightlifting_skill & weightlifting_rank;
-        // basketball_skill & basketball_rank;
-        // football_skill & football_rank;
-        // volleyball_skill & volleyball_rank;
-        // swimming_skill & swimming_rank;
-        // baseball_skill & baseball_rank;
-        // soccer_skill & soccer_rank;
-        // running_skill & running_rank;
+        
+        /* build user description to be displayed under user profile */
+        desc = (name == null) ? desc : desc + "Name: " + name + "\n";
+        desc = (height == null) ? desc : desc + "Height: " + height + "\n";
+        desc = (weight == null) ? desc : desc + "Weight: " + weight + "\n";
+        desc = (age == null) ? desc : desc + "Age: " + age + "\n";
+        desc = (playStyle == null) ? desc : desc + "Style: " + playStyle + "\n";
+        desc = (name == null) ? desc : desc + "Name: " + name + "\n";
+        desc = (weightlifting_skill == null) ? desc : desc + "Skill: " + weightlifting_skill + "\n";
+        desc = (basketball_skill == null) ? desc : desc + "Skill: " + baseball_skill + "\n";
+        desc = (football_skill == null) ? desc : desc + "Skill: " + football_skill + "\n";
+        desc = (volleyball_skill == null) ? desc : desc + "Skill: " + volleyball_skill + "\n";
+        desc = (swimming_skill == null) ? desc : desc + "Skill: " + swimming_skill + "\n";
+        desc = (baseball_skill == null) ? desc : desc + "Skill: " + baseball_skill + "\n";
+        desc = (soccer_skill == null) ? desc : desc + "Skill: " + soccer_skill + "\n";
+        desc = (running_skill == null) ? desc : desc + "Skill: " + running_skill + "\n";
+
         return desc;
     }
 
