@@ -75,9 +75,9 @@ public class HomePage extends AppCompatActivity
         this.stackView = (StackView) findViewById(R.id.stackView);
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        age = prefs.getInt("user_age", 5);
-        weight = prefs.getInt("user_age", 5);
-        height = prefs.getInt("user_age", 5);
+        age = Integer.parseInt(prefs.getString("user_age", null));
+        weight = Integer.parseInt(prefs.getString("user_weight", null));
+        height = Integer.parseInt(prefs.getString("user_height", null));
 
         sport = prefs.getString("user_sport", null);
         playStyle = prefs.getString("user_play_style", null);
