@@ -23,8 +23,10 @@ import android.widget.ImageView;
 import android.widget.StackView;
 import android.widget.Toast;
 
+import com.example.login.FacebookLoginActivity;
 import com.example.messaging.GroupTextActivity;
-import com.example.messaging.MessageActivity;
+import com.example.messaging.SelectGM_Activity;
+import com.example.settings.DefaultSettingsActivity;
 import com.example.ui.StackAdapter;
 import com.example.ui.StackItem;
 import com.google.firebase.auth.FirebaseAuth;
@@ -174,28 +176,39 @@ public class HomePage extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
         if (id == R.id.nav_home) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
+            Intent intent = new Intent(this, HomePage.class);
+            startActivity(intent);
+            finish();
+        } else if (id == R.id.nav_teammates) {
+            Intent intent = new Intent(this, SelectGM_Activity.class);
+            startActivity(intent);
+            finish();
 
         } else if (id == R.id.nav_messages) {
-            Intent intent = new Intent(this, MessageActivity.class);
-            intent.putExtra("key", "sports");
-            startActivity(intent);
-
-        } else if (id == R.id.nav_rooms) {
             Intent intent = new Intent(this, GroupTextActivity.class);
             startActivity(intent);
+            finish();
+
+        } else if (id == R.id.nav_leave_sport) {
+            Intent intent = new Intent(this, SelectSport.class);
+            startActivity(intent);
+            finish();
+
+        } else if (id == R.id.nav_settings) {
+            Intent intent = new Intent(this, DefaultSettingsActivity.class);
+            startActivity(intent);
+            finish();
 
         } else if (id == R.id.nav_logout) {
+            Intent intent = new Intent(this, FacebookLoginActivity.class);
+            startActivity(intent);
+            finish();
 
         }
 

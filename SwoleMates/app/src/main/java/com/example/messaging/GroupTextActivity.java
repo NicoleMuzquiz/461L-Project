@@ -34,8 +34,10 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import com.example.login.FacebookLoginActivity;
+import com.example.settings.DefaultSettingsActivity;
 import com.example.swolemates.HomePage;
 import com.example.swolemates.R;
+import com.example.swolemates.SelectSport;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -182,19 +184,32 @@ public class GroupTextActivity extends AppCompatActivity
 
         if (id == R.id.nav_home) {
             Intent intent = new Intent(this, HomePage.class);
-            finish();
             startActivity(intent);
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
+            finish();
+        } else if (id == R.id.nav_teammates) {
+            Intent intent = new Intent(this, SelectGM_Activity.class);
+            startActivity(intent);
+            finish();
 
         } else if (id == R.id.nav_messages) {
-            Intent intent = new Intent(this, MessageActivity.class);
+            Intent intent = new Intent(this, GroupTextActivity.class);
             startActivity(intent);
+            finish();
 
-        } else if (id == R.id.nav_rooms) {
+        } else if (id == R.id.nav_leave_sport) {
+            Intent intent = new Intent(this, SelectSport.class);
+            startActivity(intent);
+            finish();
+
+        } else if (id == R.id.nav_settings) {
+            Intent intent = new Intent(this, DefaultSettingsActivity.class);
+            startActivity(intent);
+            finish();
 
         } else if (id == R.id.nav_logout) {
+            Intent intent = new Intent(this, FacebookLoginActivity.class);
+            startActivity(intent);
+            finish();
 
         }
 
