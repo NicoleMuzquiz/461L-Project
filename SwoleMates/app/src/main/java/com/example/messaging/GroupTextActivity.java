@@ -254,8 +254,12 @@ public class GroupTextActivity extends AppCompatActivity
                         }
                     }
                     // Extract attributes from Message object to display on the screen.
-                    addGM(gm.getGroupMemberNames(), gm.getLastMessageSent() + "\t" +
-                            fmt.format(new Date(gm.getTimeOfLastMessage())), snapshot.getKey());
+                    if(gm.getTimeOfLastMessage() != null) {
+                        addGM(gm.getGroupMemberNames(), gm.getLastMessageSent() + "\t" +
+                                fmt.format(new Date(gm.getTimeOfLastMessage())), snapshot.getKey());
+                    }else{
+                        addGM(gm.getGroupMemberNames(), gm.getLastMessageSent(), snapshot.getKey());
+                    }
                 }
             }
 
