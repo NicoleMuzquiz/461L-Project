@@ -55,6 +55,7 @@ public class SelectGM_Activity extends AppCompatActivity {
 
     // Firebase keys commonly used with backend Servlet instances
     private static final String MATCH = "matches";
+    private static final String MSG = "messages";
     private static final String USR = "users";
     private static final String REQLOG = "requestLogger";
 
@@ -94,15 +95,21 @@ public class SelectGM_Activity extends AppCompatActivity {
 
                 StringBuffer responseText = new StringBuffer();
                 String message_id = "";
+                String userNames = "";
                 responseText.append("The following were selected...\n");
 
                 ArrayList<UserBox> matchList = dataAdapter.matchList;
                 ArrayList<String> matchIdList = new ArrayList<String>();
-                if(matchList.size() >= 0) {
+                ArrayList<String> displayNameList = new ArrayList<String>();
+
+                if (matchList.size() >= 0) {
                     matchIdList.add(firebaseUser.getUid());
+                    displayNameList.add(firebaseUser.getDisplayName());
                     for (int i = 0; i < matchList.size(); i++) {
                         String userID = matchList.get(i).getId();
+                        String userName = matchList.get(i).getName();
                         matchIdList.add(userID);
+                        displayNameList.add(userName);
 //                        UserBox user = matchList.get(i);
 //                        message_id += "_" + user.getId();
 //                        user = matchList.get(i);
@@ -111,17 +118,21 @@ public class SelectGM_Activity extends AppCompatActivity {
 //                        }
                     }
                     Collections.sort(matchIdList);
+
                     message_id += matchIdList.get(0);
+                    userNames += displayNameList.get(0);
                     for (int i = 1; i < matchIdList.size(); i++) {
                         String user = matchIdList.get(i);
                         message_id += "_" + user;
+                        userNames += "_" + displayNameList.get(i);
                     }
                     Toast.makeText(getApplicationContext(),
                             responseText, Toast.LENGTH_LONG).show();
                     Intent intent = new Intent(view.getContext(), MessageActivity.class);
                     intent.putExtra("key", message_id);
+                    intent.putExtra("names", userNames);
                     startActivity(intent);
-                }else{
+                } else {
                     Toast.makeText(getApplicationContext(),
                             "None were selected", Toast.LENGTH_LONG).show();
                 }
