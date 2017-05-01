@@ -1,25 +1,15 @@
 package com.example.swolemates;
 
-import android.content.Context;
-import android.hardware.camera2.params.Face;
-import android.support.v7.app.AppCompatActivity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
-import android.content.Intent;
-import android.app.ActionBar;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.Color;
 
 import com.example.login.FacebookLoginActivity;
 import com.example.messaging.MessageActivity;
 import com.example.messaging.SelectGM_Activity;
 import com.example.settings.DefaultSettingsActivity;
-import com.facebook.AccessToken;
-import com.facebook.AccessTokenTracker;
-import com.facebook.login.LoginManager;
-import com.facebook.appevents.AppEventsLogger;
-import com.facebook.FacebookSdk;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class UserHomePage extends AppCompatActivity {
@@ -44,7 +34,7 @@ public class UserHomePage extends AppCompatActivity {
             }
         });
 
-        /* Button for moving to view matches page */
+        /* Button for moving to view connections page */
         Button matchButton = (Button) findViewById(R.id.matchbutton);
         matchButton.setOnClickListener(new View.OnClickListener() {
             @Override

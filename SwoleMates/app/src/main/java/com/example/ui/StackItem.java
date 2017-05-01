@@ -3,6 +3,8 @@ package com.example.ui;
 import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 
+import com.example.swolemates.SwoleUser;
+
 /**
  * Created by einwo on 3/30/2017.
  */
@@ -14,16 +16,26 @@ public class StackItem implements Comparable<StackItem> {
     private String userDesc;
     private String id;
     private String email;
+    private SwoleUser user;
 
-    public StackItem(String userName, String userDesc) {
-        this.userName = userName;
-        this.userDesc = userDesc;
+    public StackItem() {
+        this.userDesc = "Buffering";
     }
 
-    public StackItem(String userName, String userDesc, Bitmap img) {
-        this.userName = userName;
-        this.userDesc = userDesc;
+    public StackItem(SwoleUser swoleUser) {
+        this.userName = swoleUser.getName();
+        this.userDesc = swoleUser.toString();
+        this.id = swoleUser.getId();
+        this.email = swoleUser.getEmail();
+    }
+
+    public StackItem(Bitmap img, SwoleUser user) {
+        this.userName = user.getName();
+        this.userDesc = user.toString();
+        this.user = user;
         this.image = img;
+        this.id = user.getId();
+        this.email = user.getEmail();
     }
 
     public String getUserName() {
@@ -45,7 +57,7 @@ public class StackItem implements Comparable<StackItem> {
     public boolean equals(@NonNull Object o) {
         if(o instanceof StackItem) {
             StackItem p = (StackItem) o;
-            if (p.getUserName().equals(this.userName) && p.getUserDesc().equals(this.userDesc))
+            if (p.getId().equals(this.id))
                 return true;
         }
         return false;
@@ -65,5 +77,13 @@ public class StackItem implements Comparable<StackItem> {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public SwoleUser getUser() {
+        return user;
+    }
+
+    public void setUser(SwoleUser user) {
+        this.user = user;
     }
 }

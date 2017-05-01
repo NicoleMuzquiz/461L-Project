@@ -54,7 +54,7 @@ public class SelectGM_Activity extends AppCompatActivity {
     MyCustomAdapter dataAdapter = null;
 
     // Firebase keys commonly used with backend Servlet instances
-    private static final String MATCH = "matches";
+    private static final String MATCH = "connections";
     private static final String MSG = "messages";
     private static final String USR = "users";
     private static final String REQLOG = "requestLogger";

@@ -175,7 +175,7 @@ public class MessageActivity extends AppCompatActivity
             map.put(firebaseUser.getUid(), swoleUser);
             firebase.child("users/" + firebaseUser.getUid() + "/data")
                     .updateChildren(map);
-            firebase.child("users/" + firebaseUser.getUid() + "/matches")
+            firebase.child("users/" + firebaseUser.getUid() + "/connections")
                     .updateChildren(map);
             return true;
         }

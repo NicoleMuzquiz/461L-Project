@@ -60,8 +60,8 @@ public class HomePage extends AppCompatActivity
     private FirebaseUser firebaseUser;
     private DatabaseReference firebase;
     private StackAdapter adapt;
-    private ArrayList<StackItem> items, matchUsers, ignoreUsers;
-    private ArrayList<SwoleUser> potentials, matches, rejections;
+    private ArrayList<StackItem> usersInRoom, matchUsers, ignoreUsers;
+    private ArrayList<SwoleUser> potentials, connections, rejections;
     private SwoleUser swoleUser, mySwoleUser;
 
     @Override
@@ -75,24 +75,24 @@ public class HomePage extends AppCompatActivity
         this.stackView = (StackView) findViewById(R.id.stackView);
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        age = Integer.parseInt(prefs.getString("user_age", null));
-        weight = Integer.parseInt(prefs.getString("user_weight", null));
-        height = Integer.parseInt(prefs.getString("user_height", null));
+        age = prefs.getInt("user_age", 5);
+        weight = prefs.getInt("user_age", 5);
+        height = prefs.getInt("user_age", 5);
 
         sport = prefs.getString("user_sport", null);
         playStyle = prefs.getString("user_play_style", null);
         skill = Integer.parseInt(prefs.getString("user_skill", null));
 
-        items = new ArrayList<StackItem>();
+        usersInRoom = new ArrayList<StackItem>();
         matchUsers = new ArrayList<StackItem>();
         ignoreUsers = new ArrayList<StackItem>();
 
         potentials = new ArrayList<SwoleUser>();
-        matches = new ArrayList<SwoleUser>();
+        connections = new ArrayList<SwoleUser>();
         rejections = new ArrayList<SwoleUser>();
 
         for (int p = 0; p < NUMBER_OF_FRAGMENTS; p++) {
-            items.add(new StackItem("Buffering", "Android Photo"));
+            usersInRoom.add(new StackItem());
         }
         firebase = FirebaseDatabase.getInstance().getReference();
 
@@ -118,7 +118,7 @@ public class HomePage extends AppCompatActivity
         addListeners();
 
         /* UI set-up */
-        adapt = new StackAdapter(this, items);
+        adapt = new StackAdapter(this, usersInRoom);
         stackView.setAdapter(adapt);
         stackView.setHorizontalScrollBarEnabled(true);
         stackView.setBackgroundColor(getResources().getColor(R.color.grey_100));
@@ -165,7 +165,7 @@ public class HomePage extends AppCompatActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
+        // Inflate the menu; this adds usersInRoom to the action bar if it is present.
         getMenuInflater().inflate(R.menu.home_page, menu);
         return true;
     }
@@ -231,31 +231,23 @@ public class HomePage extends AppCompatActivity
         if (id == R.id.match) {
             stackView.showNext();
 
-            StackItem otherUserStackItem = items.remove(0);
+            StackItem otherUserStackItem = usersInRoom.remove(0);
             matchUsers.add(otherUserStackItem);
             adapt.notifyDataSetChanged();
 
-            String otherEmail = otherUserStackItem.getEmail();
-            String otherId = otherUserStackItem.getId();
-
             // split up data from StackItem and create SwoleUser from it
             Map<String, Object> map = new HashMap<String, Object>();
-            SwoleUser otherUser = new SwoleUser();
-            otherUser.setBasketball_rank(10);
-            otherUser.setBasketball_skill(8);
-            otherUser.setEmail(otherEmail);
-            otherUser.setName(otherEmail.substring(0, otherEmail.indexOf("@")));
-            otherUser.setPhotoUrl(firebaseUser.getPhotoUrl().toString());
-            otherUser.setId(otherUserStackItem.getId());
+
+            SwoleUser otherUser = otherUserStackItem.getUser();
 
             if (!potentials.contains(otherUser)) {
                 map.put(firebaseUser.getUid(), mySwoleUser);
-                firebase.child("users/" + otherUserStackItem.getId() + "/potential")
+                firebase.child("users/" + otherUser.getId() + "/potential")
                         .updateChildren(map);
-                firebase.child("rooms/" + sport + "/" + otherUserStackItem.getId() + "/potential")
+                firebase.child("rooms/" + sport + "/" + otherUser.getId() + "/potential")
                         .updateChildren(map);
             } else {
-                // delete myself from other user's potential matches
+                // delete myself from other user's potential connections
                 map.put(otherUserStackItem.getId(), null);
                 firebase.child("users/" + firebaseUser.getUid() + "/potential")
                         .setValue(map);
@@ -263,19 +255,19 @@ public class HomePage extends AppCompatActivity
                         .setValue(map);
                 map.clear();
 
-                // add other user to my matches
+                // add other user to my connections
                 map.put(otherUserStackItem.getId(), otherUser);
-                firebase.child("users/" + firebaseUser.getUid() + "/matches")
+                firebase.child("users/" + firebaseUser.getUid() + "/connections")
                         .updateChildren(map);
-                firebase.child("rooms/" + sport + "/" + firebaseUser.getUid() + "/matches")
+                firebase.child("rooms/" + sport + "/" + firebaseUser.getUid() + "/connections")
                         .updateChildren(map);
                 map.clear();
 
-                // add myself to other user's matches
+                // add myself to other user's connections
                 map.put(firebaseUser.getUid(), mySwoleUser);
-                firebase.child("users/" + otherUserStackItem.getId() + "/matches")
+                firebase.child("users/" + otherUserStackItem.getId() + "/connections")
                         .updateChildren(map);
-                firebase.child("rooms/" + sport + "/" + otherUserStackItem.getId() + "/matches")
+                firebase.child("rooms/" + sport + "/" + otherUserStackItem.getId() + "/connections")
                         .updateChildren(map);
 
             }
@@ -283,27 +275,18 @@ public class HomePage extends AppCompatActivity
         } else if (id == R.id.ignore) {
             stackView.showNext();
 
-            StackItem i = items.remove(0);
-            ignoreUsers.add(i);
+            StackItem otherUserStackItem = usersInRoom.remove(0);
+            ignoreUsers.add(otherUserStackItem);
             adapt.notifyDataSetChanged();
-
-            String otherEmail = i.getEmail();
-            String otherId = i.getId();
 
             // split up data from StackItem and create SwoleUser from it
             Map<String, Object> map = new HashMap<String, Object>();
-            SwoleUser swoleUser = new SwoleUser();
-            swoleUser.setBasketball_rank(10);
-            swoleUser.setBasketball_skill(8);
-            swoleUser.setEmail(otherEmail);
-            swoleUser.setName(otherEmail.substring(0, otherEmail.indexOf("@")));
-            swoleUser.setPhotoUrl(firebaseUser.getPhotoUrl().toString());
-            swoleUser.setId(i.getId());
+            SwoleUser swoleUser = otherUserStackItem.getUser();
 
-            map.put(i.getId(), swoleUser);
-            firebase.child("users/" + i.getId() + "/rejections")
+            map.put(otherUserStackItem.getId(), swoleUser);
+            firebase.child("users/" + swoleUser.getId() + "/rejections")
                     .updateChildren(map);
-            firebase.child("rooms/" + sport + "/" + i.getId() + "/rejections")
+            firebase.child("rooms/" + sport + "/" + swoleUser.getId() + "/rejections")
                     .updateChildren(map);
 
         }
@@ -312,14 +295,14 @@ public class HomePage extends AppCompatActivity
 
     private void setSport() {
 
-//        Basketball
-//        Weightlifting
-//        Football
-//        Volleyball
-//        Swimming
-//        Baseball
-//        Soccer
-//        Running
+ /*     Basketball
+        Weightlifting
+        Football
+        Volleyball
+        Swimming
+        Baseball
+        Soccer
+        Running */
         if (sport.equals("Basketball")) {
             mySwoleUser.setBasketball_skill(skill);
         } else if (sport.equals("Weightlifting")) {
@@ -363,11 +346,14 @@ public class HomePage extends AppCompatActivity
         }
 
         protected void onPostExecute(String result) {
-//            items.remove(new StackItem("Buffering", "Android Photo"));
-            StackItem stack = new StackItem(swoleUser.getName(), swoleUser.toString(), img);
+//            usersInRoom.remove(new StackItem("Buffering", "Android Photo"));
+            StackItem stack = new StackItem(img, swoleUser);
+
+            if (connections.contains(swoleUser) || rejections.contains(swoleUser)) return;
+
             stack.setId(swoleUser.getId());
             stack.setEmail(swoleUser.getEmail());
-            items.add(0, stack);
+            usersInRoom.add(0, stack);
             adapt.notifyDataSetChanged();
         }
 
@@ -435,11 +421,17 @@ public class HomePage extends AppCompatActivity
         });
 
         /* Matched Teammates Listener */
-        firebase.child("users/" + firebaseUser.getUid() + "/matches").addChildEventListener(new ChildEventListener() {
+        firebase.child("users/" + firebaseUser.getUid() + "/connections").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String prevKey) {
                 swoleUser = (SwoleUser) dataSnapshot.getValue(SwoleUser.class);
-                matches.add(swoleUser);
+
+                // remove user from stack view if you've already connected with them
+                StackItem temp = new StackItem();
+                temp.setId(swoleUser.getId());
+                usersInRoom.remove(temp);
+
+                connections.add(swoleUser);
             }
 
             @Override
@@ -468,6 +460,12 @@ public class HomePage extends AppCompatActivity
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String prevKey) {
                 swoleUser = (SwoleUser) dataSnapshot.getValue(SwoleUser.class);
+
+                // remove user from stack view if you've already rejected them
+                StackItem temp = new StackItem();
+                temp.setId(swoleUser.getId());
+                usersInRoom.remove(temp);
+
                 rejections.add(swoleUser);
             }
 
