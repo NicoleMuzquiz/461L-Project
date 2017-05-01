@@ -38,7 +38,6 @@ import com.example.settings.DefaultSettingsActivity;
 import com.example.swolemates.HomePage;
 import com.example.swolemates.R;
 import com.example.swolemates.SelectSport;
-import com.example.swolemates.SwoleUser;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -163,20 +162,7 @@ public class MessageActivity extends AppCompatActivity
             firebase.child(CHS + "/" + currentChannel + "/history")
                     .push()
                     .setValue(new Message(messageText.getText().toString(), firebaseUser.getDisplayName()));
-            Map<String, Object> map = new HashMap<String, Object>();
-            SwoleUser swoleUser = new SwoleUser();
-            swoleUser.setBasketball_rank(10);
-            swoleUser.setBasketball_skill(8);
-            swoleUser.setEmail(firebaseUser.getEmail());
-            swoleUser.setName(firebaseUser.getDisplayName());
-            swoleUser.setPhotoUrl(firebaseUser.getPhotoUrl().toString());
-            swoleUser.setId(firebaseUser.getUid());
 
-            map.put(firebaseUser.getUid(), swoleUser);
-            firebase.child("users/" + firebaseUser.getUid() + "/data")
-                    .updateChildren(map);
-            firebase.child("users/" + firebaseUser.getUid() + "/connections")
-                    .updateChildren(map);
             return true;
         }
         return false;
