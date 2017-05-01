@@ -251,14 +251,10 @@ public class HomePage extends AppCompatActivity
                 map.put(firebaseUser.getUid(), mySwoleUser);
                 firebase.child("users/" + otherUser.getId() + "/potential")
                         .updateChildren(map);
-                firebase.child("rooms/" + sport + "/" + otherUser.getId() + "/potential")
-                        .updateChildren(map);
             } else {
                 // delete myself from other user's potential connections
                 map.put(otherUser.getId(), null);
                 firebase.child("users/" + firebaseUser.getUid() + "/potential")
-                        .setValue(map);
-                firebase.child("rooms/" + sport + "/" + firebaseUser.getUid() + "/potential")
                         .setValue(map);
                 map.clear();
 
@@ -266,15 +262,11 @@ public class HomePage extends AppCompatActivity
                 map.put(otherUser.getId(), otherUser);
                 firebase.child("users/" + firebaseUser.getUid() + "/connections")
                         .updateChildren(map);
-                firebase.child("rooms/" + sport + "/" + firebaseUser.getUid() + "/connections")
-                        .updateChildren(map);
                 map.clear();
 
                 // add myself to other user's connections
                 map.put(firebaseUser.getUid(), mySwoleUser);
                 firebase.child("users/" + otherUser.getId() + "/connections")
-                        .updateChildren(map);
-                firebase.child("rooms/" + sport + "/" + otherUser.getId() + "/connections")
                         .updateChildren(map);
 
             }
@@ -292,8 +284,6 @@ public class HomePage extends AppCompatActivity
 
             map.put(otherUserStackItem.getId(), user);
             firebase.child("users/" + user.getId() + "/rejections")
-                    .updateChildren(map);
-            firebase.child("rooms/" + sport + "/" + user.getId() + "/rejections")
                     .updateChildren(map);
 
         }
