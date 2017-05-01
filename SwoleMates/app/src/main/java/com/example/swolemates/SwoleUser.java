@@ -292,14 +292,13 @@ public class SwoleUser implements Comparable<SwoleUser> {
     @Override
     public String toString() {
         String desc = "";
-        
+
         /* build user description to be displayed under user profile */
         desc = (name == null) ? desc : desc + "Name: " + name + "\n";
         desc = (height == null) ? desc : desc + "Height: " + height + "\n";
         desc = (weight == null) ? desc : desc + "Weight: " + weight + "\n";
         desc = (age == null) ? desc : desc + "Age: " + age + "\n";
         desc = (playStyle == null) ? desc : desc + "Style: " + playStyle + "\n";
-        desc = (name == null) ? desc : desc + "Name: " + name + "\n";
         desc = (weightlifting_skill == null) ? desc : desc + "Skill: " + weightlifting_skill + "\n";
         desc = (basketball_skill == null) ? desc : desc + "Skill: " + baseball_skill + "\n";
         desc = (football_skill == null) ? desc : desc + "Skill: " + football_skill + "\n";

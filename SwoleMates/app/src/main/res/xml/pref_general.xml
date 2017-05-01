@@ -55,11 +55,6 @@
         android:summary="Skill Level"
         android:title="Enter your skill level" />
 
-    <Preference
-        android:key="button"
-        android:widgetLayout="@layout/pref_layout"
-        android:onClick="openMain" />
-
     <!-- NOTE: Hide buttons to simplify the UI. Users can touch outside the dialog to
          dismiss it. -->
 
