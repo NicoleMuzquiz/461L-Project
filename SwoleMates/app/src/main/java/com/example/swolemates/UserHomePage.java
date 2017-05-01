@@ -84,7 +84,6 @@ public class UserHomePage extends AppCompatActivity {
             @Override
             public void onClick(View view)
             {
-                FirebaseAuth.getInstance().signOut();
                 Intent intent = new Intent(getApplicationContext(), MessageActivity.class);
                 startActivity(intent);
             }
