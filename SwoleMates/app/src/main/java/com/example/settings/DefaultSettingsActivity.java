@@ -23,6 +23,7 @@ import android.view.View;
 
 import com.example.swolemates.R;
 import com.example.swolemates.SelectSport;
+import com.example.swolemates.UserHomePage;
 import com.example.ui.AppCompatPreferenceActivity;
 
 import java.util.List;
@@ -91,6 +92,16 @@ public class DefaultSettingsActivity extends AppCompatPreferenceActivity impleme
             return true;
         }
     };
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == android.R.id.home) {
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     /**
      * Called when the user clicks the Save button
