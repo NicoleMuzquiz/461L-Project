@@ -87,7 +87,7 @@ public class SelectGM_Activity extends AppCompatActivity {
         setContentView(R.layout.activity_select_gm);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        swoleUser = new SwoleUser();
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.select_gm_fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
