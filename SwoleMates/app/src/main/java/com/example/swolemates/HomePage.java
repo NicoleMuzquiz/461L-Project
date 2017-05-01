@@ -182,9 +182,7 @@ public class HomePage extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_home) {
-            Intent intent = new Intent(this, HomePage.class);
-            startActivity(intent);
-            finish();
+
         } else if (id == R.id.nav_teammates) {
             Intent intent = new Intent(this, SelectGM_Activity.class);
             startActivity(intent);

@@ -192,9 +192,6 @@ public class GroupTextActivity extends AppCompatActivity
             finish();
 
         } else if (id == R.id.nav_messages) {
-            Intent intent = new Intent(this, GroupTextActivity.class);
-            startActivity(intent);
-            finish();
 
         } else if (id == R.id.nav_leave_sport) {
             Intent intent = new Intent(this, SelectSport.class);
