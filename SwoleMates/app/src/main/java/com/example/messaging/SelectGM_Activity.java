@@ -42,6 +42,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class SelectGM_Activity extends AppCompatActivity {
 
@@ -79,6 +81,7 @@ public class SelectGM_Activity extends AppCompatActivity {
     private SimpleAdapter gmAdapter;
     private EditText messageText;
     private TextView status;
+    private Lock swoleUserLock;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,8 +89,8 @@ public class SelectGM_Activity extends AppCompatActivity {
         setContentView(R.layout.activity_select_gm);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        swoleUser = new SwoleUser();
-        
+        swoleUserLock = new ReentrantLock();
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.select_gm_fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -151,11 +154,11 @@ public class SelectGM_Activity extends AppCompatActivity {
                 .addChildEventListener(new ChildEventListener() {
                     @Override
                     public void onChildAdded(DataSnapshot dataSnapshot, String prevKey) {
-                        synchronized (swoleUser) {
+                        synchronized (swoleUserLock) {
                             swoleUser = (SwoleUser) dataSnapshot.getValue(SwoleUser.class);
                             if (swoleUser != null && !email.equals(swoleUser.getEmail()))
                                 getUserImg(swoleUser.getPhotoUrl());
-                            swoleUser.notifyAll();
+                            swoleUserLock.notifyAll();
                         }
                     }
 
