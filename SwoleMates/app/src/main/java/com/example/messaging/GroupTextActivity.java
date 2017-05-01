@@ -65,7 +65,7 @@ public class GroupTextActivity extends AppCompatActivity
 
     // Firebase keys commonly used with backend Servlet instances
     private static final String MSG = "messages";
-    private static final String CHS = "users";
+    private static final String USR = "users";
     private static final String REQLOG = "requestLogger";
 
     private static final int RC_SIGN_IN = 9001;
@@ -75,7 +75,7 @@ public class GroupTextActivity extends AppCompatActivity
 
     private FirebaseUser firebaseUser;
     private DatabaseReference firebase;
-    private String token;
+    private String key, names;
     private String inbox;
     private String currentChannel;
     private List<String> channels;
@@ -127,9 +127,13 @@ public class GroupTextActivity extends AppCompatActivity
 
         fmt = new SimpleDateFormat("MM.dd.yy HH:mm z");
 
+        Intent selectGM = getIntent();
+        key = selectGM.getStringExtra("key");
+        names = selectGM.getStringExtra("names");
+
         // Switching a listener to the selected channel.
         initFirebase();
-        firebase.child(CHS + "/" + firebaseUser.getUid() + "/" + MSG).addChildEventListener(channelListener);
+        firebase.child("channels").addChildEventListener(channelListener);
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_gm_view);
         navigationView.setNavigationItemSelectedListener(this);
@@ -215,10 +219,32 @@ public class GroupTextActivity extends AppCompatActivity
         channelListener = new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot snapshot, String prevKey) {
-                GroupTextItem gm = (GroupTextItem) snapshot.getValue(GroupTextItem.class);
-                // Extract attributes from Message object to display on the screen.
-                addGM(gm.getGroupMemberNames(), gm.getLastMessageSent() + "\t" +
-                        fmt.format(new Date(gm.getTimeOfLastMessage())), snapshot.getKey());
+//                return;
+                if (snapshot.getKey().contains(firebaseUser.getUid())) {
+                    GroupTextItem gm = new GroupTextItem();
+                    Iterable<DataSnapshot> dataSnapshots = snapshot.getChildren();
+                    Iterable<DataSnapshot> messageSnapshots;
+                    for (DataSnapshot dataSnapshot : dataSnapshots) {
+                        if (dataSnapshot.getKey().equals("names")) {
+                            gm.setGroupMemberNames((String) dataSnapshot.getValue());
+                        } else if (dataSnapshot.getKey().equals("history")) {
+                            messageSnapshots = dataSnapshot.getChildren();
+                            for (DataSnapshot messageSnapshot : messageSnapshots) {
+                                for (DataSnapshot message : messageSnapshot.getChildren()) {
+                                    if (message.getKey().equals("text")) {
+                                        gm.setLastMessageSent((String) message.getValue());
+                                    } else if (message.getKey().equals("time")) {
+                                        gm.setTime((Long) message.getValue());
+                                    }
+                                }
+                                break;
+                            }
+                        }
+                    }
+                    // Extract attributes from Message object to display on the screen.
+                    addGM(gm.getGroupMemberNames(), gm.getLastMessageSent() + "\t" +
+                            fmt.format(new Date(gm.getTimeOfLastMessage())), snapshot.getKey());
+                }
             }
 
             @Override

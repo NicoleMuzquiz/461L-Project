@@ -237,10 +237,10 @@ public class HomePage extends AppCompatActivity
             } else {
                 // delete myself from other user's potential matches
                 map.put(otherUserStackItem.getId(), null);
-                firebase.child("users/" + otherUserStackItem.getId() + "/potential")
-                        .updateChildren(map);
-                firebase.child("rooms/" + sport + "/" + otherUserStackItem.getId() + "/potential")
-                        .updateChildren(map);
+                firebase.child("users/" + firebaseUser.getUid() + "/potential")
+                        .setValue(map);
+                firebase.child("rooms/" + sport + "/" + firebaseUser.getUid() + "/potential")
+                        .setValue(map);
                 map.clear();
 
                 // add other user to my matches

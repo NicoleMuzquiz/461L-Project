@@ -18,8 +18,8 @@ public class GroupTextItem {
     public GroupTextItem() {}
 
     public GroupTextItem(String names, String lastMessage) {
-        this.groupMemberNames = names;
-        this.lastMessageSent = lastMessage;
+        this.setGroupMemberNames(names);
+        this.setLastMessageSent(lastMessage);
     }
 
     public String getGroupMemberNames() {
@@ -35,4 +35,12 @@ public class GroupTextItem {
 
     @JsonIgnore
     public Long getTimeOfLastMessage() { return time; }
+
+    public void setLastMessageSent(String lastMessageSent) {
+        this.lastMessageSent = lastMessageSent;
+    }
+
+    public void setGroupMemberNames(String groupMemberNames) {
+        this.groupMemberNames = groupMemberNames;
+    }
 }

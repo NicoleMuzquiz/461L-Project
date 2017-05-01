@@ -118,13 +118,14 @@ public class SelectGM_Activity extends AppCompatActivity {
 //                        }
                     }
                     Collections.sort(matchIdList);
+                    Collections.sort(displayNameList);
 
                     message_id += matchIdList.get(0);
                     userNames += displayNameList.get(0);
                     for (int i = 1; i < matchIdList.size(); i++) {
                         String user = matchIdList.get(i);
                         message_id += "_" + user;
-                        userNames += "_" + displayNameList.get(i);
+                        userNames += ", " + displayNameList.get(i);
                     }
                     Toast.makeText(getApplicationContext(),
                             responseText, Toast.LENGTH_LONG).show();

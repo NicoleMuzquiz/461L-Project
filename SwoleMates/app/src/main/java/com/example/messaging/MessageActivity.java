@@ -128,9 +128,14 @@ public class MessageActivity extends AppCompatActivity
         // Switching a listener to the selected channel.
         initFirebase();
         currentChannel = getIntent().getStringExtra("key");
-        firebase.child(CHS + "/" + currentChannel).addChildEventListener(channelListener);
+        String names = getIntent().getStringExtra("names");
+        firebase.child(CHS + "/" + currentChannel + "/history").addChildEventListener(channelListener);
 
-        channelLabel.setText(currentChannel);
+        Map<String, Object> map = new HashMap<>();
+        map.put("names", names);
+        firebase.child(CHS + "/" + currentChannel).updateChildren(map);
+
+        channelLabel.setText(names);
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_message_view);
         navigationView.setNavigationItemSelectedListener(this);
@@ -152,7 +157,7 @@ public class MessageActivity extends AppCompatActivity
     @Override
     public boolean onKey(View v, int keyCode, KeyEvent event) {
         if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
-            firebase.child(CHS + "/" + currentChannel)
+            firebase.child(CHS + "/" + currentChannel + "/history")
                     .push()
                     .setValue(new Message(messageText.getText().toString(), firebaseUser.getDisplayName()));
             Map<String, Object> map = new HashMap<String, Object>();
@@ -251,9 +256,9 @@ public class MessageActivity extends AppCompatActivity
         }
 
         // Switching a listener to the selected channel.
-        firebase.child(CHS + "/" + currentChannel).removeEventListener(channelListener);
+        firebase.child(CHS + "/" + currentChannel + "/history").removeEventListener(channelListener);
         currentChannel = item.toString();
-        firebase.child(CHS + "/" + currentChannel).addChildEventListener(channelListener);
+        firebase.child(CHS + "/" + currentChannel + "/history").addChildEventListener(channelListener);
 
         channelLabel.setText(currentChannel);
 
