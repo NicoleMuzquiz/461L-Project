@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.example.login.FacebookLoginActivity;
+import com.example.messaging.GroupTextActivity;
 import com.example.messaging.MessageActivity;
 import com.example.messaging.SelectGM_Activity;
 import com.example.settings.DefaultSettingsActivity;
@@ -74,7 +75,7 @@ public class UserHomePage extends AppCompatActivity {
             @Override
             public void onClick(View view)
             {
-                Intent intent = new Intent(getApplicationContext(), MessageActivity.class);
+                Intent intent = new Intent(getApplicationContext(), GroupTextActivity.class);
                 startActivity(intent);
             }
         });
