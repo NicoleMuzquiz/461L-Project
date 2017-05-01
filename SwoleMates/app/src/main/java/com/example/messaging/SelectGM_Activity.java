@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -87,6 +86,7 @@ public class SelectGM_Activity extends AppCompatActivity {
         setContentView(R.layout.activity_select_gm);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        swoleUser = new SwoleUser();
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.select_gm_fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -154,7 +154,7 @@ public class SelectGM_Activity extends AppCompatActivity {
                         synchronized (swoleUser) {
                             swoleUser = (SwoleUser) dataSnapshot.getValue(SwoleUser.class);
                             if (swoleUser != null && !email.equals(swoleUser.getEmail()))
-                                new GetUserImg().execute(swoleUser.getPhotoUrl());
+                                getUserImg(swoleUser.getPhotoUrl());
                             swoleUser.notifyAll();
                         }
                     }
@@ -317,35 +317,57 @@ public class SelectGM_Activity extends AppCompatActivity {
 
     }
 
-    private class GetUserImg extends AsyncTask<String, Void, String> {
-        //get book thumbnail
-
-        @Override
-        protected String doInBackground(String... imgURLs) {
-            //attempt to download image
-            try {
-                //try to download
-                img = null;
-                URL imgURL = new URL(imgURLs[0]);
-                URLConnection imgConn = imgURL.openConnection();
-                imgConn.connect();
-                InputStream imgIn = imgConn.getInputStream();
-                BufferedInputStream imgBuff = new BufferedInputStream(imgIn);
-                img = BitmapFactory.decodeStream(imgBuff);
-                imgBuff.close();
-                imgIn.close();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return "";
+    private void getUserImg(String imgURLs) {
+        //attempt to download image
+        try {
+            //try to download
+            img = null;
+            URL imgURL = new URL(imgURLs);
+            URLConnection imgConn = imgURL.openConnection();
+            imgConn.connect();
+            InputStream imgIn = imgConn.getInputStream();
+            BufferedInputStream imgBuff = new BufferedInputStream(imgIn);
+            img = BitmapFactory.decodeStream(imgBuff);
+            imgBuff.close();
+            imgIn.close();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
-        protected void onPostExecute(String result) {
-            UserBox userBox = new UserBox(img, swoleUser.getName(), false, swoleUser.getId());
-            userList.add(0, userBox);
-            dataAdapter.notifyDataSetChanged();
-        }
-
+        UserBox userBox = new UserBox(img, swoleUser.getName(), false, swoleUser.getId());
+        userList.add(0, userBox);
+        dataAdapter.notifyDataSetChanged();
     }
+
+//    private class GetUserImg extends AsyncTask<String, Void, String> {
+//        //get book thumbnail
+//
+//        @Override
+//        protected String doInBackground(String... imgURLs) {
+//            //attempt to download image
+//            try {
+//                //try to download
+//                img = null;
+//                URL imgURL = new URL(imgURLs[0]);
+//                URLConnection imgConn = imgURL.openConnection();
+//                imgConn.connect();
+//                InputStream imgIn = imgConn.getInputStream();
+//                BufferedInputStream imgBuff = new BufferedInputStream(imgIn);
+//                img = BitmapFactory.decodeStream(imgBuff);
+//                imgBuff.close();
+//                imgIn.close();
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//            return "";
+//        }
+//
+//        protected void onPostExecute(String result) {
+//            UserBox userBox = new UserBox(img, swoleUser.getName(), false, swoleUser.getId());
+//            userList.add(0, userBox);
+//            dataAdapter.notifyDataSetChanged();
+//        }
+//
+//    }
 
 }
