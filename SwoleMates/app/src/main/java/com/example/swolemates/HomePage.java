@@ -19,7 +19,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.StackView;
 import android.widget.Toast;
 
@@ -44,9 +43,6 @@ import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.locks.Condition;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
 public class HomePage extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -54,8 +50,6 @@ public class HomePage extends AppCompatActivity
     private static final int NUMBER_OF_FRAGMENTS = 1;
 
     private StackView stackView;
-    private Bitmap img;
-    private ImageView userImg;
     private int currItem = 0;
     private String sport, playStyle, email;
     private Integer skill, age, weight, height;
@@ -66,8 +60,6 @@ public class HomePage extends AppCompatActivity
     private ArrayList<StackItem> usersInRoom, matchUsers, ignoreUsers;
     private ArrayList<SwoleUser> potentials, connections, rejections;
     private SwoleUser mySwoleUser;
-
-    private Condition swoleUserAvailable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,6 +90,8 @@ public class HomePage extends AppCompatActivity
 
         for (int p = 0; p < NUMBER_OF_FRAGMENTS; p++) {
             usersInRoom.add(new StackItem());
+            findViewById(R.id.match).setVisibility(View.GONE);
+            findViewById(R.id.ignore).setVisibility(View.GONE);
         }
         firebase = FirebaseDatabase.getInstance().getReference();
 
@@ -240,6 +234,14 @@ public class HomePage extends AppCompatActivity
             matchUsers.add(otherUserStackItem);
             adapt.notifyDataSetChanged();
 
+            if (usersInRoom.size() == 1) {
+                findViewById(R.id.match).setVisibility(View.GONE);
+                findViewById(R.id.ignore).setVisibility(View.GONE);
+            } else {
+                findViewById(R.id.match).setVisibility(View.VISIBLE);
+                findViewById(R.id.ignore).setVisibility(View.VISIBLE);
+            }
+
             // split up data from StackItem and create SwoleUser from it
             Map<String, Object> map = new HashMap<String, Object>();
 
@@ -276,12 +278,35 @@ public class HomePage extends AppCompatActivity
             ignoreUsers.add(otherUserStackItem);
             adapt.notifyDataSetChanged();
 
+            if (usersInRoom.size() == 1) {
+                findViewById(R.id.match).setVisibility(View.GONE);
+                findViewById(R.id.ignore).setVisibility(View.GONE);
+            } else {
+                findViewById(R.id.match).setVisibility(View.VISIBLE);
+                findViewById(R.id.ignore).setVisibility(View.VISIBLE);
+            }
+
             // split up data from StackItem and create SwoleUser from it
             Map<String, Object> map = new HashMap<String, Object>();
-            SwoleUser user = otherUserStackItem.getUser();
+            SwoleUser otherUser = otherUserStackItem.getUser();
 
-            map.put(otherUserStackItem.getId(), user);
-            firebase.child("users/" + user.getId() + "/rejections")
+            if (potentials.contains(otherUser)) {
+                // delete other user from my potential connections
+                map.put(otherUser.getId(), null);
+                firebase.child("users/" + firebaseUser.getUid() + "/potential")
+                        .setValue(map);
+                map.clear();
+            }
+
+            // add other user to my rejections
+            map.put(otherUser.getId(), otherUser);
+            firebase.child("users/" + firebaseUser.getUid() + "/rejections")
+                    .updateChildren(map);
+            map.clear();
+
+            // add myself to other user's rejections
+            map.put(firebaseUser.getUid(), mySwoleUser);
+            firebase.child("users/" + otherUser.getId() + "/rejections")
                     .updateChildren(map);
 
         }
@@ -317,34 +342,6 @@ public class HomePage extends AppCompatActivity
         }
     }
 
-//    private void getUserImg(String imgURLs) {
-//        //attempt to download image
-//        try {
-//            //try to download
-//            img = null;
-//            URL imgURL = new URL(imgURLs);
-//            URLConnection imgConn = imgURL.openConnection();
-//            imgConn.connect();
-//            InputStream imgIn = imgConn.getInputStream();
-//            BufferedInputStream imgBuff = new BufferedInputStream(imgIn);
-//            img = BitmapFactory.decodeStream(imgBuff);
-//            imgBuff.close();
-//            imgIn.close();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//
-//        StackItem stack = new StackItem(img, swoleUser);
-//
-//        if (connections.contains(swoleUser) || rejections.contains(swoleUser)) return;
-//
-//        stack.setId(swoleUser.getId());
-//        stack.setEmail(swoleUser.getEmail());
-//
-//        usersInRoom.add(0, stack);
-//        adapt.notifyDataSetChanged();
-//    }
-
     private class GetUserImg extends AsyncTask<SwoleUser, Void, StackItem> {
         //get book thumbnail
 
@@ -354,14 +351,13 @@ public class HomePage extends AppCompatActivity
             StackItem item = null;
             try {
                 //try to download
-                img = null;
                 URL imgURL = new URL(users[0].getPhotoUrl());
                 URLConnection imgConn = imgURL.openConnection();
                 imgConn.connect();
                 InputStream imgIn = imgConn.getInputStream();
                 BufferedInputStream imgBuff = new BufferedInputStream(imgIn);
-//                img = BitmapFactory.decodeStream(imgBuff);
-                item = new StackItem(BitmapFactory.decodeStream(imgBuff), users[0]);
+                Bitmap img = BitmapFactory.decodeStream(imgBuff);
+                item = new StackItem(img, users[0]);
                 imgBuff.close();
                 imgIn.close();
 
@@ -372,16 +368,16 @@ public class HomePage extends AppCompatActivity
         }
 
         protected void onPostExecute(StackItem result) {
-//            usersInRoom.remove(new StackItem("Buffering", "Android Photo"));
-//            StackItem stack = new StackItem(img, result);
-
-            if (connections.contains(result.getUser()) || rejections.contains(result.getUser())) return;
+            if (connections.contains(result.getUser()) || rejections.contains(result.getUser()))
+                return;
 
 //            stack.setId(result.getId());
 //            stack.setEmail(result.getEmail());
 
             usersInRoom.add(0, result);
             adapt.notifyDataSetChanged();
+            findViewById(R.id.match).setVisibility(View.VISIBLE);
+            findViewById(R.id.ignore).setVisibility(View.VISIBLE);
         }
 
 
@@ -392,9 +388,9 @@ public class HomePage extends AppCompatActivity
         firebase.child("rooms/" + sport).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String prevKey) {
-                    SwoleUser swoleUser = (SwoleUser) dataSnapshot.getValue(SwoleUser.class);
-                    if (swoleUser != null && !email.equals(swoleUser.getEmail()))
-                        new GetUserImg().execute(swoleUser);
+                SwoleUser swoleUser = (SwoleUser) dataSnapshot.getValue(SwoleUser.class);
+                if (swoleUser != null && !email.equals(swoleUser.getEmail()))
+                    new GetUserImg().execute(swoleUser);
             }
 
             @Override
@@ -422,8 +418,8 @@ public class HomePage extends AppCompatActivity
         firebase.child("users/" + firebaseUser.getUid() + "/potential").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String prevKey) {
-                    SwoleUser swoleUser = (SwoleUser) dataSnapshot.getValue(SwoleUser.class);
-                    potentials.add(swoleUser);
+                SwoleUser swoleUser = (SwoleUser) dataSnapshot.getValue(SwoleUser.class);
+                potentials.add(swoleUser);
             }
 
             @Override
@@ -451,15 +447,23 @@ public class HomePage extends AppCompatActivity
         firebase.child("users/" + firebaseUser.getUid() + "/connections").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String prevKey) {
-                    SwoleUser swoleUser = (SwoleUser) dataSnapshot.getValue(SwoleUser.class);
+                SwoleUser swoleUser = (SwoleUser) dataSnapshot.getValue(SwoleUser.class);
 
-                    // remove user from stack view if you've already connected with them
-                    StackItem temp = new StackItem();
-                    temp.setId(swoleUser.getId());
-                    usersInRoom.remove(temp);
-                    adapt.notifyDataSetChanged();
+                // remove user from stack view if you've already connected with them
+                StackItem temp = new StackItem();
+                temp.setId(swoleUser.getId());
+                usersInRoom.remove(temp);
+                adapt.notifyDataSetChanged();
 
-                    connections.add(swoleUser);
+                if (usersInRoom.size() == 1) {
+                    findViewById(R.id.match).setVisibility(View.GONE);
+                    findViewById(R.id.ignore).setVisibility(View.GONE);
+                } else {
+                    findViewById(R.id.match).setVisibility(View.VISIBLE);
+                    findViewById(R.id.ignore).setVisibility(View.VISIBLE);
+                }
+
+                connections.add(swoleUser);
             }
 
             @Override
@@ -487,15 +491,23 @@ public class HomePage extends AppCompatActivity
         firebase.child("users/" + firebaseUser.getUid() + "/rejections").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String prevKey) {
-                    SwoleUser swoleUser = (SwoleUser) dataSnapshot.getValue(SwoleUser.class);
+                SwoleUser swoleUser = (SwoleUser) dataSnapshot.getValue(SwoleUser.class);
 
-                    // remove user from stack view if you've already rejected them
-                    StackItem temp = new StackItem();
-                    temp.setId(swoleUser.getId());
-                    usersInRoom.remove(temp);
-                    adapt.notifyDataSetChanged();
+                // remove user from stack view if you've already rejected them
+                StackItem temp = new StackItem();
+                temp.setId(swoleUser.getId());
+                usersInRoom.remove(temp);
+                adapt.notifyDataSetChanged();
 
-                    rejections.add(swoleUser);
+                if (usersInRoom.size() == 1) {
+                    findViewById(R.id.match).setVisibility(View.GONE);
+                    findViewById(R.id.ignore).setVisibility(View.GONE);
+                } else {
+                    findViewById(R.id.match).setVisibility(View.VISIBLE);
+                    findViewById(R.id.ignore).setVisibility(View.VISIBLE);
+                }
+
+                rejections.add(swoleUser);
             }
 
             @Override
