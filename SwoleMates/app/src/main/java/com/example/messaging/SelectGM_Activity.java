@@ -150,9 +150,9 @@ public class SelectGM_Activity extends AppCompatActivity {
                 .addChildEventListener(new ChildEventListener() {
                     @Override
                     public void onChildAdded(DataSnapshot dataSnapshot, String prevKey) {
-                            SwoleUser swoleUser = (SwoleUser) dataSnapshot.getValue(SwoleUser.class);
-                            if (swoleUser != null && !email.equals(swoleUser.getEmail()))
-                                new GetUserImg().execute(swoleUser);
+                        SwoleUser swoleUser = (SwoleUser) dataSnapshot.getValue(SwoleUser.class);
+                        if (swoleUser != null && !email.equals(swoleUser.getEmail()))
+                            new GetUserImg().execute(swoleUser);
                     }
 
                     @Override
