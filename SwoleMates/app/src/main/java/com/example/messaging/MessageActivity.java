@@ -27,7 +27,6 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
@@ -113,8 +112,6 @@ public class MessageActivity extends AppCompatActivity
         }
 
         channelLabel = (TextView) findViewById(R.id.channelLabel);
-        Button signOutButton = (Button) findViewById(R.id.sign_out_button);
-        signOutButton.setOnClickListener(this);
 
         messages = new ArrayList<Map<String, String>>();
         messageAdapter = new SimpleAdapter(this, messages, android.R.layout.simple_list_item_2,
@@ -180,14 +177,10 @@ public class MessageActivity extends AppCompatActivity
 
     private void updateUI(boolean signedIn) {
         if (signedIn) {
-            findViewById(R.id.sign_in_button).setVisibility(View.GONE);
-            findViewById(R.id.sign_out_button).setVisibility(View.VISIBLE);
             findViewById(R.id.channelLabel).setVisibility(View.VISIBLE);
             findViewById(R.id.messageText).setVisibility(View.VISIBLE);
             findViewById(R.id.messageHistory).setVisibility(View.VISIBLE);
         } else {
-            findViewById(R.id.sign_in_button).setVisibility(View.VISIBLE);
-            findViewById(R.id.sign_out_button).setVisibility(View.GONE);
             findViewById(R.id.channelLabel).setVisibility(View.INVISIBLE);
             findViewById(R.id.messageText).setVisibility(View.INVISIBLE);
             findViewById(R.id.messageHistory).setVisibility(View.INVISIBLE);
