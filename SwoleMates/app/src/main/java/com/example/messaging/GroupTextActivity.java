@@ -186,6 +186,7 @@ public class GroupTextActivity extends AppCompatActivity
             Intent intent = new Intent(this, HomePage.class);
             startActivity(intent);
             finish();
+
         } else if (id == R.id.nav_teammates) {
             Intent intent = new Intent(this, SelectGM_Activity.class);
             startActivity(intent);
@@ -249,15 +250,14 @@ public class GroupTextActivity extends AppCompatActivity
                                         gm.setTime((Long) message.getValue());
                                     }
                                 }
-                                break;
                             }
                         }
                     }
                     // Extract attributes from Message object to display on the screen.
-                    if(gm.getTimeOfLastMessage() != null) {
+                    if (gm.getTimeOfLastMessage() != null) {
                         addGM(gm.getGroupMemberNames(), gm.getLastMessageSent() + "\t" +
                                 fmt.format(new Date(gm.getTimeOfLastMessage())), snapshot.getKey());
-                    }else{
+                    } else {
                         addGM(gm.getGroupMemberNames(), gm.getLastMessageSent(), snapshot.getKey());
                     }
                 }

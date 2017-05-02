@@ -146,7 +146,9 @@ public class MessageActivity extends AppCompatActivity
     }
 
     @Override
-    public void onStop() { super.onStop(); }
+    public void onStop() {
+        super.onStop();
+    }
 
     @Override
     public void onClick(View v) {

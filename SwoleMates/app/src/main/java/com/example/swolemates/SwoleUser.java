@@ -153,13 +153,21 @@ public class SwoleUser implements Comparable<SwoleUser> {
     }
 
     //Setting variables
-    public void setPhotoUrl(String photoUrl) { this.photoUrl = photoUrl; }
+    public void setPhotoUrl(String photoUrl) {
+        this.photoUrl = photoUrl;
+    }
 
-    public void setEmail(String eMail) { email = eMail; }
+    public void setEmail(String eMail) {
+        email = eMail;
+    }
 
-    public void setName(String n) { name = n; }
+    public void setName(String n) {
+        name = n;
+    }
 
-    public void setAge(Integer a) { age = a; }
+    public void setAge(Integer a) {
+        age = a;
+    }
 
     public void setWeightlifting_skill(Integer skill) {
         weightlifting_skill = skill;
@@ -213,7 +221,9 @@ public class SwoleUser implements Comparable<SwoleUser> {
         baseball_skill = skill;
     }
 
-    public void setBaseball_rank(Integer rank) { baseball_rank = rank; }
+    public void setBaseball_rank(Integer rank) {
+        baseball_rank = rank;
+    }
 
     public void setSoccer_skill(Integer skill) {
         soccer_skill = skill;
@@ -235,36 +245,42 @@ public class SwoleUser implements Comparable<SwoleUser> {
         this.playStyle = playStyle;
     }
 
-    public void addRoom(String sport){rooms = sport;}
+    public void addRoom(String sport) {
+        rooms = sport;
+    }
 
-    public void removeRoom(String sport){rooms = "";}
+    public void removeRoom(String sport) {
+        rooms = "";
+    }
 
-    public String getRoom(){return rooms;}
+    public String getRoom() {
+        return rooms;
+    }
 
-    public List<Integer> getSportRankings(String sport){
+    public List<Integer> getSportRankings(String sport) {
         List<Integer> list = new ArrayList<>();
-        if(sport.equals("Basketball")){
+        if (sport.equals("Basketball")) {
             list.add(getBaseball_rank());
             list.add(getBasketball_skill());
-        }else if(sport.equals("Football")){
+        } else if (sport.equals("Football")) {
             list.add(getFootball_rank());
             list.add(getFootball_skill());
-        }else if(sport.equals("Baseball")){
+        } else if (sport.equals("Baseball")) {
             list.add(getBaseball_rank());
             list.add(getBaseball_skill());
-        }else if(sport.equals("Volleyball")){
+        } else if (sport.equals("Volleyball")) {
             list.add(getVolleyball_rank());
             list.add(getVolleyball_skill());
-        }else if(sport.equals("Swimming")){
+        } else if (sport.equals("Swimming")) {
             list.add(getSwimming_rank());
             list.add(getSwimming_skill());
-        }else if(sport.equals("Soccer")){
+        } else if (sport.equals("Soccer")) {
             list.add(getSoccer_rank());
             list.add(getSoccer_skill());
-        }else if(sport.equals("Running")){
+        } else if (sport.equals("Running")) {
             list.add(getRunning_rank());
             list.add(getRunning_skill());
-        }else if(sport.equals("Weightlifting")){
+        } else if (sport.equals("Weightlifting")) {
             list.add(getWeightlifting_rank());
             list.add(getWeightlifting_skill());
         }
@@ -278,7 +294,7 @@ public class SwoleUser implements Comparable<SwoleUser> {
     }
 
     @Override
-    public boolean equals (Object o) {
+    public boolean equals(Object o) {
         if (o instanceof SwoleUser) {
             SwoleUser p = (SwoleUser) o;
             if (p.getId().equals(id)) {
