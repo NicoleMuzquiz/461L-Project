@@ -3,50 +3,58 @@
     android:id="@+id/main_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/grey_100"
+    android:background="@drawable/solid"
     android:orientation="vertical"
     android:weightSum="4">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="3"
         android:gravity="center_horizontal"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:weightSum="1">
 
         <ImageView
             android:id="@+id/icon"
-            style="@style/ThemeOverlay.FirebaseIcon"
-            android:contentDescription="@string/desc_firebase_lockup"
-            android:src="@drawable/firebase_lockup_400"
+            android:src="@drawable/loginlogo"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_weight="0.55" />
 
         <TextView
             android:id="@+id/title_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/title_bottom_margin"
+            android:layout_marginBottom="31dp"
             android:text="@string/facebook_title_text"
-            android:theme="@style/ThemeOverlay.MyTitleText" />
+            android:theme="@style/ThemeOverlay.MyTitleText"
+            android:layout_above="@+id/detail"
+            android:layout_centerHorizontal="true" />
 
         <TextView
             android:id="@+id/status"
             style="@style/ThemeOverlay.MyTextDetail"
-            android:text="@string/signed_out" />
+            android:text="@string/signed_out"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="24dp" />
 
         <TextView
             android:id="@+id/detail"
             style="@style/ThemeOverlay.MyTextDetail"
-            tools:text="Firebase User ID: 123456789abc" />
+            tools:text="Firebase User ID: 123456789abc"
+            android:layout_above="@+id/status"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="19dp" />
 
-    </LinearLayout>
+    </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:background="@color/grey_300">
+        android:background="@color/com_facebook_button_background_color_disabled">
 
         <com.facebook.login.widget.LoginButton
             android:id="@+id/button_facebook_login"
