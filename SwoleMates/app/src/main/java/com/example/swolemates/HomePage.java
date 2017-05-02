@@ -462,9 +462,11 @@ public class HomePage extends AppCompatActivity
                     swoleUser = (SwoleUser) dataSnapshot.getValue(SwoleUser.class);
 
                     // remove user from stack view if you've already connected with them
+
                     StackItem temp = new StackItem();
                     temp.setId(swoleUser.getId());
                     usersInRoom.remove(temp);
+                    adapt.notifyDataSetChanged();
 
                     connections.add(swoleUser);
                     swoleUserLock.notifyAll();
@@ -503,6 +505,7 @@ public class HomePage extends AppCompatActivity
                     StackItem temp = new StackItem();
                     temp.setId(swoleUser.getId());
                     usersInRoom.remove(temp);
+                    adapt.notifyDataSetChanged();
 
                     rejections.add(swoleUser);
                     swoleUserLock.notifyAll();
