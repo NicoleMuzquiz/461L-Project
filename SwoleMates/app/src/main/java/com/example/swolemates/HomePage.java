@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
@@ -64,9 +65,8 @@ public class HomePage extends AppCompatActivity
     private StackAdapter adapt;
     private ArrayList<StackItem> usersInRoom, matchUsers, ignoreUsers;
     private ArrayList<SwoleUser> potentials, connections, rejections;
-    private SwoleUser swoleUser, mySwoleUser;
+    private SwoleUser mySwoleUser;
 
-    private Lock swoleUserLock;
     private Condition swoleUserAvailable;
 
     @Override
@@ -95,8 +95,6 @@ public class HomePage extends AppCompatActivity
         potentials = new ArrayList<SwoleUser>();
         connections = new ArrayList<SwoleUser>();
         rejections = new ArrayList<SwoleUser>();
-
-        swoleUserLock = new ReentrantLock();
 
         for (int p = 0; p < NUMBER_OF_FRAGMENTS; p++) {
             usersInRoom.add(new StackItem());
@@ -319,86 +317,84 @@ public class HomePage extends AppCompatActivity
         }
     }
 
-    private void getUserImg(String imgURLs) {
-        //attempt to download image
-        try {
-            //try to download
-            img = null;
-            URL imgURL = new URL(imgURLs);
-            URLConnection imgConn = imgURL.openConnection();
-            imgConn.connect();
-            InputStream imgIn = imgConn.getInputStream();
-            BufferedInputStream imgBuff = new BufferedInputStream(imgIn);
-            img = BitmapFactory.decodeStream(imgBuff);
-            imgBuff.close();
-            imgIn.close();
-        } catch (Exception e) {
-            e.printStackTrace();
+//    private void getUserImg(String imgURLs) {
+//        //attempt to download image
+//        try {
+//            //try to download
+//            img = null;
+//            URL imgURL = new URL(imgURLs);
+//            URLConnection imgConn = imgURL.openConnection();
+//            imgConn.connect();
+//            InputStream imgIn = imgConn.getInputStream();
+//            BufferedInputStream imgBuff = new BufferedInputStream(imgIn);
+//            img = BitmapFactory.decodeStream(imgBuff);
+//            imgBuff.close();
+//            imgIn.close();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//
+//        StackItem stack = new StackItem(img, swoleUser);
+//
+//        if (connections.contains(swoleUser) || rejections.contains(swoleUser)) return;
+//
+//        stack.setId(swoleUser.getId());
+//        stack.setEmail(swoleUser.getEmail());
+//
+//        usersInRoom.add(0, stack);
+//        adapt.notifyDataSetChanged();
+//    }
+
+    private class GetUserImg extends AsyncTask<SwoleUser, Void, StackItem> {
+        //get book thumbnail
+
+        @Override
+        protected StackItem doInBackground(SwoleUser... users) {
+            //attempt to download image
+            StackItem item = null;
+            try {
+                //try to download
+                img = null;
+                URL imgURL = new URL(users[0].getPhotoUrl());
+                URLConnection imgConn = imgURL.openConnection();
+                imgConn.connect();
+                InputStream imgIn = imgConn.getInputStream();
+                BufferedInputStream imgBuff = new BufferedInputStream(imgIn);
+//                img = BitmapFactory.decodeStream(imgBuff);
+                item = new StackItem(BitmapFactory.decodeStream(imgBuff), users[0]);
+                imgBuff.close();
+                imgIn.close();
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return item;
         }
 
-        StackItem stack = new StackItem(img, swoleUser);
+        protected void onPostExecute(StackItem result) {
+//            usersInRoom.remove(new StackItem("Buffering", "Android Photo"));
+//            StackItem stack = new StackItem(img, result);
 
-        if (connections.contains(swoleUser) || rejections.contains(swoleUser)) return;
+            if (connections.contains(result.getUser()) || rejections.contains(result.getUser())) return;
 
-        stack.setId(swoleUser.getId());
-        stack.setEmail(swoleUser.getEmail());
+//            stack.setId(result.getId());
+//            stack.setEmail(result.getEmail());
 
-        usersInRoom.add(0, stack);
-        adapt.notifyDataSetChanged();
+            usersInRoom.add(0, result);
+            adapt.notifyDataSetChanged();
+        }
+
+
     }
-
-//    private class getUserImg extends AsyncTask<String, Void, String> {
-//        //get book thumbnail
-//
-//        @Override
-//        protected String doInBackground(String... imgURLs) {
-//            //attempt to download image
-//            try {
-//                //try to download
-//                img = null;
-//                URL imgURL = new URL(imgURLs[0]);
-//                URLConnection imgConn = imgURL.openConnection();
-//                imgConn.connect();
-//                InputStream imgIn = imgConn.getInputStream();
-//                BufferedInputStream imgBuff = new BufferedInputStream(imgIn);
-//                img = BitmapFactory.decodeStream(imgBuff);
-//                imgBuff.close();
-//                imgIn.close();
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//            return "";
-//        }
-//
-//        protected void onPostExecute(String result) {
-////            usersInRoom.remove(new StackItem("Buffering", "Android Photo"));
-//            StackItem stack = new StackItem(img, swoleUser);
-//
-//            if (connections.contains(swoleUser) || rejections.contains(swoleUser)) return;
-//
-//            stack.setId(swoleUser.getId());
-//            stack.setEmail(swoleUser.getEmail());
-//            swoleUserLock.notifyAll();
-//            swoleUserLock.unlock();
-//
-//            usersInRoom.add(0, stack);
-//            adapt.notifyDataSetChanged();
-//        }
-//
-//
-//    }
 
     private void addListeners() {
         /* Room Listener */
         firebase.child("rooms/" + sport).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String prevKey) {
-                synchronized (swoleUserLock) {
-                    swoleUser = (SwoleUser) dataSnapshot.getValue(SwoleUser.class);
+                    SwoleUser swoleUser = (SwoleUser) dataSnapshot.getValue(SwoleUser.class);
                     if (swoleUser != null && !email.equals(swoleUser.getEmail()))
-                        getUserImg(swoleUser.getPhotoUrl());
-                    swoleUserLock.notifyAll();
-                }
+                        new GetUserImg().execute(swoleUser);
             }
 
             @Override
@@ -426,11 +422,8 @@ public class HomePage extends AppCompatActivity
         firebase.child("users/" + firebaseUser.getUid() + "/potential").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String prevKey) {
-                synchronized (swoleUserLock) {
-                    swoleUser = (SwoleUser) dataSnapshot.getValue(SwoleUser.class);
+                    SwoleUser swoleUser = (SwoleUser) dataSnapshot.getValue(SwoleUser.class);
                     potentials.add(swoleUser);
-                    swoleUserLock.notifyAll();
-                }
             }
 
             @Override
@@ -458,19 +451,15 @@ public class HomePage extends AppCompatActivity
         firebase.child("users/" + firebaseUser.getUid() + "/connections").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String prevKey) {
-                synchronized (swoleUserLock) {
-                    swoleUser = (SwoleUser) dataSnapshot.getValue(SwoleUser.class);
+                    SwoleUser swoleUser = (SwoleUser) dataSnapshot.getValue(SwoleUser.class);
 
                     // remove user from stack view if you've already connected with them
-
                     StackItem temp = new StackItem();
                     temp.setId(swoleUser.getId());
                     usersInRoom.remove(temp);
                     adapt.notifyDataSetChanged();
 
                     connections.add(swoleUser);
-                    swoleUserLock.notifyAll();
-                }
             }
 
             @Override
@@ -498,8 +487,7 @@ public class HomePage extends AppCompatActivity
         firebase.child("users/" + firebaseUser.getUid() + "/rejections").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String prevKey) {
-                synchronized (swoleUserLock) {
-                    swoleUser = (SwoleUser) dataSnapshot.getValue(SwoleUser.class);
+                    SwoleUser swoleUser = (SwoleUser) dataSnapshot.getValue(SwoleUser.class);
 
                     // remove user from stack view if you've already rejected them
                     StackItem temp = new StackItem();
@@ -508,8 +496,6 @@ public class HomePage extends AppCompatActivity
                     adapt.notifyDataSetChanged();
 
                     rejections.add(swoleUser);
-                    swoleUserLock.notifyAll();
-                }
             }
 
             @Override

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -42,8 +43,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
 public class SelectGM_Activity extends AppCompatActivity {
 
@@ -67,13 +66,12 @@ public class SelectGM_Activity extends AppCompatActivity {
 
     private FirebaseUser firebaseUser;
     private DatabaseReference firebase;
-    private SwoleUser swoleUser, mySwoleUser;
+    private SwoleUser mySwoleUser;
     private String email;
     private String currentChannel;
     private List<String> channels;
     private ChildEventListener channelListener;
     private SimpleDateFormat fmt;
-    private Bitmap img;
 
     private TextView channelLabel;
     private ListView gm_list;
@@ -81,7 +79,6 @@ public class SelectGM_Activity extends AppCompatActivity {
     private SimpleAdapter gmAdapter;
     private EditText messageText;
     private TextView status;
-    private Lock swoleUserLock;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,7 +86,6 @@ public class SelectGM_Activity extends AppCompatActivity {
         setContentView(R.layout.activity_select_gm);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        swoleUserLock = new ReentrantLock();
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.select_gm_fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -154,12 +150,9 @@ public class SelectGM_Activity extends AppCompatActivity {
                 .addChildEventListener(new ChildEventListener() {
                     @Override
                     public void onChildAdded(DataSnapshot dataSnapshot, String prevKey) {
-                        synchronized (swoleUserLock) {
-                            swoleUser = (SwoleUser) dataSnapshot.getValue(SwoleUser.class);
+                            SwoleUser swoleUser = (SwoleUser) dataSnapshot.getValue(SwoleUser.class);
                             if (swoleUser != null && !email.equals(swoleUser.getEmail()))
-                                getUserImg(swoleUser.getPhotoUrl());
-                            swoleUserLock.notifyAll();
-                        }
+                                new GetUserImg().execute(swoleUser);
                     }
 
                     @Override
@@ -320,57 +313,35 @@ public class SelectGM_Activity extends AppCompatActivity {
 
     }
 
-    private void getUserImg(String imgURLs) {
-        //attempt to download image
-        try {
-            //try to download
-            img = null;
-            URL imgURL = new URL(imgURLs);
-            URLConnection imgConn = imgURL.openConnection();
-            imgConn.connect();
-            InputStream imgIn = imgConn.getInputStream();
-            BufferedInputStream imgBuff = new BufferedInputStream(imgIn);
-            img = BitmapFactory.decodeStream(imgBuff);
-            imgBuff.close();
-            imgIn.close();
-        } catch (Exception e) {
-            e.printStackTrace();
+    private class GetUserImg extends AsyncTask<SwoleUser, Void, UserBox> {
+        //get book thumbnail
+
+        @Override
+        protected UserBox doInBackground(SwoleUser... users) {
+            //attempt to download image
+            UserBox userBox = null;
+            try {
+                //try to download
+                URL imgURL = new URL(users[0].getPhotoUrl());
+                URLConnection imgConn = imgURL.openConnection();
+                imgConn.connect();
+                InputStream imgIn = imgConn.getInputStream();
+                BufferedInputStream imgBuff = new BufferedInputStream(imgIn);
+                Bitmap img = BitmapFactory.decodeStream(imgBuff);
+                userBox = new UserBox(img, users[0].getName(), false, users[0].getId());
+                imgBuff.close();
+                imgIn.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return userBox;
         }
 
-        UserBox userBox = new UserBox(img, swoleUser.getName(), false, swoleUser.getId());
-        userList.add(0, userBox);
-        dataAdapter.notifyDataSetChanged();
-    }
+        protected void onPostExecute(UserBox userBox) {
+            userList.add(0, userBox);
+            dataAdapter.notifyDataSetChanged();
+        }
 
-//    private class GetUserImg extends AsyncTask<String, Void, String> {
-//        //get book thumbnail
-//
-//        @Override
-//        protected String doInBackground(String... imgURLs) {
-//            //attempt to download image
-//            try {
-//                //try to download
-//                img = null;
-//                URL imgURL = new URL(imgURLs[0]);
-//                URLConnection imgConn = imgURL.openConnection();
-//                imgConn.connect();
-//                InputStream imgIn = imgConn.getInputStream();
-//                BufferedInputStream imgBuff = new BufferedInputStream(imgIn);
-//                img = BitmapFactory.decodeStream(imgBuff);
-//                imgBuff.close();
-//                imgIn.close();
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//            return "";
-//        }
-//
-//        protected void onPostExecute(String result) {
-//            UserBox userBox = new UserBox(img, swoleUser.getName(), false, swoleUser.getId());
-//            userList.add(0, userBox);
-//            dataAdapter.notifyDataSetChanged();
-//        }
-//
-//    }
+    }
 
 }
