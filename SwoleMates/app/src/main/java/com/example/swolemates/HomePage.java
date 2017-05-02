@@ -248,6 +248,13 @@ public class HomePage extends AppCompatActivity
             SwoleUser otherUser = otherUserStackItem.getUser();
 
             if (!potentials.contains(otherUser)) {
+                // add other user to my potential connections
+                map.put(otherUser.getId(), otherUser);
+                firebase.child("users/" + firebaseUser.getUid() + "/potential")
+                        .updateChildren(map);
+                map.clear();
+
+                // add myself to other user's potential connections
                 map.put(firebaseUser.getUid(), mySwoleUser);
                 firebase.child("users/" + otherUser.getId() + "/potential")
                         .updateChildren(map);
@@ -256,6 +263,12 @@ public class HomePage extends AppCompatActivity
                 map.put(otherUser.getId(), null);
                 firebase.child("users/" + firebaseUser.getUid() + "/potential")
                         .setValue(map);
+                map.clear();
+
+                // delete other user from my potential connections
+                map.put(firebaseUser.getUid(), null);
+                firebase.child("users/" + otherUser.getId() + "/potential")
+                        .updateChildren(map);
                 map.clear();
 
                 // add other user to my connections
