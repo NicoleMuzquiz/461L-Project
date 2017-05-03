@@ -316,14 +316,13 @@ public class SwoleUser implements Comparable<SwoleUser> {
         desc = (age == null) ? desc : desc + "Age: " + age + "\n";
         desc = (playStyle == null) ? desc : desc + "Style: " + playStyle + "\n";
         desc = (weightlifting_skill == null) ? desc : desc + "Skill: " + weightlifting_skill + "\n";
-        desc = (basketball_skill == null) ? desc : desc + "Skill: " + baseball_skill + "\n";
+        desc = (basketball_skill == null) ? desc : desc + "Skill: " + basketball_skill + "\n";
         desc = (football_skill == null) ? desc : desc + "Skill: " + football_skill + "\n";
         desc = (volleyball_skill == null) ? desc : desc + "Skill: " + volleyball_skill + "\n";
         desc = (swimming_skill == null) ? desc : desc + "Skill: " + swimming_skill + "\n";
         desc = (baseball_skill == null) ? desc : desc + "Skill: " + baseball_skill + "\n";
         desc = (soccer_skill == null) ? desc : desc + "Skill: " + soccer_skill + "\n";
         desc = (running_skill == null) ? desc : desc + "Skill: " + running_skill + "\n";
-        desc = (basketball_skill == null) ? desc : desc + "Skill: " + basketball_skill + "\n";
 
         return desc;
     }
