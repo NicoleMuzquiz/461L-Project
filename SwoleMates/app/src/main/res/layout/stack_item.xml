@@ -32,9 +32,8 @@
         android:layout_marginLeft="230dp"
         android:text="TextView"
         android:textColor="#000"
-        android:textSize="24sp"
+        android:textSize="18sp"
         android:textStyle="bold"
-        android:layout_marginTop="18dp"
         android:layout_below="@+id/user_image"
         android:layout_centerHorizontal="true" />
 

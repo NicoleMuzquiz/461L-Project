@@ -78,7 +78,7 @@ public class HomePage extends AppCompatActivity
 
         sport = prefs.getString("user_sport", null);
         playStyle = prefs.getString("user_play_style", null);
-        skill = Integer.parseInt(prefs.getString("user_skill", null));
+        skill = Integer.parseInt(prefs.getString("user_skill", "5"));
 
         usersInRoom = new ArrayList<StackItem>();
         matchUsers = new ArrayList<StackItem>();
