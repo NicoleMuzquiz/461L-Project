@@ -20,9 +20,9 @@
         android:padding="10dp"
         android:text="Ignore"
         android:textColor="#fff"
-        android:layout_alignBaseline="@+id/match"
-        android:layout_alignBottom="@+id/match"
-        android:layout_marginStart="40dp" />
+        android:layout_marginStart="40dp"
+        android:layout_alignBottom="@+id/stackView"
+        android:layout_alignParentStart="true" />
 
     <Button
         android:id="@+id/match"
@@ -34,23 +34,22 @@
         android:padding="10dp"
         android:text="Match"
         android:textColor="#fff"
-        android:layout_below="@+id/stackView"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="51dp"
-        android:layout_marginTop="18dp" />
+        android:layout_alignBaseline="@+id/ignore"
+        android:layout_alignBottom="@+id/ignore"
+        android:layout_alignEnd="@+id/header" />
 
     <com.example.ui.CustomStackView
         android:id="@+id/stackView"
         android:layout_width="239dp"
-        android:layout_height="322dp"
+        android:layout_height="450dp"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:layout_marginTop="22dp"
+        android:layout_marginTop="0dp"
         android:layout_weight="1"
+        android:paddingBottom="900dp"
         app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:paddingBottom="100dp"/>
+        app:layout_constraintRight_toRightOf="parent" />
 
     <TextView
         android:id="@+id/header"
@@ -58,7 +57,7 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/stackView"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="25dp"
+        android:layout_marginBottom="0dp"
         android:text="Choose Your SwoleMates"
         android:textColor="@color/cast_libraries_material_featurehighlight_outer_highlight_default_color"
         android:textSize="24sp"
