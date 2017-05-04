@@ -143,7 +143,7 @@ public class HomePage extends AppCompatActivity
         stackView.setOnTouchListener(new OnSwipeTouchListener(HomePage.this) {
             public void onSwipeTop() {
                 Toast.makeText(HomePage.this, "top", Toast.LENGTH_SHORT).show();
-                if (usersInRoom.size() > 1) stackView.showPrevious();
+//                if (usersInRoom.size() > 1) stackView.showPrevious();
             }
 
             public void onSwipeRight() {
@@ -156,7 +156,7 @@ public class HomePage extends AppCompatActivity
 
             public void onSwipeBottom() {
                 Toast.makeText(HomePage.this, "bottom", Toast.LENGTH_SHORT).show();
-                if (usersInRoom.size() > 1) stackView.showNext();
+//                if (usersInRoom.size() > 1) stackView.showNext();
             }
 
         });
