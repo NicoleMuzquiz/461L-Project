@@ -143,6 +143,7 @@ public class HomePage extends AppCompatActivity
         stackView.setOnTouchListener(new OnSwipeTouchListener(HomePage.this) {
             public void onSwipeTop() {
                 Toast.makeText(HomePage.this, "top", Toast.LENGTH_SHORT).show();
+                if (usersInRoom.size() > 1) stackView.showPrevious();
             }
 
             public void onSwipeRight() {
@@ -155,6 +156,7 @@ public class HomePage extends AppCompatActivity
 
             public void onSwipeBottom() {
                 Toast.makeText(HomePage.this, "bottom", Toast.LENGTH_SHORT).show();
+                if (usersInRoom.size() > 1) stackView.showNext();
             }
 
         });
@@ -402,15 +404,11 @@ public class HomePage extends AppCompatActivity
             if (connections.contains(result.getUser()) || rejections.contains(result.getUser()))
                 return;
 
-//            stack.setId(result.getId());
-//            stack.setEmail(result.getEmail());
-
             usersInRoom.add(0, result);
             adapt.notifyDataSetChanged();
             findViewById(R.id.match).setVisibility(View.VISIBLE);
             findViewById(R.id.ignore).setVisibility(View.VISIBLE);
         }
-
 
     }
 

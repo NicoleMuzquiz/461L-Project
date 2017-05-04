@@ -311,8 +311,8 @@ public class SwoleUser implements Comparable<SwoleUser> {
 
         /* build user description to be displayed under user profile */
         desc = (name == null) ? desc : desc + "Name: " + name + "\n";
-        desc = (height == null) ? desc : desc + "Height: " + height + "in\n";
-        desc = (weight == null) ? desc : desc + "Weight: " + weight + "lbs\n";
+        desc = (height == null) ? desc : desc + "Height: " + height + " in\n";
+        desc = (weight == null) ? desc : desc + "Weight: " + weight + " lbs\n";
         desc = (age == null) ? desc : desc + "Age: " + age + "\n";
         desc = (playStyle == null) ? desc : desc + "Style: " + playStyle + "\n";
         desc = (weightlifting_skill == null) ? desc : desc + "Skill: " + weightlifting_skill + "\n";

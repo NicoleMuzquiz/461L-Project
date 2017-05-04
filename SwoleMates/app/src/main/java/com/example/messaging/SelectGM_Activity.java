@@ -12,14 +12,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,18 +33,10 @@ import java.io.BufferedInputStream;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class SelectGM_Activity extends AppCompatActivity {
-
-    private int NUMBER_OF_GROUPS;
-
-    private LinearLayout groupTextView;
 
     private ArrayList<UserBox> userList;
     MyCustomAdapter dataAdapter = null;
@@ -57,28 +45,17 @@ public class SelectGM_Activity extends AppCompatActivity {
     private static final String CONN = "connections";
     private static final String MSG = "messages";
     private static final String USR = "users";
-    private static final String REQLOG = "requestLogger";
 
     private static final int RC_SIGN_IN = 9001;
 
     private static String TAG = "GroupTextActivity";
     private static FirebaseLogger fbLog;
+    private ListView connectionList;
 
     private FirebaseUser firebaseUser;
     private DatabaseReference firebase;
     private SwoleUser mySwoleUser;
     private String email;
-    private String currentChannel;
-    private List<String> channels;
-    private ChildEventListener channelListener;
-    private SimpleDateFormat fmt;
-
-    private TextView channelLabel;
-    private ListView gm_list;
-    private List<Map<String, String>> groupMessages;
-    private SimpleAdapter gmAdapter;
-    private EditText messageText;
-    private TextView status;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -177,17 +154,6 @@ public class SelectGM_Activity extends AppCompatActivity {
                 });
     }
 
-    private void addUser(String members, String message, String key) {
-        Map<String, String> groupMessage = new HashMap<String, String>();
-        groupMessage.put("names", members);
-        groupMessage.put("message", message);
-        groupMessage.put("key", key);
-        groupMessages.add(groupMessage);
-
-        gmAdapter.notifyDataSetChanged();
-        channels.add(key);
-    }
-
     private void displayListView() {
 
         //Array list of countries
@@ -195,21 +161,6 @@ public class SelectGM_Activity extends AppCompatActivity {
 
         //create an ArrayAdaptar from the String Array
         dataAdapter = new MyCustomAdapter(this, userList);
-        ListView listView = (ListView) findViewById(R.id.gm_select);
-        // Assign adapter to ListView
-        listView.setAdapter(dataAdapter);
-
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
-                // When clicked, show a toast with the TextView text
-                UserBox user = (UserBox) parent.getItemAtPosition(position);
-                Toast.makeText(getApplicationContext(),
-                        "Clicked on Row: " + user.getName(),
-                        Toast.LENGTH_LONG).show();
-            }
-        });
 
     }
 
@@ -284,6 +235,7 @@ public class SelectGM_Activity extends AppCompatActivity {
 
                 if (holder.name != null) {
                     holder.name.setText(user.getName());
+                    holder.name.setTag(user.getUser().toString());
                 }
                 if (holder.image != null) {
                     holder.image.setImageBitmap(user.getImage());
@@ -299,11 +251,21 @@ public class SelectGM_Activity extends AppCompatActivity {
                 public void onClick(View v) {
                     CheckBox cb = (CheckBox) v;
                     UserBox match = (UserBox) cb.getTag();
-                    Toast.makeText(getApplicationContext(),
-                            "Clicked on Checkbox: " + cb.getText() +
-                                    " is " + cb.isChecked(),
-                            Toast.LENGTH_LONG).show();
+                    if (cb.isChecked()) {
+                        Toast.makeText(getApplicationContext(),
+                                "Clicked on user: " + match.getUser().getName(),
+                                Toast.LENGTH_LONG).show();
+                    }
                     match.setSelected(cb.isChecked());
+                }
+            });
+
+            holder.name.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    TextView user_name = (TextView) v;
+                    Toast.makeText(getApplicationContext(),
+                            "User Stats: \n" + user_name.getTag(),
+                            Toast.LENGTH_LONG).show();
                 }
             });
 
@@ -328,7 +290,7 @@ public class SelectGM_Activity extends AppCompatActivity {
                 InputStream imgIn = imgConn.getInputStream();
                 BufferedInputStream imgBuff = new BufferedInputStream(imgIn);
                 Bitmap img = BitmapFactory.decodeStream(imgBuff);
-                userBox = new UserBox(img, users[0].getName(), false, users[0].getId());
+                userBox = new UserBox(img, users[0], false);
                 imgBuff.close();
                 imgIn.close();
             } catch (Exception e) {
@@ -338,7 +300,7 @@ public class SelectGM_Activity extends AppCompatActivity {
         }
 
         protected void onPostExecute(UserBox userBox) {
-            userList.add(0, userBox);
+            userList.add(userBox);
             dataAdapter.notifyDataSetChanged();
         }
 

@@ -2,6 +2,8 @@ package com.example.messaging;
 
 import android.graphics.Bitmap;
 
+import com.example.swolemates.SwoleUser;
+
 /**
  * Created by einwo on 4/29/2017.
  */
@@ -11,13 +13,15 @@ public class UserBox {
     private Bitmap image = null;
     private String name = null;
     private String id = null;
+    private SwoleUser user = null;
     private boolean selected = false;
 
-    public UserBox(Bitmap image, String name, boolean selected, String id) {
+    public UserBox(Bitmap image, SwoleUser user, boolean selected) {
         this.image = image;
-        this.name = name;
+        this.name = user.getName();
         this.selected = selected;
-        this.id = id;
+        this.id = user.getId();
+        this.user = user;
     }
 
     public Bitmap getImage() {
@@ -26,6 +30,7 @@ public class UserBox {
     public void setImage(Bitmap image) {
         this.image = image;
     }
+
     public String getName() {
         return name;
     }
@@ -43,8 +48,10 @@ public class UserBox {
     public String getId() {
         return id;
     }
-
     public void setId(String id) {
         this.id = id;
     }
+
+    public SwoleUser getUser() { return user; }
+    public void setUser(SwoleUser user) { this.user = user; }
 }
