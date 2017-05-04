@@ -162,6 +162,9 @@ public class SelectGM_Activity extends AppCompatActivity {
         //create an ArrayAdaptar from the String Array
         dataAdapter = new MyCustomAdapter(this, userList);
 
+        connectionList = (ListView) findViewById(R.id.gm_select);
+        connectionList.setAdapter(dataAdapter);
+
     }
 
     private class MyCustomAdapter extends BaseAdapter {
