@@ -58,7 +58,7 @@ public class HomePage extends AppCompatActivity
     private DatabaseReference firebase;
     private StackAdapter adapt;
     private ArrayList<StackItem> usersInRoom, matchUsers, ignoreUsers;
-    private ArrayList<SwoleUser> potentials, connections, rejections;
+    private ArrayList<SwoleUser> potentials, connections, rejections, pending;
     private SwoleUser mySwoleUser;
 
     @Override
@@ -103,6 +103,7 @@ public class HomePage extends AppCompatActivity
         ignoreUsers = new ArrayList<StackItem>();
 
         potentials = new ArrayList<SwoleUser>();
+        pending = new ArrayList<SwoleUser>();
         connections = new ArrayList<SwoleUser>();
         rejections = new ArrayList<SwoleUser>();
 
@@ -268,9 +269,9 @@ public class HomePage extends AppCompatActivity
             SwoleUser otherUser = otherUserStackItem.getUser();
 
             if (!potentials.contains(otherUser)) {
-                // add other user to my potential connections
+                // add other user to my pending connections
                 map.put(otherUser.getId(), otherUser);
-                firebase.child("users/" + firebaseUser.getUid() + "/potential")
+                firebase.child("users/" + firebaseUser.getUid() + "/pending")
                         .updateChildren(map);
                 map.clear();
 
@@ -279,9 +280,9 @@ public class HomePage extends AppCompatActivity
                 firebase.child("users/" + otherUser.getId() + "/potential")
                         .updateChildren(map);
             } else {
-                // delete myself from other user's potential connections
+                // delete myself from other user's pending connections
                 map.put(otherUser.getId(), null);
-                firebase.child("users/" + firebaseUser.getUid() + "/potential")
+                firebase.child("users/" + firebaseUser.getUid() + "/pending")
                         .setValue(map);
                 map.clear();
 
@@ -324,10 +325,16 @@ public class HomePage extends AppCompatActivity
             SwoleUser otherUser = otherUserStackItem.getUser();
 
             if (potentials.contains(otherUser)) {
-                // delete other user from my potential connections
+                // delete myself from other user's pending connections
                 map.put(otherUser.getId(), null);
-                firebase.child("users/" + firebaseUser.getUid() + "/potential")
+                firebase.child("users/" + firebaseUser.getUid() + "/pending")
                         .setValue(map);
+                map.clear();
+
+                // delete other user from my potential connections
+                map.put(firebaseUser.getUid(), null);
+                firebase.child("users/" + otherUser.getId() + "/potential")
+                        .updateChildren(map);
                 map.clear();
             }
 
@@ -401,7 +408,8 @@ public class HomePage extends AppCompatActivity
         }
 
         protected void onPostExecute(StackItem result) {
-            if (connections.contains(result.getUser()) || rejections.contains(result.getUser()))
+            if (connections.contains(result.getUser()) || rejections.contains(result.getUser()) ||
+                    pending.contains(result.getUser()))
                 return;
 
             usersInRoom.add(0, result);
@@ -449,6 +457,50 @@ public class HomePage extends AppCompatActivity
             public void onChildAdded(DataSnapshot dataSnapshot, String prevKey) {
                 SwoleUser swoleUser = (SwoleUser) dataSnapshot.getValue(SwoleUser.class);
                 potentials.add(swoleUser);
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String prevKey) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String prevKey) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        /* Pending Users Listener */
+        firebase.child("users/" + firebaseUser.getUid() + "/pending").addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String prevKey) {
+                SwoleUser swoleUser = (SwoleUser) dataSnapshot.getValue(SwoleUser.class);
+
+                // remove user from stack view if you've already tried to connect with them
+                StackItem temp = new StackItem();
+                temp.setId(swoleUser.getId());
+                usersInRoom.remove(temp);
+                adapt.notifyDataSetChanged();
+
+                if (usersInRoom.size() == 1) {
+                    findViewById(R.id.match).setVisibility(View.GONE);
+                    findViewById(R.id.ignore).setVisibility(View.GONE);
+                } else {
+                    findViewById(R.id.match).setVisibility(View.VISIBLE);
+                    findViewById(R.id.ignore).setVisibility(View.VISIBLE);
+                }
+
+                pending.add(swoleUser);
             }
 
             @Override
