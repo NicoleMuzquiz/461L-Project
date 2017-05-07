@@ -37,6 +37,7 @@ import com.example.settings.DefaultSettingsActivity;
 import com.example.swolemates.HomePage;
 import com.example.swolemates.R;
 import com.example.swolemates.SelectSport;
+import com.example.ui.Message;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;

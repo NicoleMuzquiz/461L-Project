@@ -1,4 +1,4 @@
-package com.example.messaging;
+package com.example.ui;
 
 import android.graphics.Bitmap;
 

@@ -1,4 +1,4 @@
-package com.example.backendLoc;
+package com.example.location;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;

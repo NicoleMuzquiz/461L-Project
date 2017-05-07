@@ -1,4 +1,4 @@
-package com.example.ui;
+package com.example.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.swolemates.R;
+import com.example.ui.StackItem;
 
 import java.util.ArrayList;
 

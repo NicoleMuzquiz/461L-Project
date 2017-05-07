@@ -1,4 +1,4 @@
-package com.example.backendLoc;
+package com.example.location;
 
 import android.app.Activity;
 import android.location.Location;
@@ -13,7 +13,6 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.model.LatLng;
 
 /**
  * This method calculates coordinates

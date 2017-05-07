@@ -1,4 +1,4 @@
-package com.example.ui;
+package com.example.settings;
 
 import android.content.res.Configuration;
 import android.os.Bundle;

@@ -26,7 +26,7 @@ import com.example.login.FacebookLoginActivity;
 import com.example.messaging.GroupTextActivity;
 import com.example.messaging.SelectGM_Activity;
 import com.example.settings.DefaultSettingsActivity;
-import com.example.ui.StackAdapter;
+import com.example.adapters.StackAdapter;
 import com.example.ui.StackItem;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;

@@ -1,4 +1,4 @@
-package com.example.ui;
+package com.example.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,10 +8,11 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.messaging.GroupTextItem;
+import com.example.ui.GroupTextItem;
 import com.example.swolemates.R;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class GroupTextAdapter extends BaseAdapter {
 
@@ -51,6 +52,10 @@ public class GroupTextAdapter extends BaseAdapter {
             itemView = layoutInflater.inflate(R.layout.grouptext_item, null);
         }
         GroupTextItem groupTextItem = items.get(position);
+
+        // sort group texts by most recent messages first
+        Collections.sort(items);
+
         if (groupTextItem != null) {
 
             TextView groupMemberNames = (TextView) itemView.findViewById(R.id.members);

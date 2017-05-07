@@ -13,7 +13,7 @@
  # limitations under the License.
  **/
 
-package com.example.messaging;
+package com.example.ui;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;

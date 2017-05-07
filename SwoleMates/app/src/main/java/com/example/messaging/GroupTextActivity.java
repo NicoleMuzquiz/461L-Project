@@ -15,8 +15,10 @@
 
 package com.example.messaging;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -27,8 +29,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.LinearLayout;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
@@ -38,6 +39,7 @@ import com.example.settings.DefaultSettingsActivity;
 import com.example.swolemates.HomePage;
 import com.example.swolemates.R;
 import com.example.swolemates.SelectSport;
+import com.example.ui.GroupTextItem;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -61,35 +63,17 @@ public class GroupTextActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         View.OnClickListener {
 
-    private int NUMBER_OF_GROUPS;
-
-    private LinearLayout groupTextView;
-
-    // Firebase keys commonly used with backend Servlet instances
-    private static final String MSG = "messages";
-    private static final String USR = "users";
-    private static final String REQLOG = "requestLogger";
-
-    private static final int RC_SIGN_IN = 9001;
-
     private static String TAG = "GroupTextActivity";
-    private static FirebaseLogger fbLog;
 
     private FirebaseUser firebaseUser;
     private DatabaseReference firebase;
-    private String key, names;
-    private String inbox;
-    private String currentChannel;
     private List<String> channels;
     private ChildEventListener channelListener;
     private SimpleDateFormat fmt;
 
-    private TextView channelLabel;
     private ListView gm_list;
     private List<Map<String, String>> groupMessages;
     private SimpleAdapter gmAdapter;
-    private EditText messageText;
-    private TextView status;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,19 +103,30 @@ public class GroupTextActivity extends AppCompatActivity
             }
         });
 
-        groupMessages = new ArrayList<Map<String, String>>();
+        groupMessages = new ArrayList<>();
         gmAdapter = new SimpleAdapter(this, groupMessages, R.layout.grouptext_item,
                 new String[]{"names", "message", "key"},
                 new int[]{R.id.members, R.id.message, R.id.key});
         gm_list = (ListView) findViewById(R.id.all_gms);
         gm_list.setAdapter(gmAdapter);
-        gm_list.setOnItemClickListener(new OnItemClickListenerListViewItem());
+        gm_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Context context = view.getContext();
+
+                String memberNames = ((TextView) view.findViewById(R.id.members)).getText().toString();
+                String lastMessage = ((TextView) view.findViewById(R.id.message)).getText().toString();
+                String key = ((TextView) view.findViewById(R.id.key)).getText().toString();
+
+                Intent intent = new Intent(context, MessageActivity.class);
+                intent.putExtra("key", key);
+                intent.putExtra("names", memberNames);
+                context.startActivity(intent);
+            }
+        });
 
         fmt = new SimpleDateFormat("MM.dd.yy HH:mm z");
-
-        Intent selectGM = getIntent();
-        key = selectGM.getStringExtra("key");
-        names = selectGM.getStringExtra("names");
 
         // Switching a listener to the selected channel.
         initFirebase();
@@ -157,7 +152,7 @@ public class GroupTextActivity extends AppCompatActivity
     }
 
     private void addGM(String members, String message, String key) {
-        Map<String, String> groupMessage = new HashMap<String, String>();
+        Map<String, String> groupMessage = new HashMap<>();
         groupMessage.put("names", members);
         groupMessage.put("message", message);
         groupMessage.put("key", key);
@@ -178,7 +173,7 @@ public class GroupTextActivity extends AppCompatActivity
     }
 
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
@@ -217,7 +212,7 @@ public class GroupTextActivity extends AppCompatActivity
     }
 
     private void initFirebase() {
-        channels = new ArrayList<String>();
+        channels = new ArrayList<>();
         firebase = FirebaseDatabase.getInstance().getReference();
     }
 
@@ -253,6 +248,7 @@ public class GroupTextActivity extends AppCompatActivity
                             }
                         }
                     }
+
                     // Extract attributes from Message object to display on the screen.
                     if (gm.getTimeOfLastMessage() != null) {
                         addGM(gm.getGroupMemberNames(), gm.getLastMessageSent() + "\n" +
