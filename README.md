@@ -3,8 +3,6 @@
 SwoleMates:
 Arnav Kaul,  Nicole Muzquiz, Eyenunwana Nwoko, Samuel Patterson <br />
 
-test
-
 TODO: <br />
         - Test Google Location API. (Nicole)<br />
         - Set up view for choosing teammates (Nicole)<br />
